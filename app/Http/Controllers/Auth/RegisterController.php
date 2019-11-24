@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Mail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +64,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'avatar' => '/images/avatars/default.png',
+            'confirmation_token' => str_random(40),
             'password' => Hash::make($data['password']),
         ]);
+
+        // 发送邮箱
+        $this->sendVerifyEmailTo($user);        
+        return $user;
+    }
+
+    /**
+     *  发送邮箱
+     */
+    public function sendVerifyEmailTo($user)
+    {
+        $data = [
+            'activate_url'=>route('email.verify',['token'=>$user->confirmation_token]),
+            'name' => $user->name
+        ];
+
+        Mail::send('email.register',$data,function($message) use($user){
+
+            $message ->to($user->email)->subject('邮件测试');
+            
+            // 返回的一个错误数组，利用此可以判断是否发送成功
+            // dd(Mail::failures());
+        });
     }
 }
