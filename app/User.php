@@ -46,4 +46,13 @@ class User extends Authenticatable
             // dd(Mail::failures());
         });
     }
+
+
+    /**
+     *  检查当前登录者是否为作者
+     */
+    public function owns($model)
+    {
+        return !!($this->id == $model->user_id);
+    }
 }

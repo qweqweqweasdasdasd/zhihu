@@ -17,5 +17,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('api')->get('/topic', function (Request $request) {
+  
+    $topic = \App\Topic::select(['id','name'])
+    		->where('name','like','%'.$request->query('q').'%')
+    		->get();
+
+    return $topic;
+});	
+	
 
 Route::get('/email/sendEmail','Api\AppController@sendEmail');

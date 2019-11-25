@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\Server;
 
 use Auth;
-use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
+use App\Repositories\QuestionRepository;
 
 class QuestionController extends Controller
 {
     /**
-     * 初始化参数
+     *  问题仓库
      */
-    public function __construct()
+    protected $question;
+
+    /**
+     *  初始化参数
+     */
+    public function __construct(QuestionRepository $question)
     {
         $this->middleware('auth')->except(['index','show']);
+        $this->question = $question;
     }
 
     /**
@@ -25,7 +31,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return view('question.index');
+        $questions = $this->question->GetQuestionFeed();
+
+        return view('question.index',compact('questions'));
     }
 
     /**
@@ -46,13 +54,17 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
+        $normalizeTopic = $this->question->normalizeTopic($request->get('topic'));
+
         $data = [
             'title' => $request->get('title'),
             'body' => ($request->get('body')),
             'user_id' => Auth::user()->id
         ];
 
-        $question = Question::create($data);
+        $question = $this->question->CreateQuestion($data);
+
+        $question->topic()->attach($normalizeTopic);
 
         return redirect()->route('question.show',[$question->id]);
     }
@@ -65,9 +77,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-
-        $question = Question::find($id);
-
+        $question = $this->question->GetQuestionWithTopicById($id);
+        //dump($question);
         return view('question.show',compact('question'));
     }
 
@@ -79,7 +90,14 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = $this->question->GetOneQuestionWithTopicById($id);
+
+        // 检查当前用户是否为问题作者
+        if(Auth::user()->owns($question)){
+            return view('question.edit',compact('question'));
+        }
+
+        return back();
     }
 
     /**
@@ -89,9 +107,19 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, $id)
     {
-        //
+        $question = $this->question->GetOneQuestionWithTopicById($id);
+        $normalizeTopic = $this->question->normalizeTopic($request->get('topic'));
+
+        $question->update([
+            'title' => $request->get('title'),
+            'body' => $request->get('body'),
+        ]);
+
+        $question->topic()->sync($normalizeTopic);
+
+        return redirect()->route('question.show',[$question->id]);
     }
 
     /**
@@ -102,6 +130,16 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = $this->question->GetOneQuestionWithTopicById($id);
+
+        if(Auth::user()->owns($question)){
+            $question->delete();
+            // 中间表删除 ??
+
+            return redirect('/');
+        }
+
+        return back();
     }
+
 }

@@ -17,6 +17,6 @@ class Topic extends Model
      */
     public function questions()
     {
-    	return $this->belongsToMany('App\Question','question_topic','topic_id','question_id')->withTimestamps();
+    	return $this->belongsToMany('App\Topic','question_topic','question_id','topic_id')->withTimestamps();
     }
 }

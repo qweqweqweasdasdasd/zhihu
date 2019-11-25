@@ -17,6 +17,22 @@ class Question extends Model
      */
     public function topic()
     {
-    	return $this->belongsToMany('App\Question','question_topic','topic_id','question_id')->withTimestamps();
+    	return $this->belongsToMany('App\Topic','question_topic','question_id','topic_id')->withTimestamps();
+    }
+
+    /**
+     *  一对多逆向
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id','id');
+    }
+
+    /**
+     *  scope 发布的
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_hidden','F');
     }
 }
