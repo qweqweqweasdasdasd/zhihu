@@ -30,18 +30,18 @@
                         </div>
                   		<div class="form-group" >
 	                        <label for="body">内容</label>
-							<!-- 富文本编辑 -->
-                            <input type="hidden" name="body" id="editor_txt">
-							<div id="editor"></div>
+							            <!-- 富文本编辑 -->
+                          <input type="hidden" name="body" id="editor_txt">
+							            <div id="editor"></div>
 
-                        </div>
-						@if ($errors->has('body'))
-						     <span style="font-size: 80%;color: #e3342f;" role="alert">
+                      </div>
+            						@if ($errors->has('body'))
+            						     <span style="font-size: 80%;color: #e3342f;" role="alert">
                                 <strong>{{ ($errors->first('body')) }}</strong>
-                            </span>
-						@endif
+                             </span>
+            						@endif
 
-						<button class="btn btn-success pull-right" type="submit" id="btn1">发布问题</button>
+						            <button class="btn btn-success pull-right" type="submit" id="btn1">发布问题</button>
 
                 	</form>
                 </div>

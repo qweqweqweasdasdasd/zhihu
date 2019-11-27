@@ -11,9 +11,9 @@ class QuestionRepository
 	/**
 	 *	获取问题和话题关系通过 id
 	 */
-	public function GetQuestionWithTopicById($id)
+	public function GetQuestionWithTopicAndAnswersById($id)
 	{
-		return Question::where('id',$id)->with('topic')->first();
+		return Question::where('id',$id)->with(['topic','answers'])->first();
 	}
 
 	/**

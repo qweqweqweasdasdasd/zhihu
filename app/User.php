@@ -55,4 +55,36 @@ class User extends Authenticatable
     {
         return !!($this->id == $model->user_id);
     }
+
+    /**
+     *  用户和答案的关系 一对多
+     */
+    public function answers()
+    {
+        return $this->hasMany('App\Answer','user_id','id');
+    }
+
+    /**
+     *  用户关注问题的关系 多对多
+     */
+    public function follows()
+    {
+        return $this->belongsToMany('App\Question','user_question','user_id','question_id')->withTimestamps();
+    }
+
+    /**
+     *  用户关注问题
+     */
+    public function followThis($question)
+    {
+        return $this->follows()->toggle($question);
+    }
+
+    /**
+     *  用户关注了问题
+     */
+    public function followd($question)
+    {
+        return !! $this->follows()->where('question_id',$question)->count();
+    }
 }

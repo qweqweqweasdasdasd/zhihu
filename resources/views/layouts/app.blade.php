@@ -11,8 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -87,7 +86,5 @@
 </html>
 @yield('my-js')
 <script>
-   // $(document).ready(function(){
-   //      $('#flash-overlay-modal').modal();
-   //  });
+   //document.getElementById('flash-overlay-modal').modal();
 </script>

@@ -77,7 +77,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $question = $this->question->GetQuestionWithTopicById($id);
+        $question = $this->question->GetQuestionWithTopicAndAnswersById($id);
         //dump($question);
         return view('question.show',compact('question'));
     }

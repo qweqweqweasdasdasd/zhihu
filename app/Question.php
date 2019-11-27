@@ -21,11 +21,19 @@ class Question extends Model
     }
 
     /**
-     *  一对多逆向
+     *  问题和用户的关系 一对多逆向
      */
     public function user()
     {
         return $this->belongsTo('App\User','user_id','id');
+    }
+
+    /**
+     *  问题和答案的关系 一对多
+     */
+    public function answers()
+    {
+        return $this->hasMany('App\Answer','question_id','id');
     }
 
     /**
@@ -34,5 +42,13 @@ class Question extends Model
     public function scopePublished($query)
     {
         return $query->where('is_hidden','F');
+    }
+
+    /**
+     *  问题和用户的关系 多对多
+     */
+    public function follows()
+    {
+        return $this->belongsToMany('App\User','user_question','question_id','user_id')->withTimestamps;
     }
 }
