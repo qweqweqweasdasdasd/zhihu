@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar','confirmation_token','is_active','questions_count','answers_count','comments_count','favorites_count','likes_count','follows_count','followings_count','settings','remember_token'
+        'name', 'email', 'password','avatar','confirmation_token','is_active','questions_count','answers_count','comments_count','favorites_count','likes_count','follows_count','followings_count','settings','remember_token','api_token'
     ];
 
     /**
@@ -73,11 +73,35 @@ class User extends Authenticatable
     }
 
     /**
+     *  用户关注用户关系 多对多 
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(self::class,'followers','follower_id','followed_id');
+    }
+
+    /**
+     *  用户关注用户关系 多对多 
+     */
+    public function followersUser()
+    {
+        return $this->belongsToMany(self::class,'followers','followed_id','follower_id');
+    }
+
+    /**
      *  用户关注问题
      */
     public function followThis($question)
     {
         return $this->follows()->toggle($question);
+    }
+
+    /**
+     *  用户关注作者
+     */
+    public function FollowThisAuthor($userId)
+    {
+        return $this->followers()->toggle($userId);
     }
 
     /**
@@ -87,4 +111,6 @@ class User extends Authenticatable
     {
         return !! $this->follows()->where('question_id',$question)->count();
     }
+
+
 }

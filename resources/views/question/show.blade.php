@@ -40,19 +40,15 @@
                     <span>关注者</span>
                 </div>
                 <div class="card-body">
-                    <!-- <a href="/question/{{$question->id}}/follow" class="btn {{Auth::user()->followd($question->id)?'btn-success':''}}">
-                        {{Auth::user()->followd($question->id)?'已关注':'未关注'}}
-                    </a> -->
-
+     
                     <!-- vue 组件 -->
-                    <question-follow-button question="{{$question->id}}" user="{{Auth::user()->id}}">
-                    </question-follow-button>
+                    <question-follow-button question="{{$question->id}}"></question-follow-button>
                     <!-- vue 组件 -->
                     <a href="" class="btn">篡写答案</a>
                 </div>
             </div>
         </div>
-        <br/>
+
         <div class="col-md-8 col-md-offset-1">
             <div class="card">
                 <div class="card-header">
@@ -101,6 +97,38 @@
             </div>
         </div>
         <div class="col-md-3">
+            <div class="card">
+                <div class="card-header follow">
+                    <h5>关注作者</h5>
+
+                </div>
+                <div class="card-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img width="36px;" src="{{$question->user->avatar}}" alt="{{$question->user->name}}">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="">{{$question->user->name}}</a>
+                        </h4>
+                    </div>
+                    <div>
+                        <span>问题</span>
+                        <span>{{$question->user->questions_count}}</span>
+                        <span>答案</span>
+                        <span>{{$question->user->answers_count}}</span>
+                        <span>评论</span>
+                        <span>{{$question->user->comments_count}}</span>
+                    </div>
+                    <!-- vue 组件 -->
+                    <user-follow-button user="{{$question->user_id}}"></user-follow-button>
+                    <!-- vue 组件 -->
+                    <a href="" class="btn">发送私信</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -114,7 +142,9 @@
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.customConfig.zIndex = 100
     editor.create()
+    
     document.getElementById('btn1').addEventListener('click',function(){
+
         var editor_txt=editor.txt.html();
         document.getElementById('editor_txt').value=editor_txt;
     },false)

@@ -30,3 +30,6 @@ Route::get('question/{question}/follow','Server\QuestionFollowController@follow'
 // 答案资源路由
 Route::resource('answer','Server\AnswerController');
 
+// 消息通知路由
+Route::get('notifications','Server\NotificationsController@index');
+

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserQuestionTable extends Migration
+class CreateFolloersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUserQuestionTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_question', function (Blueprint $table) {
+        Schema::create('followers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('question_id')->unsigned()->index();
+            $table->integer('follower_id')->unsigned()->index();
+            $table->integer('followed_id')->unsigned()->index();
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
@@ -29,6 +29,6 @@ class CreateUserQuestionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_question');
+        Schema::dropIfExists('followers');
     }
 }

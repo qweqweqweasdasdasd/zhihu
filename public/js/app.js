@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@
 
 
 var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(21);
+var isBuffer = __webpack_require__(22);
 
 /*global toString:true*/
 
@@ -402,110 +402,6 @@ module.exports = g;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(23);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(8);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -612,6 +508,110 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(24);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(8);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(8);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 4 */
@@ -14059,10 +14059,10 @@ process.umask = function() { return 0; };
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(24);
-var buildURL = __webpack_require__(26);
-var parseHeaders = __webpack_require__(27);
-var isURLSameOrigin = __webpack_require__(28);
+var settle = __webpack_require__(25);
+var buildURL = __webpack_require__(27);
+var parseHeaders = __webpack_require__(28);
+var isURLSameOrigin = __webpack_require__(29);
 var createError = __webpack_require__(9);
 
 module.exports = function xhrAdapter(config) {
@@ -14143,7 +14143,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(29);
+      var cookies = __webpack_require__(30);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -14227,7 +14227,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(25);
+var enhanceError = __webpack_require__(26);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -14340,7 +14340,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(39);
+__webpack_require__(40);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -14357,20 +14357,62 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(14);
-module.exports = __webpack_require__(50);
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(45)
+/* template */
+var __vue_template__ = __webpack_require__(46)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/FormComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-70be8f72", Component.options)
+  } else {
+    hotAPI.reload("data-v-70be8f72", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
 
 
 /***/ }),
 /* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(15);
+module.exports = __webpack_require__(53);
+
+
+/***/ }),
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -14378,11 +14420,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(15);
+__webpack_require__(16);
 
-window.Vue = __webpack_require__(37);
-
-
+window.Vue = __webpack_require__(38);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -14390,21 +14430,24 @@ window.Vue = __webpack_require__(37);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.component('example-component', __webpack_require__(41));
+Vue.component('example-component', __webpack_require__(42));
 
-__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.component('form-component', __webpack_require__(44));
-__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.component('question-follow-button', __webpack_require__(47));
+Vue.component('form-component', __webpack_require__(13));
+Vue.component('question-follow-button', __webpack_require__(47));
+Vue.component('user-follow-button', __webpack_require__(50));
 
-var app = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a({
+Vue.component('wang-editor', __webpack_require__(58));
+
+var app = new Vue({
   el: '#app'
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(16);
+window._ = __webpack_require__(17);
 window.Popper = __webpack_require__(4).default;
 
 /**
@@ -14416,7 +14459,7 @@ window.Popper = __webpack_require__(4).default;
 try {
   window.$ = window.jQuery = __webpack_require__(5);
 
-  __webpack_require__(18);
+  __webpack_require__(19);
 } catch (e) {}
 
 /**
@@ -14425,7 +14468,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(19);
+window.axios = __webpack_require__(20);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -14437,12 +14480,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
+var apiToken = document.head.querySelector('meta[name="authorization"]');
+
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+if (apiToken) {
+  window.axios.defaults.headers.common['Authorization'] = apiToken.content;
+} else {
+  console.error('authorization apitoken not found');
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -14461,7 +14511,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31578,10 +31628,10 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(17)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(18)(module)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -31609,7 +31659,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -36050,13 +36100,13 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(20);
+module.exports = __webpack_require__(21);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36064,8 +36114,8 @@ module.exports = __webpack_require__(20);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
-var Axios = __webpack_require__(22);
-var defaults = __webpack_require__(2);
+var Axios = __webpack_require__(23);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -36099,14 +36149,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(11);
-axios.CancelToken = __webpack_require__(35);
+axios.CancelToken = __webpack_require__(36);
 axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(36);
+axios.spread = __webpack_require__(37);
 
 module.exports = axios;
 
@@ -36115,7 +36165,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /*!
@@ -36132,16 +36182,16 @@ module.exports = function isBuffer (obj) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(30);
-var dispatchRequest = __webpack_require__(31);
+var InterceptorManager = __webpack_require__(31);
+var dispatchRequest = __webpack_require__(32);
 
 /**
  * Create a new instance of Axios
@@ -36218,7 +36268,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36237,7 +36287,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36270,7 +36320,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36298,7 +36348,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36371,7 +36421,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36431,7 +36481,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36506,7 +36556,7 @@ module.exports = (
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36566,7 +36616,7 @@ module.exports = (
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36625,18 +36675,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(32);
+var transformData = __webpack_require__(33);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(2);
-var isAbsoluteURL = __webpack_require__(33);
-var combineURLs = __webpack_require__(34);
+var defaults = __webpack_require__(3);
+var isAbsoluteURL = __webpack_require__(34);
+var combineURLs = __webpack_require__(35);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -36718,7 +36768,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36745,7 +36795,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36766,7 +36816,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36787,7 +36837,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36851,7 +36901,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36885,18 +36935,18 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 if (false) {
   module.exports = require('./vue.common.prod.js')
 } else {
-  module.exports = __webpack_require__(38)
+  module.exports = __webpack_require__(39)
 }
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48842,7 +48892,7 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(12).setImmediate))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -49035,27 +49085,16 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(7)))
 
 /***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.10
- * (c) 2014-2019 Evan You
- * Released under the MIT License.
- */
-!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).Vue=t()}(this,function(){"use strict";var e=Object.freeze({});function t(e){return null==e}function n(e){return null!=e}function r(e){return!0===e}function i(e){return"string"==typeof e||"number"==typeof e||"symbol"==typeof e||"boolean"==typeof e}function o(e){return null!==e&&"object"==typeof e}var a=Object.prototype.toString;function s(e){return"[object Object]"===a.call(e)}function c(e){var t=parseFloat(String(e));return t>=0&&Math.floor(t)===t&&isFinite(e)}function u(e){return n(e)&&"function"==typeof e.then&&"function"==typeof e.catch}function l(e){return null==e?"":Array.isArray(e)||s(e)&&e.toString===a?JSON.stringify(e,null,2):String(e)}function f(e){var t=parseFloat(e);return isNaN(t)?e:t}function p(e,t){for(var n=Object.create(null),r=e.split(","),i=0;i<r.length;i++)n[r[i]]=!0;return t?function(e){return n[e.toLowerCase()]}:function(e){return n[e]}}var d=p("slot,component",!0),v=p("key,ref,slot,slot-scope,is");function h(e,t){if(e.length){var n=e.indexOf(t);if(n>-1)return e.splice(n,1)}}var m=Object.prototype.hasOwnProperty;function y(e,t){return m.call(e,t)}function g(e){var t=Object.create(null);return function(n){return t[n]||(t[n]=e(n))}}var _=/-(\w)/g,b=g(function(e){return e.replace(_,function(e,t){return t?t.toUpperCase():""})}),$=g(function(e){return e.charAt(0).toUpperCase()+e.slice(1)}),w=/\B([A-Z])/g,C=g(function(e){return e.replace(w,"-$1").toLowerCase()});var x=Function.prototype.bind?function(e,t){return e.bind(t)}:function(e,t){function n(n){var r=arguments.length;return r?r>1?e.apply(t,arguments):e.call(t,n):e.call(t)}return n._length=e.length,n};function k(e,t){t=t||0;for(var n=e.length-t,r=new Array(n);n--;)r[n]=e[n+t];return r}function A(e,t){for(var n in t)e[n]=t[n];return e}function O(e){for(var t={},n=0;n<e.length;n++)e[n]&&A(t,e[n]);return t}function S(e,t,n){}var T=function(e,t,n){return!1},E=function(e){return e};function N(e,t){if(e===t)return!0;var n=o(e),r=o(t);if(!n||!r)return!n&&!r&&String(e)===String(t);try{var i=Array.isArray(e),a=Array.isArray(t);if(i&&a)return e.length===t.length&&e.every(function(e,n){return N(e,t[n])});if(e instanceof Date&&t instanceof Date)return e.getTime()===t.getTime();if(i||a)return!1;var s=Object.keys(e),c=Object.keys(t);return s.length===c.length&&s.every(function(n){return N(e[n],t[n])})}catch(e){return!1}}function j(e,t){for(var n=0;n<e.length;n++)if(N(e[n],t))return n;return-1}function D(e){var t=!1;return function(){t||(t=!0,e.apply(this,arguments))}}var L="data-server-rendered",M=["component","directive","filter"],I=["beforeCreate","created","beforeMount","mounted","beforeUpdate","updated","beforeDestroy","destroyed","activated","deactivated","errorCaptured","serverPrefetch"],F={optionMergeStrategies:Object.create(null),silent:!1,productionTip:!1,devtools:!1,performance:!1,errorHandler:null,warnHandler:null,ignoredElements:[],keyCodes:Object.create(null),isReservedTag:T,isReservedAttr:T,isUnknownElement:T,getTagNamespace:S,parsePlatformTagName:E,mustUseProp:T,async:!0,_lifecycleHooks:I},P=/a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;function R(e,t,n,r){Object.defineProperty(e,t,{value:n,enumerable:!!r,writable:!0,configurable:!0})}var H=new RegExp("[^"+P.source+".$_\\d]");var B,U="__proto__"in{},z="undefined"!=typeof window,V="undefined"!=typeof WXEnvironment&&!!WXEnvironment.platform,K=V&&WXEnvironment.platform.toLowerCase(),J=z&&window.navigator.userAgent.toLowerCase(),q=J&&/msie|trident/.test(J),W=J&&J.indexOf("msie 9.0")>0,Z=J&&J.indexOf("edge/")>0,G=(J&&J.indexOf("android"),J&&/iphone|ipad|ipod|ios/.test(J)||"ios"===K),X=(J&&/chrome\/\d+/.test(J),J&&/phantomjs/.test(J),J&&J.match(/firefox\/(\d+)/)),Y={}.watch,Q=!1;if(z)try{var ee={};Object.defineProperty(ee,"passive",{get:function(){Q=!0}}),window.addEventListener("test-passive",null,ee)}catch(e){}var te=function(){return void 0===B&&(B=!z&&!V&&"undefined"!=typeof global&&(global.process&&"server"===global.process.env.VUE_ENV)),B},ne=z&&window.__VUE_DEVTOOLS_GLOBAL_HOOK__;function re(e){return"function"==typeof e&&/native code/.test(e.toString())}var ie,oe="undefined"!=typeof Symbol&&re(Symbol)&&"undefined"!=typeof Reflect&&re(Reflect.ownKeys);ie="undefined"!=typeof Set&&re(Set)?Set:function(){function e(){this.set=Object.create(null)}return e.prototype.has=function(e){return!0===this.set[e]},e.prototype.add=function(e){this.set[e]=!0},e.prototype.clear=function(){this.set=Object.create(null)},e}();var ae=S,se=0,ce=function(){this.id=se++,this.subs=[]};ce.prototype.addSub=function(e){this.subs.push(e)},ce.prototype.removeSub=function(e){h(this.subs,e)},ce.prototype.depend=function(){ce.target&&ce.target.addDep(this)},ce.prototype.notify=function(){for(var e=this.subs.slice(),t=0,n=e.length;t<n;t++)e[t].update()},ce.target=null;var ue=[];function le(e){ue.push(e),ce.target=e}function fe(){ue.pop(),ce.target=ue[ue.length-1]}var pe=function(e,t,n,r,i,o,a,s){this.tag=e,this.data=t,this.children=n,this.text=r,this.elm=i,this.ns=void 0,this.context=o,this.fnContext=void 0,this.fnOptions=void 0,this.fnScopeId=void 0,this.key=t&&t.key,this.componentOptions=a,this.componentInstance=void 0,this.parent=void 0,this.raw=!1,this.isStatic=!1,this.isRootInsert=!0,this.isComment=!1,this.isCloned=!1,this.isOnce=!1,this.asyncFactory=s,this.asyncMeta=void 0,this.isAsyncPlaceholder=!1},de={child:{configurable:!0}};de.child.get=function(){return this.componentInstance},Object.defineProperties(pe.prototype,de);var ve=function(e){void 0===e&&(e="");var t=new pe;return t.text=e,t.isComment=!0,t};function he(e){return new pe(void 0,void 0,void 0,String(e))}function me(e){var t=new pe(e.tag,e.data,e.children&&e.children.slice(),e.text,e.elm,e.context,e.componentOptions,e.asyncFactory);return t.ns=e.ns,t.isStatic=e.isStatic,t.key=e.key,t.isComment=e.isComment,t.fnContext=e.fnContext,t.fnOptions=e.fnOptions,t.fnScopeId=e.fnScopeId,t.asyncMeta=e.asyncMeta,t.isCloned=!0,t}var ye=Array.prototype,ge=Object.create(ye);["push","pop","shift","unshift","splice","sort","reverse"].forEach(function(e){var t=ye[e];R(ge,e,function(){for(var n=[],r=arguments.length;r--;)n[r]=arguments[r];var i,o=t.apply(this,n),a=this.__ob__;switch(e){case"push":case"unshift":i=n;break;case"splice":i=n.slice(2)}return i&&a.observeArray(i),a.dep.notify(),o})});var _e=Object.getOwnPropertyNames(ge),be=!0;function $e(e){be=e}var we=function(e){var t;this.value=e,this.dep=new ce,this.vmCount=0,R(e,"__ob__",this),Array.isArray(e)?(U?(t=ge,e.__proto__=t):function(e,t,n){for(var r=0,i=n.length;r<i;r++){var o=n[r];R(e,o,t[o])}}(e,ge,_e),this.observeArray(e)):this.walk(e)};function Ce(e,t){var n;if(o(e)&&!(e instanceof pe))return y(e,"__ob__")&&e.__ob__ instanceof we?n=e.__ob__:be&&!te()&&(Array.isArray(e)||s(e))&&Object.isExtensible(e)&&!e._isVue&&(n=new we(e)),t&&n&&n.vmCount++,n}function xe(e,t,n,r,i){var o=new ce,a=Object.getOwnPropertyDescriptor(e,t);if(!a||!1!==a.configurable){var s=a&&a.get,c=a&&a.set;s&&!c||2!==arguments.length||(n=e[t]);var u=!i&&Ce(n);Object.defineProperty(e,t,{enumerable:!0,configurable:!0,get:function(){var t=s?s.call(e):n;return ce.target&&(o.depend(),u&&(u.dep.depend(),Array.isArray(t)&&function e(t){for(var n=void 0,r=0,i=t.length;r<i;r++)(n=t[r])&&n.__ob__&&n.__ob__.dep.depend(),Array.isArray(n)&&e(n)}(t))),t},set:function(t){var r=s?s.call(e):n;t===r||t!=t&&r!=r||s&&!c||(c?c.call(e,t):n=t,u=!i&&Ce(t),o.notify())}})}}function ke(e,t,n){if(Array.isArray(e)&&c(t))return e.length=Math.max(e.length,t),e.splice(t,1,n),n;if(t in e&&!(t in Object.prototype))return e[t]=n,n;var r=e.__ob__;return e._isVue||r&&r.vmCount?n:r?(xe(r.value,t,n),r.dep.notify(),n):(e[t]=n,n)}function Ae(e,t){if(Array.isArray(e)&&c(t))e.splice(t,1);else{var n=e.__ob__;e._isVue||n&&n.vmCount||y(e,t)&&(delete e[t],n&&n.dep.notify())}}we.prototype.walk=function(e){for(var t=Object.keys(e),n=0;n<t.length;n++)xe(e,t[n])},we.prototype.observeArray=function(e){for(var t=0,n=e.length;t<n;t++)Ce(e[t])};var Oe=F.optionMergeStrategies;function Se(e,t){if(!t)return e;for(var n,r,i,o=oe?Reflect.ownKeys(t):Object.keys(t),a=0;a<o.length;a++)"__ob__"!==(n=o[a])&&(r=e[n],i=t[n],y(e,n)?r!==i&&s(r)&&s(i)&&Se(r,i):ke(e,n,i));return e}function Te(e,t,n){return n?function(){var r="function"==typeof t?t.call(n,n):t,i="function"==typeof e?e.call(n,n):e;return r?Se(r,i):i}:t?e?function(){return Se("function"==typeof t?t.call(this,this):t,"function"==typeof e?e.call(this,this):e)}:t:e}function Ee(e,t){var n=t?e?e.concat(t):Array.isArray(t)?t:[t]:e;return n?function(e){for(var t=[],n=0;n<e.length;n++)-1===t.indexOf(e[n])&&t.push(e[n]);return t}(n):n}function Ne(e,t,n,r){var i=Object.create(e||null);return t?A(i,t):i}Oe.data=function(e,t,n){return n?Te(e,t,n):t&&"function"!=typeof t?e:Te(e,t)},I.forEach(function(e){Oe[e]=Ee}),M.forEach(function(e){Oe[e+"s"]=Ne}),Oe.watch=function(e,t,n,r){if(e===Y&&(e=void 0),t===Y&&(t=void 0),!t)return Object.create(e||null);if(!e)return t;var i={};for(var o in A(i,e),t){var a=i[o],s=t[o];a&&!Array.isArray(a)&&(a=[a]),i[o]=a?a.concat(s):Array.isArray(s)?s:[s]}return i},Oe.props=Oe.methods=Oe.inject=Oe.computed=function(e,t,n,r){if(!e)return t;var i=Object.create(null);return A(i,e),t&&A(i,t),i},Oe.provide=Te;var je=function(e,t){return void 0===t?e:t};function De(e,t,n){if("function"==typeof t&&(t=t.options),function(e,t){var n=e.props;if(n){var r,i,o={};if(Array.isArray(n))for(r=n.length;r--;)"string"==typeof(i=n[r])&&(o[b(i)]={type:null});else if(s(n))for(var a in n)i=n[a],o[b(a)]=s(i)?i:{type:i};e.props=o}}(t),function(e,t){var n=e.inject;if(n){var r=e.inject={};if(Array.isArray(n))for(var i=0;i<n.length;i++)r[n[i]]={from:n[i]};else if(s(n))for(var o in n){var a=n[o];r[o]=s(a)?A({from:o},a):{from:a}}}}(t),function(e){var t=e.directives;if(t)for(var n in t){var r=t[n];"function"==typeof r&&(t[n]={bind:r,update:r})}}(t),!t._base&&(t.extends&&(e=De(e,t.extends,n)),t.mixins))for(var r=0,i=t.mixins.length;r<i;r++)e=De(e,t.mixins[r],n);var o,a={};for(o in e)c(o);for(o in t)y(e,o)||c(o);function c(r){var i=Oe[r]||je;a[r]=i(e[r],t[r],n,r)}return a}function Le(e,t,n,r){if("string"==typeof n){var i=e[t];if(y(i,n))return i[n];var o=b(n);if(y(i,o))return i[o];var a=$(o);return y(i,a)?i[a]:i[n]||i[o]||i[a]}}function Me(e,t,n,r){var i=t[e],o=!y(n,e),a=n[e],s=Pe(Boolean,i.type);if(s>-1)if(o&&!y(i,"default"))a=!1;else if(""===a||a===C(e)){var c=Pe(String,i.type);(c<0||s<c)&&(a=!0)}if(void 0===a){a=function(e,t,n){if(!y(t,"default"))return;var r=t.default;if(e&&e.$options.propsData&&void 0===e.$options.propsData[n]&&void 0!==e._props[n])return e._props[n];return"function"==typeof r&&"Function"!==Ie(t.type)?r.call(e):r}(r,i,e);var u=be;$e(!0),Ce(a),$e(u)}return a}function Ie(e){var t=e&&e.toString().match(/^\s*function (\w+)/);return t?t[1]:""}function Fe(e,t){return Ie(e)===Ie(t)}function Pe(e,t){if(!Array.isArray(t))return Fe(t,e)?0:-1;for(var n=0,r=t.length;n<r;n++)if(Fe(t[n],e))return n;return-1}function Re(e,t,n){le();try{if(t)for(var r=t;r=r.$parent;){var i=r.$options.errorCaptured;if(i)for(var o=0;o<i.length;o++)try{if(!1===i[o].call(r,e,t,n))return}catch(e){Be(e,r,"errorCaptured hook")}}Be(e,t,n)}finally{fe()}}function He(e,t,n,r,i){var o;try{(o=n?e.apply(t,n):e.call(t))&&!o._isVue&&u(o)&&!o._handled&&(o.catch(function(e){return Re(e,r,i+" (Promise/async)")}),o._handled=!0)}catch(e){Re(e,r,i)}return o}function Be(e,t,n){if(F.errorHandler)try{return F.errorHandler.call(null,e,t,n)}catch(t){t!==e&&Ue(t,null,"config.errorHandler")}Ue(e,t,n)}function Ue(e,t,n){if(!z&&!V||"undefined"==typeof console)throw e;console.error(e)}var ze,Ve=!1,Ke=[],Je=!1;function qe(){Je=!1;var e=Ke.slice(0);Ke.length=0;for(var t=0;t<e.length;t++)e[t]()}if("undefined"!=typeof Promise&&re(Promise)){var We=Promise.resolve();ze=function(){We.then(qe),G&&setTimeout(S)},Ve=!0}else if(q||"undefined"==typeof MutationObserver||!re(MutationObserver)&&"[object MutationObserverConstructor]"!==MutationObserver.toString())ze="undefined"!=typeof setImmediate&&re(setImmediate)?function(){setImmediate(qe)}:function(){setTimeout(qe,0)};else{var Ze=1,Ge=new MutationObserver(qe),Xe=document.createTextNode(String(Ze));Ge.observe(Xe,{characterData:!0}),ze=function(){Ze=(Ze+1)%2,Xe.data=String(Ze)},Ve=!0}function Ye(e,t){var n;if(Ke.push(function(){if(e)try{e.call(t)}catch(e){Re(e,t,"nextTick")}else n&&n(t)}),Je||(Je=!0,ze()),!e&&"undefined"!=typeof Promise)return new Promise(function(e){n=e})}var Qe=new ie;function et(e){!function e(t,n){var r,i;var a=Array.isArray(t);if(!a&&!o(t)||Object.isFrozen(t)||t instanceof pe)return;if(t.__ob__){var s=t.__ob__.dep.id;if(n.has(s))return;n.add(s)}if(a)for(r=t.length;r--;)e(t[r],n);else for(i=Object.keys(t),r=i.length;r--;)e(t[i[r]],n)}(e,Qe),Qe.clear()}var tt=g(function(e){var t="&"===e.charAt(0),n="~"===(e=t?e.slice(1):e).charAt(0),r="!"===(e=n?e.slice(1):e).charAt(0);return{name:e=r?e.slice(1):e,once:n,capture:r,passive:t}});function nt(e,t){function n(){var e=arguments,r=n.fns;if(!Array.isArray(r))return He(r,null,arguments,t,"v-on handler");for(var i=r.slice(),o=0;o<i.length;o++)He(i[o],null,e,t,"v-on handler")}return n.fns=e,n}function rt(e,n,i,o,a,s){var c,u,l,f;for(c in e)u=e[c],l=n[c],f=tt(c),t(u)||(t(l)?(t(u.fns)&&(u=e[c]=nt(u,s)),r(f.once)&&(u=e[c]=a(f.name,u,f.capture)),i(f.name,u,f.capture,f.passive,f.params)):u!==l&&(l.fns=u,e[c]=l));for(c in n)t(e[c])&&o((f=tt(c)).name,n[c],f.capture)}function it(e,i,o){var a;e instanceof pe&&(e=e.data.hook||(e.data.hook={}));var s=e[i];function c(){o.apply(this,arguments),h(a.fns,c)}t(s)?a=nt([c]):n(s.fns)&&r(s.merged)?(a=s).fns.push(c):a=nt([s,c]),a.merged=!0,e[i]=a}function ot(e,t,r,i,o){if(n(t)){if(y(t,r))return e[r]=t[r],o||delete t[r],!0;if(y(t,i))return e[r]=t[i],o||delete t[i],!0}return!1}function at(e){return i(e)?[he(e)]:Array.isArray(e)?function e(o,a){var s=[];var c,u,l,f;for(c=0;c<o.length;c++)t(u=o[c])||"boolean"==typeof u||(l=s.length-1,f=s[l],Array.isArray(u)?u.length>0&&(st((u=e(u,(a||"")+"_"+c))[0])&&st(f)&&(s[l]=he(f.text+u[0].text),u.shift()),s.push.apply(s,u)):i(u)?st(f)?s[l]=he(f.text+u):""!==u&&s.push(he(u)):st(u)&&st(f)?s[l]=he(f.text+u.text):(r(o._isVList)&&n(u.tag)&&t(u.key)&&n(a)&&(u.key="__vlist"+a+"_"+c+"__"),s.push(u)));return s}(e):void 0}function st(e){return n(e)&&n(e.text)&&!1===e.isComment}function ct(e,t){if(e){for(var n=Object.create(null),r=oe?Reflect.ownKeys(e):Object.keys(e),i=0;i<r.length;i++){var o=r[i];if("__ob__"!==o){for(var a=e[o].from,s=t;s;){if(s._provided&&y(s._provided,a)){n[o]=s._provided[a];break}s=s.$parent}if(!s&&"default"in e[o]){var c=e[o].default;n[o]="function"==typeof c?c.call(t):c}}}return n}}function ut(e,t){if(!e||!e.length)return{};for(var n={},r=0,i=e.length;r<i;r++){var o=e[r],a=o.data;if(a&&a.attrs&&a.attrs.slot&&delete a.attrs.slot,o.context!==t&&o.fnContext!==t||!a||null==a.slot)(n.default||(n.default=[])).push(o);else{var s=a.slot,c=n[s]||(n[s]=[]);"template"===o.tag?c.push.apply(c,o.children||[]):c.push(o)}}for(var u in n)n[u].every(lt)&&delete n[u];return n}function lt(e){return e.isComment&&!e.asyncFactory||" "===e.text}function ft(t,n,r){var i,o=Object.keys(n).length>0,a=t?!!t.$stable:!o,s=t&&t.$key;if(t){if(t._normalized)return t._normalized;if(a&&r&&r!==e&&s===r.$key&&!o&&!r.$hasNormal)return r;for(var c in i={},t)t[c]&&"$"!==c[0]&&(i[c]=pt(n,c,t[c]))}else i={};for(var u in n)u in i||(i[u]=dt(n,u));return t&&Object.isExtensible(t)&&(t._normalized=i),R(i,"$stable",a),R(i,"$key",s),R(i,"$hasNormal",o),i}function pt(e,t,n){var r=function(){var e=arguments.length?n.apply(null,arguments):n({});return(e=e&&"object"==typeof e&&!Array.isArray(e)?[e]:at(e))&&(0===e.length||1===e.length&&e[0].isComment)?void 0:e};return n.proxy&&Object.defineProperty(e,t,{get:r,enumerable:!0,configurable:!0}),r}function dt(e,t){return function(){return e[t]}}function vt(e,t){var r,i,a,s,c;if(Array.isArray(e)||"string"==typeof e)for(r=new Array(e.length),i=0,a=e.length;i<a;i++)r[i]=t(e[i],i);else if("number"==typeof e)for(r=new Array(e),i=0;i<e;i++)r[i]=t(i+1,i);else if(o(e))if(oe&&e[Symbol.iterator]){r=[];for(var u=e[Symbol.iterator](),l=u.next();!l.done;)r.push(t(l.value,r.length)),l=u.next()}else for(s=Object.keys(e),r=new Array(s.length),i=0,a=s.length;i<a;i++)c=s[i],r[i]=t(e[c],c,i);return n(r)||(r=[]),r._isVList=!0,r}function ht(e,t,n,r){var i,o=this.$scopedSlots[e];o?(n=n||{},r&&(n=A(A({},r),n)),i=o(n)||t):i=this.$slots[e]||t;var a=n&&n.slot;return a?this.$createElement("template",{slot:a},i):i}function mt(e){return Le(this.$options,"filters",e)||E}function yt(e,t){return Array.isArray(e)?-1===e.indexOf(t):e!==t}function gt(e,t,n,r,i){var o=F.keyCodes[t]||n;return i&&r&&!F.keyCodes[t]?yt(i,r):o?yt(o,e):r?C(r)!==t:void 0}function _t(e,t,n,r,i){if(n)if(o(n)){var a;Array.isArray(n)&&(n=O(n));var s=function(o){if("class"===o||"style"===o||v(o))a=e;else{var s=e.attrs&&e.attrs.type;a=r||F.mustUseProp(t,s,o)?e.domProps||(e.domProps={}):e.attrs||(e.attrs={})}var c=b(o),u=C(o);c in a||u in a||(a[o]=n[o],i&&((e.on||(e.on={}))["update:"+o]=function(e){n[o]=e}))};for(var c in n)s(c)}else;return e}function bt(e,t){var n=this._staticTrees||(this._staticTrees=[]),r=n[e];return r&&!t?r:(wt(r=n[e]=this.$options.staticRenderFns[e].call(this._renderProxy,null,this),"__static__"+e,!1),r)}function $t(e,t,n){return wt(e,"__once__"+t+(n?"_"+n:""),!0),e}function wt(e,t,n){if(Array.isArray(e))for(var r=0;r<e.length;r++)e[r]&&"string"!=typeof e[r]&&Ct(e[r],t+"_"+r,n);else Ct(e,t,n)}function Ct(e,t,n){e.isStatic=!0,e.key=t,e.isOnce=n}function xt(e,t){if(t)if(s(t)){var n=e.on=e.on?A({},e.on):{};for(var r in t){var i=n[r],o=t[r];n[r]=i?[].concat(i,o):o}}else;return e}function kt(e,t,n,r){t=t||{$stable:!n};for(var i=0;i<e.length;i++){var o=e[i];Array.isArray(o)?kt(o,t,n):o&&(o.proxy&&(o.fn.proxy=!0),t[o.key]=o.fn)}return r&&(t.$key=r),t}function At(e,t){for(var n=0;n<t.length;n+=2){var r=t[n];"string"==typeof r&&r&&(e[t[n]]=t[n+1])}return e}function Ot(e,t){return"string"==typeof e?t+e:e}function St(e){e._o=$t,e._n=f,e._s=l,e._l=vt,e._t=ht,e._q=N,e._i=j,e._m=bt,e._f=mt,e._k=gt,e._b=_t,e._v=he,e._e=ve,e._u=kt,e._g=xt,e._d=At,e._p=Ot}function Tt(t,n,i,o,a){var s,c=this,u=a.options;y(o,"_uid")?(s=Object.create(o))._original=o:(s=o,o=o._original);var l=r(u._compiled),f=!l;this.data=t,this.props=n,this.children=i,this.parent=o,this.listeners=t.on||e,this.injections=ct(u.inject,o),this.slots=function(){return c.$slots||ft(t.scopedSlots,c.$slots=ut(i,o)),c.$slots},Object.defineProperty(this,"scopedSlots",{enumerable:!0,get:function(){return ft(t.scopedSlots,this.slots())}}),l&&(this.$options=u,this.$slots=this.slots(),this.$scopedSlots=ft(t.scopedSlots,this.$slots)),u._scopeId?this._c=function(e,t,n,r){var i=Pt(s,e,t,n,r,f);return i&&!Array.isArray(i)&&(i.fnScopeId=u._scopeId,i.fnContext=o),i}:this._c=function(e,t,n,r){return Pt(s,e,t,n,r,f)}}function Et(e,t,n,r,i){var o=me(e);return o.fnContext=n,o.fnOptions=r,t.slot&&((o.data||(o.data={})).slot=t.slot),o}function Nt(e,t){for(var n in t)e[b(n)]=t[n]}St(Tt.prototype);var jt={init:function(e,t){if(e.componentInstance&&!e.componentInstance._isDestroyed&&e.data.keepAlive){var r=e;jt.prepatch(r,r)}else{(e.componentInstance=function(e,t){var r={_isComponent:!0,_parentVnode:e,parent:t},i=e.data.inlineTemplate;n(i)&&(r.render=i.render,r.staticRenderFns=i.staticRenderFns);return new e.componentOptions.Ctor(r)}(e,Wt)).$mount(t?e.elm:void 0,t)}},prepatch:function(t,n){var r=n.componentOptions;!function(t,n,r,i,o){var a=i.data.scopedSlots,s=t.$scopedSlots,c=!!(a&&!a.$stable||s!==e&&!s.$stable||a&&t.$scopedSlots.$key!==a.$key),u=!!(o||t.$options._renderChildren||c);t.$options._parentVnode=i,t.$vnode=i,t._vnode&&(t._vnode.parent=i);if(t.$options._renderChildren=o,t.$attrs=i.data.attrs||e,t.$listeners=r||e,n&&t.$options.props){$e(!1);for(var l=t._props,f=t.$options._propKeys||[],p=0;p<f.length;p++){var d=f[p],v=t.$options.props;l[d]=Me(d,v,n,t)}$e(!0),t.$options.propsData=n}r=r||e;var h=t.$options._parentListeners;t.$options._parentListeners=r,qt(t,r,h),u&&(t.$slots=ut(o,i.context),t.$forceUpdate())}(n.componentInstance=t.componentInstance,r.propsData,r.listeners,n,r.children)},insert:function(e){var t,n=e.context,r=e.componentInstance;r._isMounted||(r._isMounted=!0,Yt(r,"mounted")),e.data.keepAlive&&(n._isMounted?((t=r)._inactive=!1,en.push(t)):Xt(r,!0))},destroy:function(e){var t=e.componentInstance;t._isDestroyed||(e.data.keepAlive?function e(t,n){if(n&&(t._directInactive=!0,Gt(t)))return;if(!t._inactive){t._inactive=!0;for(var r=0;r<t.$children.length;r++)e(t.$children[r]);Yt(t,"deactivated")}}(t,!0):t.$destroy())}},Dt=Object.keys(jt);function Lt(i,a,s,c,l){if(!t(i)){var f=s.$options._base;if(o(i)&&(i=f.extend(i)),"function"==typeof i){var p;if(t(i.cid)&&void 0===(i=function(e,i){if(r(e.error)&&n(e.errorComp))return e.errorComp;if(n(e.resolved))return e.resolved;var a=Ht;a&&n(e.owners)&&-1===e.owners.indexOf(a)&&e.owners.push(a);if(r(e.loading)&&n(e.loadingComp))return e.loadingComp;if(a&&!n(e.owners)){var s=e.owners=[a],c=!0,l=null,f=null;a.$on("hook:destroyed",function(){return h(s,a)});var p=function(e){for(var t=0,n=s.length;t<n;t++)s[t].$forceUpdate();e&&(s.length=0,null!==l&&(clearTimeout(l),l=null),null!==f&&(clearTimeout(f),f=null))},d=D(function(t){e.resolved=Bt(t,i),c?s.length=0:p(!0)}),v=D(function(t){n(e.errorComp)&&(e.error=!0,p(!0))}),m=e(d,v);return o(m)&&(u(m)?t(e.resolved)&&m.then(d,v):u(m.component)&&(m.component.then(d,v),n(m.error)&&(e.errorComp=Bt(m.error,i)),n(m.loading)&&(e.loadingComp=Bt(m.loading,i),0===m.delay?e.loading=!0:l=setTimeout(function(){l=null,t(e.resolved)&&t(e.error)&&(e.loading=!0,p(!1))},m.delay||200)),n(m.timeout)&&(f=setTimeout(function(){f=null,t(e.resolved)&&v(null)},m.timeout)))),c=!1,e.loading?e.loadingComp:e.resolved}}(p=i,f)))return function(e,t,n,r,i){var o=ve();return o.asyncFactory=e,o.asyncMeta={data:t,context:n,children:r,tag:i},o}(p,a,s,c,l);a=a||{},$n(i),n(a.model)&&function(e,t){var r=e.model&&e.model.prop||"value",i=e.model&&e.model.event||"input";(t.attrs||(t.attrs={}))[r]=t.model.value;var o=t.on||(t.on={}),a=o[i],s=t.model.callback;n(a)?(Array.isArray(a)?-1===a.indexOf(s):a!==s)&&(o[i]=[s].concat(a)):o[i]=s}(i.options,a);var d=function(e,r,i){var o=r.options.props;if(!t(o)){var a={},s=e.attrs,c=e.props;if(n(s)||n(c))for(var u in o){var l=C(u);ot(a,c,u,l,!0)||ot(a,s,u,l,!1)}return a}}(a,i);if(r(i.options.functional))return function(t,r,i,o,a){var s=t.options,c={},u=s.props;if(n(u))for(var l in u)c[l]=Me(l,u,r||e);else n(i.attrs)&&Nt(c,i.attrs),n(i.props)&&Nt(c,i.props);var f=new Tt(i,c,a,o,t),p=s.render.call(null,f._c,f);if(p instanceof pe)return Et(p,i,f.parent,s);if(Array.isArray(p)){for(var d=at(p)||[],v=new Array(d.length),h=0;h<d.length;h++)v[h]=Et(d[h],i,f.parent,s);return v}}(i,d,a,s,c);var v=a.on;if(a.on=a.nativeOn,r(i.options.abstract)){var m=a.slot;a={},m&&(a.slot=m)}!function(e){for(var t=e.hook||(e.hook={}),n=0;n<Dt.length;n++){var r=Dt[n],i=t[r],o=jt[r];i===o||i&&i._merged||(t[r]=i?Mt(o,i):o)}}(a);var y=i.options.name||l;return new pe("vue-component-"+i.cid+(y?"-"+y:""),a,void 0,void 0,void 0,s,{Ctor:i,propsData:d,listeners:v,tag:l,children:c},p)}}}function Mt(e,t){var n=function(n,r){e(n,r),t(n,r)};return n._merged=!0,n}var It=1,Ft=2;function Pt(e,a,s,c,u,l){return(Array.isArray(s)||i(s))&&(u=c,c=s,s=void 0),r(l)&&(u=Ft),function(e,i,a,s,c){if(n(a)&&n(a.__ob__))return ve();n(a)&&n(a.is)&&(i=a.is);if(!i)return ve();Array.isArray(s)&&"function"==typeof s[0]&&((a=a||{}).scopedSlots={default:s[0]},s.length=0);c===Ft?s=at(s):c===It&&(s=function(e){for(var t=0;t<e.length;t++)if(Array.isArray(e[t]))return Array.prototype.concat.apply([],e);return e}(s));var u,l;if("string"==typeof i){var f;l=e.$vnode&&e.$vnode.ns||F.getTagNamespace(i),u=F.isReservedTag(i)?new pe(F.parsePlatformTagName(i),a,s,void 0,void 0,e):a&&a.pre||!n(f=Le(e.$options,"components",i))?new pe(i,a,s,void 0,void 0,e):Lt(f,a,e,s,i)}else u=Lt(i,a,e,s);return Array.isArray(u)?u:n(u)?(n(l)&&function e(i,o,a){i.ns=o;"foreignObject"===i.tag&&(o=void 0,a=!0);if(n(i.children))for(var s=0,c=i.children.length;s<c;s++){var u=i.children[s];n(u.tag)&&(t(u.ns)||r(a)&&"svg"!==u.tag)&&e(u,o,a)}}(u,l),n(a)&&function(e){o(e.style)&&et(e.style);o(e.class)&&et(e.class)}(a),u):ve()}(e,a,s,c,u)}var Rt,Ht=null;function Bt(e,t){return(e.__esModule||oe&&"Module"===e[Symbol.toStringTag])&&(e=e.default),o(e)?t.extend(e):e}function Ut(e){return e.isComment&&e.asyncFactory}function zt(e){if(Array.isArray(e))for(var t=0;t<e.length;t++){var r=e[t];if(n(r)&&(n(r.componentOptions)||Ut(r)))return r}}function Vt(e,t){Rt.$on(e,t)}function Kt(e,t){Rt.$off(e,t)}function Jt(e,t){var n=Rt;return function r(){null!==t.apply(null,arguments)&&n.$off(e,r)}}function qt(e,t,n){Rt=e,rt(t,n||{},Vt,Kt,Jt,e),Rt=void 0}var Wt=null;function Zt(e){var t=Wt;return Wt=e,function(){Wt=t}}function Gt(e){for(;e&&(e=e.$parent);)if(e._inactive)return!0;return!1}function Xt(e,t){if(t){if(e._directInactive=!1,Gt(e))return}else if(e._directInactive)return;if(e._inactive||null===e._inactive){e._inactive=!1;for(var n=0;n<e.$children.length;n++)Xt(e.$children[n]);Yt(e,"activated")}}function Yt(e,t){le();var n=e.$options[t],r=t+" hook";if(n)for(var i=0,o=n.length;i<o;i++)He(n[i],e,null,e,r);e._hasHookEvent&&e.$emit("hook:"+t),fe()}var Qt=[],en=[],tn={},nn=!1,rn=!1,on=0;var an=0,sn=Date.now;if(z&&!q){var cn=window.performance;cn&&"function"==typeof cn.now&&sn()>document.createEvent("Event").timeStamp&&(sn=function(){return cn.now()})}function un(){var e,t;for(an=sn(),rn=!0,Qt.sort(function(e,t){return e.id-t.id}),on=0;on<Qt.length;on++)(e=Qt[on]).before&&e.before(),t=e.id,tn[t]=null,e.run();var n=en.slice(),r=Qt.slice();on=Qt.length=en.length=0,tn={},nn=rn=!1,function(e){for(var t=0;t<e.length;t++)e[t]._inactive=!0,Xt(e[t],!0)}(n),function(e){var t=e.length;for(;t--;){var n=e[t],r=n.vm;r._watcher===n&&r._isMounted&&!r._isDestroyed&&Yt(r,"updated")}}(r),ne&&F.devtools&&ne.emit("flush")}var ln=0,fn=function(e,t,n,r,i){this.vm=e,i&&(e._watcher=this),e._watchers.push(this),r?(this.deep=!!r.deep,this.user=!!r.user,this.lazy=!!r.lazy,this.sync=!!r.sync,this.before=r.before):this.deep=this.user=this.lazy=this.sync=!1,this.cb=n,this.id=++ln,this.active=!0,this.dirty=this.lazy,this.deps=[],this.newDeps=[],this.depIds=new ie,this.newDepIds=new ie,this.expression="","function"==typeof t?this.getter=t:(this.getter=function(e){if(!H.test(e)){var t=e.split(".");return function(e){for(var n=0;n<t.length;n++){if(!e)return;e=e[t[n]]}return e}}}(t),this.getter||(this.getter=S)),this.value=this.lazy?void 0:this.get()};fn.prototype.get=function(){var e;le(this);var t=this.vm;try{e=this.getter.call(t,t)}catch(e){if(!this.user)throw e;Re(e,t,'getter for watcher "'+this.expression+'"')}finally{this.deep&&et(e),fe(),this.cleanupDeps()}return e},fn.prototype.addDep=function(e){var t=e.id;this.newDepIds.has(t)||(this.newDepIds.add(t),this.newDeps.push(e),this.depIds.has(t)||e.addSub(this))},fn.prototype.cleanupDeps=function(){for(var e=this.deps.length;e--;){var t=this.deps[e];this.newDepIds.has(t.id)||t.removeSub(this)}var n=this.depIds;this.depIds=this.newDepIds,this.newDepIds=n,this.newDepIds.clear(),n=this.deps,this.deps=this.newDeps,this.newDeps=n,this.newDeps.length=0},fn.prototype.update=function(){this.lazy?this.dirty=!0:this.sync?this.run():function(e){var t=e.id;if(null==tn[t]){if(tn[t]=!0,rn){for(var n=Qt.length-1;n>on&&Qt[n].id>e.id;)n--;Qt.splice(n+1,0,e)}else Qt.push(e);nn||(nn=!0,Ye(un))}}(this)},fn.prototype.run=function(){if(this.active){var e=this.get();if(e!==this.value||o(e)||this.deep){var t=this.value;if(this.value=e,this.user)try{this.cb.call(this.vm,e,t)}catch(e){Re(e,this.vm,'callback for watcher "'+this.expression+'"')}else this.cb.call(this.vm,e,t)}}},fn.prototype.evaluate=function(){this.value=this.get(),this.dirty=!1},fn.prototype.depend=function(){for(var e=this.deps.length;e--;)this.deps[e].depend()},fn.prototype.teardown=function(){if(this.active){this.vm._isBeingDestroyed||h(this.vm._watchers,this);for(var e=this.deps.length;e--;)this.deps[e].removeSub(this);this.active=!1}};var pn={enumerable:!0,configurable:!0,get:S,set:S};function dn(e,t,n){pn.get=function(){return this[t][n]},pn.set=function(e){this[t][n]=e},Object.defineProperty(e,n,pn)}function vn(e){e._watchers=[];var t=e.$options;t.props&&function(e,t){var n=e.$options.propsData||{},r=e._props={},i=e.$options._propKeys=[];e.$parent&&$e(!1);var o=function(o){i.push(o);var a=Me(o,t,n,e);xe(r,o,a),o in e||dn(e,"_props",o)};for(var a in t)o(a);$e(!0)}(e,t.props),t.methods&&function(e,t){e.$options.props;for(var n in t)e[n]="function"!=typeof t[n]?S:x(t[n],e)}(e,t.methods),t.data?function(e){var t=e.$options.data;s(t=e._data="function"==typeof t?function(e,t){le();try{return e.call(t,t)}catch(e){return Re(e,t,"data()"),{}}finally{fe()}}(t,e):t||{})||(t={});var n=Object.keys(t),r=e.$options.props,i=(e.$options.methods,n.length);for(;i--;){var o=n[i];r&&y(r,o)||(a=void 0,36!==(a=(o+"").charCodeAt(0))&&95!==a&&dn(e,"_data",o))}var a;Ce(t,!0)}(e):Ce(e._data={},!0),t.computed&&function(e,t){var n=e._computedWatchers=Object.create(null),r=te();for(var i in t){var o=t[i],a="function"==typeof o?o:o.get;r||(n[i]=new fn(e,a||S,S,hn)),i in e||mn(e,i,o)}}(e,t.computed),t.watch&&t.watch!==Y&&function(e,t){for(var n in t){var r=t[n];if(Array.isArray(r))for(var i=0;i<r.length;i++)_n(e,n,r[i]);else _n(e,n,r)}}(e,t.watch)}var hn={lazy:!0};function mn(e,t,n){var r=!te();"function"==typeof n?(pn.get=r?yn(t):gn(n),pn.set=S):(pn.get=n.get?r&&!1!==n.cache?yn(t):gn(n.get):S,pn.set=n.set||S),Object.defineProperty(e,t,pn)}function yn(e){return function(){var t=this._computedWatchers&&this._computedWatchers[e];if(t)return t.dirty&&t.evaluate(),ce.target&&t.depend(),t.value}}function gn(e){return function(){return e.call(this,this)}}function _n(e,t,n,r){return s(n)&&(r=n,n=n.handler),"string"==typeof n&&(n=e[n]),e.$watch(t,n,r)}var bn=0;function $n(e){var t=e.options;if(e.super){var n=$n(e.super);if(n!==e.superOptions){e.superOptions=n;var r=function(e){var t,n=e.options,r=e.sealedOptions;for(var i in n)n[i]!==r[i]&&(t||(t={}),t[i]=n[i]);return t}(e);r&&A(e.extendOptions,r),(t=e.options=De(n,e.extendOptions)).name&&(t.components[t.name]=e)}}return t}function wn(e){this._init(e)}function Cn(e){e.cid=0;var t=1;e.extend=function(e){e=e||{};var n=this,r=n.cid,i=e._Ctor||(e._Ctor={});if(i[r])return i[r];var o=e.name||n.options.name,a=function(e){this._init(e)};return(a.prototype=Object.create(n.prototype)).constructor=a,a.cid=t++,a.options=De(n.options,e),a.super=n,a.options.props&&function(e){var t=e.options.props;for(var n in t)dn(e.prototype,"_props",n)}(a),a.options.computed&&function(e){var t=e.options.computed;for(var n in t)mn(e.prototype,n,t[n])}(a),a.extend=n.extend,a.mixin=n.mixin,a.use=n.use,M.forEach(function(e){a[e]=n[e]}),o&&(a.options.components[o]=a),a.superOptions=n.options,a.extendOptions=e,a.sealedOptions=A({},a.options),i[r]=a,a}}function xn(e){return e&&(e.Ctor.options.name||e.tag)}function kn(e,t){return Array.isArray(e)?e.indexOf(t)>-1:"string"==typeof e?e.split(",").indexOf(t)>-1:(n=e,"[object RegExp]"===a.call(n)&&e.test(t));var n}function An(e,t){var n=e.cache,r=e.keys,i=e._vnode;for(var o in n){var a=n[o];if(a){var s=xn(a.componentOptions);s&&!t(s)&&On(n,o,r,i)}}}function On(e,t,n,r){var i=e[t];!i||r&&i.tag===r.tag||i.componentInstance.$destroy(),e[t]=null,h(n,t)}!function(t){t.prototype._init=function(t){var n=this;n._uid=bn++,n._isVue=!0,t&&t._isComponent?function(e,t){var n=e.$options=Object.create(e.constructor.options),r=t._parentVnode;n.parent=t.parent,n._parentVnode=r;var i=r.componentOptions;n.propsData=i.propsData,n._parentListeners=i.listeners,n._renderChildren=i.children,n._componentTag=i.tag,t.render&&(n.render=t.render,n.staticRenderFns=t.staticRenderFns)}(n,t):n.$options=De($n(n.constructor),t||{},n),n._renderProxy=n,n._self=n,function(e){var t=e.$options,n=t.parent;if(n&&!t.abstract){for(;n.$options.abstract&&n.$parent;)n=n.$parent;n.$children.push(e)}e.$parent=n,e.$root=n?n.$root:e,e.$children=[],e.$refs={},e._watcher=null,e._inactive=null,e._directInactive=!1,e._isMounted=!1,e._isDestroyed=!1,e._isBeingDestroyed=!1}(n),function(e){e._events=Object.create(null),e._hasHookEvent=!1;var t=e.$options._parentListeners;t&&qt(e,t)}(n),function(t){t._vnode=null,t._staticTrees=null;var n=t.$options,r=t.$vnode=n._parentVnode,i=r&&r.context;t.$slots=ut(n._renderChildren,i),t.$scopedSlots=e,t._c=function(e,n,r,i){return Pt(t,e,n,r,i,!1)},t.$createElement=function(e,n,r,i){return Pt(t,e,n,r,i,!0)};var o=r&&r.data;xe(t,"$attrs",o&&o.attrs||e,null,!0),xe(t,"$listeners",n._parentListeners||e,null,!0)}(n),Yt(n,"beforeCreate"),function(e){var t=ct(e.$options.inject,e);t&&($e(!1),Object.keys(t).forEach(function(n){xe(e,n,t[n])}),$e(!0))}(n),vn(n),function(e){var t=e.$options.provide;t&&(e._provided="function"==typeof t?t.call(e):t)}(n),Yt(n,"created"),n.$options.el&&n.$mount(n.$options.el)}}(wn),function(e){var t={get:function(){return this._data}},n={get:function(){return this._props}};Object.defineProperty(e.prototype,"$data",t),Object.defineProperty(e.prototype,"$props",n),e.prototype.$set=ke,e.prototype.$delete=Ae,e.prototype.$watch=function(e,t,n){if(s(t))return _n(this,e,t,n);(n=n||{}).user=!0;var r=new fn(this,e,t,n);if(n.immediate)try{t.call(this,r.value)}catch(e){Re(e,this,'callback for immediate watcher "'+r.expression+'"')}return function(){r.teardown()}}}(wn),function(e){var t=/^hook:/;e.prototype.$on=function(e,n){var r=this;if(Array.isArray(e))for(var i=0,o=e.length;i<o;i++)r.$on(e[i],n);else(r._events[e]||(r._events[e]=[])).push(n),t.test(e)&&(r._hasHookEvent=!0);return r},e.prototype.$once=function(e,t){var n=this;function r(){n.$off(e,r),t.apply(n,arguments)}return r.fn=t,n.$on(e,r),n},e.prototype.$off=function(e,t){var n=this;if(!arguments.length)return n._events=Object.create(null),n;if(Array.isArray(e)){for(var r=0,i=e.length;r<i;r++)n.$off(e[r],t);return n}var o,a=n._events[e];if(!a)return n;if(!t)return n._events[e]=null,n;for(var s=a.length;s--;)if((o=a[s])===t||o.fn===t){a.splice(s,1);break}return n},e.prototype.$emit=function(e){var t=this._events[e];if(t){t=t.length>1?k(t):t;for(var n=k(arguments,1),r='event handler for "'+e+'"',i=0,o=t.length;i<o;i++)He(t[i],this,n,this,r)}return this}}(wn),function(e){e.prototype._update=function(e,t){var n=this,r=n.$el,i=n._vnode,o=Zt(n);n._vnode=e,n.$el=i?n.__patch__(i,e):n.__patch__(n.$el,e,t,!1),o(),r&&(r.__vue__=null),n.$el&&(n.$el.__vue__=n),n.$vnode&&n.$parent&&n.$vnode===n.$parent._vnode&&(n.$parent.$el=n.$el)},e.prototype.$forceUpdate=function(){this._watcher&&this._watcher.update()},e.prototype.$destroy=function(){var e=this;if(!e._isBeingDestroyed){Yt(e,"beforeDestroy"),e._isBeingDestroyed=!0;var t=e.$parent;!t||t._isBeingDestroyed||e.$options.abstract||h(t.$children,e),e._watcher&&e._watcher.teardown();for(var n=e._watchers.length;n--;)e._watchers[n].teardown();e._data.__ob__&&e._data.__ob__.vmCount--,e._isDestroyed=!0,e.__patch__(e._vnode,null),Yt(e,"destroyed"),e.$off(),e.$el&&(e.$el.__vue__=null),e.$vnode&&(e.$vnode.parent=null)}}}(wn),function(e){St(e.prototype),e.prototype.$nextTick=function(e){return Ye(e,this)},e.prototype._render=function(){var e,t=this,n=t.$options,r=n.render,i=n._parentVnode;i&&(t.$scopedSlots=ft(i.data.scopedSlots,t.$slots,t.$scopedSlots)),t.$vnode=i;try{Ht=t,e=r.call(t._renderProxy,t.$createElement)}catch(n){Re(n,t,"render"),e=t._vnode}finally{Ht=null}return Array.isArray(e)&&1===e.length&&(e=e[0]),e instanceof pe||(e=ve()),e.parent=i,e}}(wn);var Sn=[String,RegExp,Array],Tn={KeepAlive:{name:"keep-alive",abstract:!0,props:{include:Sn,exclude:Sn,max:[String,Number]},created:function(){this.cache=Object.create(null),this.keys=[]},destroyed:function(){for(var e in this.cache)On(this.cache,e,this.keys)},mounted:function(){var e=this;this.$watch("include",function(t){An(e,function(e){return kn(t,e)})}),this.$watch("exclude",function(t){An(e,function(e){return!kn(t,e)})})},render:function(){var e=this.$slots.default,t=zt(e),n=t&&t.componentOptions;if(n){var r=xn(n),i=this.include,o=this.exclude;if(i&&(!r||!kn(i,r))||o&&r&&kn(o,r))return t;var a=this.cache,s=this.keys,c=null==t.key?n.Ctor.cid+(n.tag?"::"+n.tag:""):t.key;a[c]?(t.componentInstance=a[c].componentInstance,h(s,c),s.push(c)):(a[c]=t,s.push(c),this.max&&s.length>parseInt(this.max)&&On(a,s[0],s,this._vnode)),t.data.keepAlive=!0}return t||e&&e[0]}}};!function(e){var t={get:function(){return F}};Object.defineProperty(e,"config",t),e.util={warn:ae,extend:A,mergeOptions:De,defineReactive:xe},e.set=ke,e.delete=Ae,e.nextTick=Ye,e.observable=function(e){return Ce(e),e},e.options=Object.create(null),M.forEach(function(t){e.options[t+"s"]=Object.create(null)}),e.options._base=e,A(e.options.components,Tn),function(e){e.use=function(e){var t=this._installedPlugins||(this._installedPlugins=[]);if(t.indexOf(e)>-1)return this;var n=k(arguments,1);return n.unshift(this),"function"==typeof e.install?e.install.apply(e,n):"function"==typeof e&&e.apply(null,n),t.push(e),this}}(e),function(e){e.mixin=function(e){return this.options=De(this.options,e),this}}(e),Cn(e),function(e){M.forEach(function(t){e[t]=function(e,n){return n?("component"===t&&s(n)&&(n.name=n.name||e,n=this.options._base.extend(n)),"directive"===t&&"function"==typeof n&&(n={bind:n,update:n}),this.options[t+"s"][e]=n,n):this.options[t+"s"][e]}})}(e)}(wn),Object.defineProperty(wn.prototype,"$isServer",{get:te}),Object.defineProperty(wn.prototype,"$ssrContext",{get:function(){return this.$vnode&&this.$vnode.ssrContext}}),Object.defineProperty(wn,"FunctionalRenderContext",{value:Tt}),wn.version="2.6.10";var En=p("style,class"),Nn=p("input,textarea,option,select,progress"),jn=function(e,t,n){return"value"===n&&Nn(e)&&"button"!==t||"selected"===n&&"option"===e||"checked"===n&&"input"===e||"muted"===n&&"video"===e},Dn=p("contenteditable,draggable,spellcheck"),Ln=p("events,caret,typing,plaintext-only"),Mn=function(e,t){return Hn(t)||"false"===t?"false":"contenteditable"===e&&Ln(t)?t:"true"},In=p("allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"),Fn="http://www.w3.org/1999/xlink",Pn=function(e){return":"===e.charAt(5)&&"xlink"===e.slice(0,5)},Rn=function(e){return Pn(e)?e.slice(6,e.length):""},Hn=function(e){return null==e||!1===e};function Bn(e){for(var t=e.data,r=e,i=e;n(i.componentInstance);)(i=i.componentInstance._vnode)&&i.data&&(t=Un(i.data,t));for(;n(r=r.parent);)r&&r.data&&(t=Un(t,r.data));return function(e,t){if(n(e)||n(t))return zn(e,Vn(t));return""}(t.staticClass,t.class)}function Un(e,t){return{staticClass:zn(e.staticClass,t.staticClass),class:n(e.class)?[e.class,t.class]:t.class}}function zn(e,t){return e?t?e+" "+t:e:t||""}function Vn(e){return Array.isArray(e)?function(e){for(var t,r="",i=0,o=e.length;i<o;i++)n(t=Vn(e[i]))&&""!==t&&(r&&(r+=" "),r+=t);return r}(e):o(e)?function(e){var t="";for(var n in e)e[n]&&(t&&(t+=" "),t+=n);return t}(e):"string"==typeof e?e:""}var Kn={svg:"http://www.w3.org/2000/svg",math:"http://www.w3.org/1998/Math/MathML"},Jn=p("html,body,base,head,link,meta,style,title,address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,menuitem,summary,content,element,shadow,template,blockquote,iframe,tfoot"),qn=p("svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",!0),Wn=function(e){return Jn(e)||qn(e)};function Zn(e){return qn(e)?"svg":"math"===e?"math":void 0}var Gn=Object.create(null);var Xn=p("text,number,password,search,email,tel,url");function Yn(e){if("string"==typeof e){var t=document.querySelector(e);return t||document.createElement("div")}return e}var Qn=Object.freeze({createElement:function(e,t){var n=document.createElement(e);return"select"!==e?n:(t.data&&t.data.attrs&&void 0!==t.data.attrs.multiple&&n.setAttribute("multiple","multiple"),n)},createElementNS:function(e,t){return document.createElementNS(Kn[e],t)},createTextNode:function(e){return document.createTextNode(e)},createComment:function(e){return document.createComment(e)},insertBefore:function(e,t,n){e.insertBefore(t,n)},removeChild:function(e,t){e.removeChild(t)},appendChild:function(e,t){e.appendChild(t)},parentNode:function(e){return e.parentNode},nextSibling:function(e){return e.nextSibling},tagName:function(e){return e.tagName},setTextContent:function(e,t){e.textContent=t},setStyleScope:function(e,t){e.setAttribute(t,"")}}),er={create:function(e,t){tr(t)},update:function(e,t){e.data.ref!==t.data.ref&&(tr(e,!0),tr(t))},destroy:function(e){tr(e,!0)}};function tr(e,t){var r=e.data.ref;if(n(r)){var i=e.context,o=e.componentInstance||e.elm,a=i.$refs;t?Array.isArray(a[r])?h(a[r],o):a[r]===o&&(a[r]=void 0):e.data.refInFor?Array.isArray(a[r])?a[r].indexOf(o)<0&&a[r].push(o):a[r]=[o]:a[r]=o}}var nr=new pe("",{},[]),rr=["create","activate","update","remove","destroy"];function ir(e,i){return e.key===i.key&&(e.tag===i.tag&&e.isComment===i.isComment&&n(e.data)===n(i.data)&&function(e,t){if("input"!==e.tag)return!0;var r,i=n(r=e.data)&&n(r=r.attrs)&&r.type,o=n(r=t.data)&&n(r=r.attrs)&&r.type;return i===o||Xn(i)&&Xn(o)}(e,i)||r(e.isAsyncPlaceholder)&&e.asyncFactory===i.asyncFactory&&t(i.asyncFactory.error))}function or(e,t,r){var i,o,a={};for(i=t;i<=r;++i)n(o=e[i].key)&&(a[o]=i);return a}var ar={create:sr,update:sr,destroy:function(e){sr(e,nr)}};function sr(e,t){(e.data.directives||t.data.directives)&&function(e,t){var n,r,i,o=e===nr,a=t===nr,s=ur(e.data.directives,e.context),c=ur(t.data.directives,t.context),u=[],l=[];for(n in c)r=s[n],i=c[n],r?(i.oldValue=r.value,i.oldArg=r.arg,fr(i,"update",t,e),i.def&&i.def.componentUpdated&&l.push(i)):(fr(i,"bind",t,e),i.def&&i.def.inserted&&u.push(i));if(u.length){var f=function(){for(var n=0;n<u.length;n++)fr(u[n],"inserted",t,e)};o?it(t,"insert",f):f()}l.length&&it(t,"postpatch",function(){for(var n=0;n<l.length;n++)fr(l[n],"componentUpdated",t,e)});if(!o)for(n in s)c[n]||fr(s[n],"unbind",e,e,a)}(e,t)}var cr=Object.create(null);function ur(e,t){var n,r,i=Object.create(null);if(!e)return i;for(n=0;n<e.length;n++)(r=e[n]).modifiers||(r.modifiers=cr),i[lr(r)]=r,r.def=Le(t.$options,"directives",r.name);return i}function lr(e){return e.rawName||e.name+"."+Object.keys(e.modifiers||{}).join(".")}function fr(e,t,n,r,i){var o=e.def&&e.def[t];if(o)try{o(n.elm,e,n,r,i)}catch(r){Re(r,n.context,"directive "+e.name+" "+t+" hook")}}var pr=[er,ar];function dr(e,r){var i=r.componentOptions;if(!(n(i)&&!1===i.Ctor.options.inheritAttrs||t(e.data.attrs)&&t(r.data.attrs))){var o,a,s=r.elm,c=e.data.attrs||{},u=r.data.attrs||{};for(o in n(u.__ob__)&&(u=r.data.attrs=A({},u)),u)a=u[o],c[o]!==a&&vr(s,o,a);for(o in(q||Z)&&u.value!==c.value&&vr(s,"value",u.value),c)t(u[o])&&(Pn(o)?s.removeAttributeNS(Fn,Rn(o)):Dn(o)||s.removeAttribute(o))}}function vr(e,t,n){e.tagName.indexOf("-")>-1?hr(e,t,n):In(t)?Hn(n)?e.removeAttribute(t):(n="allowfullscreen"===t&&"EMBED"===e.tagName?"true":t,e.setAttribute(t,n)):Dn(t)?e.setAttribute(t,Mn(t,n)):Pn(t)?Hn(n)?e.removeAttributeNS(Fn,Rn(t)):e.setAttributeNS(Fn,t,n):hr(e,t,n)}function hr(e,t,n){if(Hn(n))e.removeAttribute(t);else{if(q&&!W&&"TEXTAREA"===e.tagName&&"placeholder"===t&&""!==n&&!e.__ieph){var r=function(t){t.stopImmediatePropagation(),e.removeEventListener("input",r)};e.addEventListener("input",r),e.__ieph=!0}e.setAttribute(t,n)}}var mr={create:dr,update:dr};function yr(e,r){var i=r.elm,o=r.data,a=e.data;if(!(t(o.staticClass)&&t(o.class)&&(t(a)||t(a.staticClass)&&t(a.class)))){var s=Bn(r),c=i._transitionClasses;n(c)&&(s=zn(s,Vn(c))),s!==i._prevClass&&(i.setAttribute("class",s),i._prevClass=s)}}var gr,_r,br,$r,wr,Cr,xr={create:yr,update:yr},kr=/[\w).+\-_$\]]/;function Ar(e){var t,n,r,i,o,a=!1,s=!1,c=!1,u=!1,l=0,f=0,p=0,d=0;for(r=0;r<e.length;r++)if(n=t,t=e.charCodeAt(r),a)39===t&&92!==n&&(a=!1);else if(s)34===t&&92!==n&&(s=!1);else if(c)96===t&&92!==n&&(c=!1);else if(u)47===t&&92!==n&&(u=!1);else if(124!==t||124===e.charCodeAt(r+1)||124===e.charCodeAt(r-1)||l||f||p){switch(t){case 34:s=!0;break;case 39:a=!0;break;case 96:c=!0;break;case 40:p++;break;case 41:p--;break;case 91:f++;break;case 93:f--;break;case 123:l++;break;case 125:l--}if(47===t){for(var v=r-1,h=void 0;v>=0&&" "===(h=e.charAt(v));v--);h&&kr.test(h)||(u=!0)}}else void 0===i?(d=r+1,i=e.slice(0,r).trim()):m();function m(){(o||(o=[])).push(e.slice(d,r).trim()),d=r+1}if(void 0===i?i=e.slice(0,r).trim():0!==d&&m(),o)for(r=0;r<o.length;r++)i=Or(i,o[r]);return i}function Or(e,t){var n=t.indexOf("(");if(n<0)return'_f("'+t+'")('+e+")";var r=t.slice(0,n),i=t.slice(n+1);return'_f("'+r+'")('+e+(")"!==i?","+i:i)}function Sr(e,t){console.error("[Vue compiler]: "+e)}function Tr(e,t){return e?e.map(function(e){return e[t]}).filter(function(e){return e}):[]}function Er(e,t,n,r,i){(e.props||(e.props=[])).push(Rr({name:t,value:n,dynamic:i},r)),e.plain=!1}function Nr(e,t,n,r,i){(i?e.dynamicAttrs||(e.dynamicAttrs=[]):e.attrs||(e.attrs=[])).push(Rr({name:t,value:n,dynamic:i},r)),e.plain=!1}function jr(e,t,n,r){e.attrsMap[t]=n,e.attrsList.push(Rr({name:t,value:n},r))}function Dr(e,t,n,r,i,o,a,s){(e.directives||(e.directives=[])).push(Rr({name:t,rawName:n,value:r,arg:i,isDynamicArg:o,modifiers:a},s)),e.plain=!1}function Lr(e,t,n){return n?"_p("+t+',"'+e+'")':e+t}function Mr(t,n,r,i,o,a,s,c){var u;(i=i||e).right?c?n="("+n+")==='click'?'contextmenu':("+n+")":"click"===n&&(n="contextmenu",delete i.right):i.middle&&(c?n="("+n+")==='click'?'mouseup':("+n+")":"click"===n&&(n="mouseup")),i.capture&&(delete i.capture,n=Lr("!",n,c)),i.once&&(delete i.once,n=Lr("~",n,c)),i.passive&&(delete i.passive,n=Lr("&",n,c)),i.native?(delete i.native,u=t.nativeEvents||(t.nativeEvents={})):u=t.events||(t.events={});var l=Rr({value:r.trim(),dynamic:c},s);i!==e&&(l.modifiers=i);var f=u[n];Array.isArray(f)?o?f.unshift(l):f.push(l):u[n]=f?o?[l,f]:[f,l]:l,t.plain=!1}function Ir(e,t,n){var r=Fr(e,":"+t)||Fr(e,"v-bind:"+t);if(null!=r)return Ar(r);if(!1!==n){var i=Fr(e,t);if(null!=i)return JSON.stringify(i)}}function Fr(e,t,n){var r;if(null!=(r=e.attrsMap[t]))for(var i=e.attrsList,o=0,a=i.length;o<a;o++)if(i[o].name===t){i.splice(o,1);break}return n&&delete e.attrsMap[t],r}function Pr(e,t){for(var n=e.attrsList,r=0,i=n.length;r<i;r++){var o=n[r];if(t.test(o.name))return n.splice(r,1),o}}function Rr(e,t){return t&&(null!=t.start&&(e.start=t.start),null!=t.end&&(e.end=t.end)),e}function Hr(e,t,n){var r=n||{},i=r.number,o="$$v";r.trim&&(o="(typeof $$v === 'string'? $$v.trim(): $$v)"),i&&(o="_n("+o+")");var a=Br(t,o);e.model={value:"("+t+")",expression:JSON.stringify(t),callback:"function ($$v) {"+a+"}"}}function Br(e,t){var n=function(e){if(e=e.trim(),gr=e.length,e.indexOf("[")<0||e.lastIndexOf("]")<gr-1)return($r=e.lastIndexOf("."))>-1?{exp:e.slice(0,$r),key:'"'+e.slice($r+1)+'"'}:{exp:e,key:null};_r=e,$r=wr=Cr=0;for(;!zr();)Vr(br=Ur())?Jr(br):91===br&&Kr(br);return{exp:e.slice(0,wr),key:e.slice(wr+1,Cr)}}(e);return null===n.key?e+"="+t:"$set("+n.exp+", "+n.key+", "+t+")"}function Ur(){return _r.charCodeAt(++$r)}function zr(){return $r>=gr}function Vr(e){return 34===e||39===e}function Kr(e){var t=1;for(wr=$r;!zr();)if(Vr(e=Ur()))Jr(e);else if(91===e&&t++,93===e&&t--,0===t){Cr=$r;break}}function Jr(e){for(var t=e;!zr()&&(e=Ur())!==t;);}var qr,Wr="__r",Zr="__c";function Gr(e,t,n){var r=qr;return function i(){null!==t.apply(null,arguments)&&Qr(e,i,n,r)}}var Xr=Ve&&!(X&&Number(X[1])<=53);function Yr(e,t,n,r){if(Xr){var i=an,o=t;t=o._wrapper=function(e){if(e.target===e.currentTarget||e.timeStamp>=i||e.timeStamp<=0||e.target.ownerDocument!==document)return o.apply(this,arguments)}}qr.addEventListener(e,t,Q?{capture:n,passive:r}:n)}function Qr(e,t,n,r){(r||qr).removeEventListener(e,t._wrapper||t,n)}function ei(e,r){if(!t(e.data.on)||!t(r.data.on)){var i=r.data.on||{},o=e.data.on||{};qr=r.elm,function(e){if(n(e[Wr])){var t=q?"change":"input";e[t]=[].concat(e[Wr],e[t]||[]),delete e[Wr]}n(e[Zr])&&(e.change=[].concat(e[Zr],e.change||[]),delete e[Zr])}(i),rt(i,o,Yr,Qr,Gr,r.context),qr=void 0}}var ti,ni={create:ei,update:ei};function ri(e,r){if(!t(e.data.domProps)||!t(r.data.domProps)){var i,o,a=r.elm,s=e.data.domProps||{},c=r.data.domProps||{};for(i in n(c.__ob__)&&(c=r.data.domProps=A({},c)),s)i in c||(a[i]="");for(i in c){if(o=c[i],"textContent"===i||"innerHTML"===i){if(r.children&&(r.children.length=0),o===s[i])continue;1===a.childNodes.length&&a.removeChild(a.childNodes[0])}if("value"===i&&"PROGRESS"!==a.tagName){a._value=o;var u=t(o)?"":String(o);ii(a,u)&&(a.value=u)}else if("innerHTML"===i&&qn(a.tagName)&&t(a.innerHTML)){(ti=ti||document.createElement("div")).innerHTML="<svg>"+o+"</svg>";for(var l=ti.firstChild;a.firstChild;)a.removeChild(a.firstChild);for(;l.firstChild;)a.appendChild(l.firstChild)}else if(o!==s[i])try{a[i]=o}catch(e){}}}}function ii(e,t){return!e.composing&&("OPTION"===e.tagName||function(e,t){var n=!0;try{n=document.activeElement!==e}catch(e){}return n&&e.value!==t}(e,t)||function(e,t){var r=e.value,i=e._vModifiers;if(n(i)){if(i.number)return f(r)!==f(t);if(i.trim)return r.trim()!==t.trim()}return r!==t}(e,t))}var oi={create:ri,update:ri},ai=g(function(e){var t={},n=/:(.+)/;return e.split(/;(?![^(]*\))/g).forEach(function(e){if(e){var r=e.split(n);r.length>1&&(t[r[0].trim()]=r[1].trim())}}),t});function si(e){var t=ci(e.style);return e.staticStyle?A(e.staticStyle,t):t}function ci(e){return Array.isArray(e)?O(e):"string"==typeof e?ai(e):e}var ui,li=/^--/,fi=/\s*!important$/,pi=function(e,t,n){if(li.test(t))e.style.setProperty(t,n);else if(fi.test(n))e.style.setProperty(C(t),n.replace(fi,""),"important");else{var r=vi(t);if(Array.isArray(n))for(var i=0,o=n.length;i<o;i++)e.style[r]=n[i];else e.style[r]=n}},di=["Webkit","Moz","ms"],vi=g(function(e){if(ui=ui||document.createElement("div").style,"filter"!==(e=b(e))&&e in ui)return e;for(var t=e.charAt(0).toUpperCase()+e.slice(1),n=0;n<di.length;n++){var r=di[n]+t;if(r in ui)return r}});function hi(e,r){var i=r.data,o=e.data;if(!(t(i.staticStyle)&&t(i.style)&&t(o.staticStyle)&&t(o.style))){var a,s,c=r.elm,u=o.staticStyle,l=o.normalizedStyle||o.style||{},f=u||l,p=ci(r.data.style)||{};r.data.normalizedStyle=n(p.__ob__)?A({},p):p;var d=function(e,t){var n,r={};if(t)for(var i=e;i.componentInstance;)(i=i.componentInstance._vnode)&&i.data&&(n=si(i.data))&&A(r,n);(n=si(e.data))&&A(r,n);for(var o=e;o=o.parent;)o.data&&(n=si(o.data))&&A(r,n);return r}(r,!0);for(s in f)t(d[s])&&pi(c,s,"");for(s in d)(a=d[s])!==f[s]&&pi(c,s,null==a?"":a)}}var mi={create:hi,update:hi},yi=/\s+/;function gi(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(yi).forEach(function(t){return e.classList.add(t)}):e.classList.add(t);else{var n=" "+(e.getAttribute("class")||"")+" ";n.indexOf(" "+t+" ")<0&&e.setAttribute("class",(n+t).trim())}}function _i(e,t){if(t&&(t=t.trim()))if(e.classList)t.indexOf(" ")>-1?t.split(yi).forEach(function(t){return e.classList.remove(t)}):e.classList.remove(t),e.classList.length||e.removeAttribute("class");else{for(var n=" "+(e.getAttribute("class")||"")+" ",r=" "+t+" ";n.indexOf(r)>=0;)n=n.replace(r," ");(n=n.trim())?e.setAttribute("class",n):e.removeAttribute("class")}}function bi(e){if(e){if("object"==typeof e){var t={};return!1!==e.css&&A(t,$i(e.name||"v")),A(t,e),t}return"string"==typeof e?$i(e):void 0}}var $i=g(function(e){return{enterClass:e+"-enter",enterToClass:e+"-enter-to",enterActiveClass:e+"-enter-active",leaveClass:e+"-leave",leaveToClass:e+"-leave-to",leaveActiveClass:e+"-leave-active"}}),wi=z&&!W,Ci="transition",xi="animation",ki="transition",Ai="transitionend",Oi="animation",Si="animationend";wi&&(void 0===window.ontransitionend&&void 0!==window.onwebkittransitionend&&(ki="WebkitTransition",Ai="webkitTransitionEnd"),void 0===window.onanimationend&&void 0!==window.onwebkitanimationend&&(Oi="WebkitAnimation",Si="webkitAnimationEnd"));var Ti=z?window.requestAnimationFrame?window.requestAnimationFrame.bind(window):setTimeout:function(e){return e()};function Ei(e){Ti(function(){Ti(e)})}function Ni(e,t){var n=e._transitionClasses||(e._transitionClasses=[]);n.indexOf(t)<0&&(n.push(t),gi(e,t))}function ji(e,t){e._transitionClasses&&h(e._transitionClasses,t),_i(e,t)}function Di(e,t,n){var r=Mi(e,t),i=r.type,o=r.timeout,a=r.propCount;if(!i)return n();var s=i===Ci?Ai:Si,c=0,u=function(){e.removeEventListener(s,l),n()},l=function(t){t.target===e&&++c>=a&&u()};setTimeout(function(){c<a&&u()},o+1),e.addEventListener(s,l)}var Li=/\b(transform|all)(,|$)/;function Mi(e,t){var n,r=window.getComputedStyle(e),i=(r[ki+"Delay"]||"").split(", "),o=(r[ki+"Duration"]||"").split(", "),a=Ii(i,o),s=(r[Oi+"Delay"]||"").split(", "),c=(r[Oi+"Duration"]||"").split(", "),u=Ii(s,c),l=0,f=0;return t===Ci?a>0&&(n=Ci,l=a,f=o.length):t===xi?u>0&&(n=xi,l=u,f=c.length):f=(n=(l=Math.max(a,u))>0?a>u?Ci:xi:null)?n===Ci?o.length:c.length:0,{type:n,timeout:l,propCount:f,hasTransform:n===Ci&&Li.test(r[ki+"Property"])}}function Ii(e,t){for(;e.length<t.length;)e=e.concat(e);return Math.max.apply(null,t.map(function(t,n){return Fi(t)+Fi(e[n])}))}function Fi(e){return 1e3*Number(e.slice(0,-1).replace(",","."))}function Pi(e,r){var i=e.elm;n(i._leaveCb)&&(i._leaveCb.cancelled=!0,i._leaveCb());var a=bi(e.data.transition);if(!t(a)&&!n(i._enterCb)&&1===i.nodeType){for(var s=a.css,c=a.type,u=a.enterClass,l=a.enterToClass,p=a.enterActiveClass,d=a.appearClass,v=a.appearToClass,h=a.appearActiveClass,m=a.beforeEnter,y=a.enter,g=a.afterEnter,_=a.enterCancelled,b=a.beforeAppear,$=a.appear,w=a.afterAppear,C=a.appearCancelled,x=a.duration,k=Wt,A=Wt.$vnode;A&&A.parent;)k=A.context,A=A.parent;var O=!k._isMounted||!e.isRootInsert;if(!O||$||""===$){var S=O&&d?d:u,T=O&&h?h:p,E=O&&v?v:l,N=O&&b||m,j=O&&"function"==typeof $?$:y,L=O&&w||g,M=O&&C||_,I=f(o(x)?x.enter:x),F=!1!==s&&!W,P=Bi(j),R=i._enterCb=D(function(){F&&(ji(i,E),ji(i,T)),R.cancelled?(F&&ji(i,S),M&&M(i)):L&&L(i),i._enterCb=null});e.data.show||it(e,"insert",function(){var t=i.parentNode,n=t&&t._pending&&t._pending[e.key];n&&n.tag===e.tag&&n.elm._leaveCb&&n.elm._leaveCb(),j&&j(i,R)}),N&&N(i),F&&(Ni(i,S),Ni(i,T),Ei(function(){ji(i,S),R.cancelled||(Ni(i,E),P||(Hi(I)?setTimeout(R,I):Di(i,c,R)))})),e.data.show&&(r&&r(),j&&j(i,R)),F||P||R()}}}function Ri(e,r){var i=e.elm;n(i._enterCb)&&(i._enterCb.cancelled=!0,i._enterCb());var a=bi(e.data.transition);if(t(a)||1!==i.nodeType)return r();if(!n(i._leaveCb)){var s=a.css,c=a.type,u=a.leaveClass,l=a.leaveToClass,p=a.leaveActiveClass,d=a.beforeLeave,v=a.leave,h=a.afterLeave,m=a.leaveCancelled,y=a.delayLeave,g=a.duration,_=!1!==s&&!W,b=Bi(v),$=f(o(g)?g.leave:g),w=i._leaveCb=D(function(){i.parentNode&&i.parentNode._pending&&(i.parentNode._pending[e.key]=null),_&&(ji(i,l),ji(i,p)),w.cancelled?(_&&ji(i,u),m&&m(i)):(r(),h&&h(i)),i._leaveCb=null});y?y(C):C()}function C(){w.cancelled||(!e.data.show&&i.parentNode&&((i.parentNode._pending||(i.parentNode._pending={}))[e.key]=e),d&&d(i),_&&(Ni(i,u),Ni(i,p),Ei(function(){ji(i,u),w.cancelled||(Ni(i,l),b||(Hi($)?setTimeout(w,$):Di(i,c,w)))})),v&&v(i,w),_||b||w())}}function Hi(e){return"number"==typeof e&&!isNaN(e)}function Bi(e){if(t(e))return!1;var r=e.fns;return n(r)?Bi(Array.isArray(r)?r[0]:r):(e._length||e.length)>1}function Ui(e,t){!0!==t.data.show&&Pi(t)}var zi=function(e){var o,a,s={},c=e.modules,u=e.nodeOps;for(o=0;o<rr.length;++o)for(s[rr[o]]=[],a=0;a<c.length;++a)n(c[a][rr[o]])&&s[rr[o]].push(c[a][rr[o]]);function l(e){var t=u.parentNode(e);n(t)&&u.removeChild(t,e)}function f(e,t,i,o,a,c,l){if(n(e.elm)&&n(c)&&(e=c[l]=me(e)),e.isRootInsert=!a,!function(e,t,i,o){var a=e.data;if(n(a)){var c=n(e.componentInstance)&&a.keepAlive;if(n(a=a.hook)&&n(a=a.init)&&a(e,!1),n(e.componentInstance))return d(e,t),v(i,e.elm,o),r(c)&&function(e,t,r,i){for(var o,a=e;a.componentInstance;)if(a=a.componentInstance._vnode,n(o=a.data)&&n(o=o.transition)){for(o=0;o<s.activate.length;++o)s.activate[o](nr,a);t.push(a);break}v(r,e.elm,i)}(e,t,i,o),!0}}(e,t,i,o)){var f=e.data,p=e.children,m=e.tag;n(m)?(e.elm=e.ns?u.createElementNS(e.ns,m):u.createElement(m,e),g(e),h(e,p,t),n(f)&&y(e,t),v(i,e.elm,o)):r(e.isComment)?(e.elm=u.createComment(e.text),v(i,e.elm,o)):(e.elm=u.createTextNode(e.text),v(i,e.elm,o))}}function d(e,t){n(e.data.pendingInsert)&&(t.push.apply(t,e.data.pendingInsert),e.data.pendingInsert=null),e.elm=e.componentInstance.$el,m(e)?(y(e,t),g(e)):(tr(e),t.push(e))}function v(e,t,r){n(e)&&(n(r)?u.parentNode(r)===e&&u.insertBefore(e,t,r):u.appendChild(e,t))}function h(e,t,n){if(Array.isArray(t))for(var r=0;r<t.length;++r)f(t[r],n,e.elm,null,!0,t,r);else i(e.text)&&u.appendChild(e.elm,u.createTextNode(String(e.text)))}function m(e){for(;e.componentInstance;)e=e.componentInstance._vnode;return n(e.tag)}function y(e,t){for(var r=0;r<s.create.length;++r)s.create[r](nr,e);n(o=e.data.hook)&&(n(o.create)&&o.create(nr,e),n(o.insert)&&t.push(e))}function g(e){var t;if(n(t=e.fnScopeId))u.setStyleScope(e.elm,t);else for(var r=e;r;)n(t=r.context)&&n(t=t.$options._scopeId)&&u.setStyleScope(e.elm,t),r=r.parent;n(t=Wt)&&t!==e.context&&t!==e.fnContext&&n(t=t.$options._scopeId)&&u.setStyleScope(e.elm,t)}function _(e,t,n,r,i,o){for(;r<=i;++r)f(n[r],o,e,t,!1,n,r)}function b(e){var t,r,i=e.data;if(n(i))for(n(t=i.hook)&&n(t=t.destroy)&&t(e),t=0;t<s.destroy.length;++t)s.destroy[t](e);if(n(t=e.children))for(r=0;r<e.children.length;++r)b(e.children[r])}function $(e,t,r,i){for(;r<=i;++r){var o=t[r];n(o)&&(n(o.tag)?(w(o),b(o)):l(o.elm))}}function w(e,t){if(n(t)||n(e.data)){var r,i=s.remove.length+1;for(n(t)?t.listeners+=i:t=function(e,t){function n(){0==--n.listeners&&l(e)}return n.listeners=t,n}(e.elm,i),n(r=e.componentInstance)&&n(r=r._vnode)&&n(r.data)&&w(r,t),r=0;r<s.remove.length;++r)s.remove[r](e,t);n(r=e.data.hook)&&n(r=r.remove)?r(e,t):t()}else l(e.elm)}function C(e,t,r,i){for(var o=r;o<i;o++){var a=t[o];if(n(a)&&ir(e,a))return o}}function x(e,i,o,a,c,l){if(e!==i){n(i.elm)&&n(a)&&(i=a[c]=me(i));var p=i.elm=e.elm;if(r(e.isAsyncPlaceholder))n(i.asyncFactory.resolved)?O(e.elm,i,o):i.isAsyncPlaceholder=!0;else if(r(i.isStatic)&&r(e.isStatic)&&i.key===e.key&&(r(i.isCloned)||r(i.isOnce)))i.componentInstance=e.componentInstance;else{var d,v=i.data;n(v)&&n(d=v.hook)&&n(d=d.prepatch)&&d(e,i);var h=e.children,y=i.children;if(n(v)&&m(i)){for(d=0;d<s.update.length;++d)s.update[d](e,i);n(d=v.hook)&&n(d=d.update)&&d(e,i)}t(i.text)?n(h)&&n(y)?h!==y&&function(e,r,i,o,a){for(var s,c,l,p=0,d=0,v=r.length-1,h=r[0],m=r[v],y=i.length-1,g=i[0],b=i[y],w=!a;p<=v&&d<=y;)t(h)?h=r[++p]:t(m)?m=r[--v]:ir(h,g)?(x(h,g,o,i,d),h=r[++p],g=i[++d]):ir(m,b)?(x(m,b,o,i,y),m=r[--v],b=i[--y]):ir(h,b)?(x(h,b,o,i,y),w&&u.insertBefore(e,h.elm,u.nextSibling(m.elm)),h=r[++p],b=i[--y]):ir(m,g)?(x(m,g,o,i,d),w&&u.insertBefore(e,m.elm,h.elm),m=r[--v],g=i[++d]):(t(s)&&(s=or(r,p,v)),t(c=n(g.key)?s[g.key]:C(g,r,p,v))?f(g,o,e,h.elm,!1,i,d):ir(l=r[c],g)?(x(l,g,o,i,d),r[c]=void 0,w&&u.insertBefore(e,l.elm,h.elm)):f(g,o,e,h.elm,!1,i,d),g=i[++d]);p>v?_(e,t(i[y+1])?null:i[y+1].elm,i,d,y,o):d>y&&$(0,r,p,v)}(p,h,y,o,l):n(y)?(n(e.text)&&u.setTextContent(p,""),_(p,null,y,0,y.length-1,o)):n(h)?$(0,h,0,h.length-1):n(e.text)&&u.setTextContent(p,""):e.text!==i.text&&u.setTextContent(p,i.text),n(v)&&n(d=v.hook)&&n(d=d.postpatch)&&d(e,i)}}}function k(e,t,i){if(r(i)&&n(e.parent))e.parent.data.pendingInsert=t;else for(var o=0;o<t.length;++o)t[o].data.hook.insert(t[o])}var A=p("attrs,class,staticClass,staticStyle,key");function O(e,t,i,o){var a,s=t.tag,c=t.data,u=t.children;if(o=o||c&&c.pre,t.elm=e,r(t.isComment)&&n(t.asyncFactory))return t.isAsyncPlaceholder=!0,!0;if(n(c)&&(n(a=c.hook)&&n(a=a.init)&&a(t,!0),n(a=t.componentInstance)))return d(t,i),!0;if(n(s)){if(n(u))if(e.hasChildNodes())if(n(a=c)&&n(a=a.domProps)&&n(a=a.innerHTML)){if(a!==e.innerHTML)return!1}else{for(var l=!0,f=e.firstChild,p=0;p<u.length;p++){if(!f||!O(f,u[p],i,o)){l=!1;break}f=f.nextSibling}if(!l||f)return!1}else h(t,u,i);if(n(c)){var v=!1;for(var m in c)if(!A(m)){v=!0,y(t,i);break}!v&&c.class&&et(c.class)}}else e.data!==t.text&&(e.data=t.text);return!0}return function(e,i,o,a){if(!t(i)){var c,l=!1,p=[];if(t(e))l=!0,f(i,p);else{var d=n(e.nodeType);if(!d&&ir(e,i))x(e,i,p,null,null,a);else{if(d){if(1===e.nodeType&&e.hasAttribute(L)&&(e.removeAttribute(L),o=!0),r(o)&&O(e,i,p))return k(i,p,!0),e;c=e,e=new pe(u.tagName(c).toLowerCase(),{},[],void 0,c)}var v=e.elm,h=u.parentNode(v);if(f(i,p,v._leaveCb?null:h,u.nextSibling(v)),n(i.parent))for(var y=i.parent,g=m(i);y;){for(var _=0;_<s.destroy.length;++_)s.destroy[_](y);if(y.elm=i.elm,g){for(var w=0;w<s.create.length;++w)s.create[w](nr,y);var C=y.data.hook.insert;if(C.merged)for(var A=1;A<C.fns.length;A++)C.fns[A]()}else tr(y);y=y.parent}n(h)?$(0,[e],0,0):n(e.tag)&&b(e)}}return k(i,p,l),i.elm}n(e)&&b(e)}}({nodeOps:Qn,modules:[mr,xr,ni,oi,mi,z?{create:Ui,activate:Ui,remove:function(e,t){!0!==e.data.show?Ri(e,t):t()}}:{}].concat(pr)});W&&document.addEventListener("selectionchange",function(){var e=document.activeElement;e&&e.vmodel&&Xi(e,"input")});var Vi={inserted:function(e,t,n,r){"select"===n.tag?(r.elm&&!r.elm._vOptions?it(n,"postpatch",function(){Vi.componentUpdated(e,t,n)}):Ki(e,t,n.context),e._vOptions=[].map.call(e.options,Wi)):("textarea"===n.tag||Xn(e.type))&&(e._vModifiers=t.modifiers,t.modifiers.lazy||(e.addEventListener("compositionstart",Zi),e.addEventListener("compositionend",Gi),e.addEventListener("change",Gi),W&&(e.vmodel=!0)))},componentUpdated:function(e,t,n){if("select"===n.tag){Ki(e,t,n.context);var r=e._vOptions,i=e._vOptions=[].map.call(e.options,Wi);if(i.some(function(e,t){return!N(e,r[t])}))(e.multiple?t.value.some(function(e){return qi(e,i)}):t.value!==t.oldValue&&qi(t.value,i))&&Xi(e,"change")}}};function Ki(e,t,n){Ji(e,t,n),(q||Z)&&setTimeout(function(){Ji(e,t,n)},0)}function Ji(e,t,n){var r=t.value,i=e.multiple;if(!i||Array.isArray(r)){for(var o,a,s=0,c=e.options.length;s<c;s++)if(a=e.options[s],i)o=j(r,Wi(a))>-1,a.selected!==o&&(a.selected=o);else if(N(Wi(a),r))return void(e.selectedIndex!==s&&(e.selectedIndex=s));i||(e.selectedIndex=-1)}}function qi(e,t){return t.every(function(t){return!N(t,e)})}function Wi(e){return"_value"in e?e._value:e.value}function Zi(e){e.target.composing=!0}function Gi(e){e.target.composing&&(e.target.composing=!1,Xi(e.target,"input"))}function Xi(e,t){var n=document.createEvent("HTMLEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}function Yi(e){return!e.componentInstance||e.data&&e.data.transition?e:Yi(e.componentInstance._vnode)}var Qi={model:Vi,show:{bind:function(e,t,n){var r=t.value,i=(n=Yi(n)).data&&n.data.transition,o=e.__vOriginalDisplay="none"===e.style.display?"":e.style.display;r&&i?(n.data.show=!0,Pi(n,function(){e.style.display=o})):e.style.display=r?o:"none"},update:function(e,t,n){var r=t.value;!r!=!t.oldValue&&((n=Yi(n)).data&&n.data.transition?(n.data.show=!0,r?Pi(n,function(){e.style.display=e.__vOriginalDisplay}):Ri(n,function(){e.style.display="none"})):e.style.display=r?e.__vOriginalDisplay:"none")},unbind:function(e,t,n,r,i){i||(e.style.display=e.__vOriginalDisplay)}}},eo={name:String,appear:Boolean,css:Boolean,mode:String,type:String,enterClass:String,leaveClass:String,enterToClass:String,leaveToClass:String,enterActiveClass:String,leaveActiveClass:String,appearClass:String,appearActiveClass:String,appearToClass:String,duration:[Number,String,Object]};function to(e){var t=e&&e.componentOptions;return t&&t.Ctor.options.abstract?to(zt(t.children)):e}function no(e){var t={},n=e.$options;for(var r in n.propsData)t[r]=e[r];var i=n._parentListeners;for(var o in i)t[b(o)]=i[o];return t}function ro(e,t){if(/\d-keep-alive$/.test(t.tag))return e("keep-alive",{props:t.componentOptions.propsData})}var io=function(e){return e.tag||Ut(e)},oo=function(e){return"show"===e.name},ao={name:"transition",props:eo,abstract:!0,render:function(e){var t=this,n=this.$slots.default;if(n&&(n=n.filter(io)).length){var r=this.mode,o=n[0];if(function(e){for(;e=e.parent;)if(e.data.transition)return!0}(this.$vnode))return o;var a=to(o);if(!a)return o;if(this._leaving)return ro(e,o);var s="__transition-"+this._uid+"-";a.key=null==a.key?a.isComment?s+"comment":s+a.tag:i(a.key)?0===String(a.key).indexOf(s)?a.key:s+a.key:a.key;var c=(a.data||(a.data={})).transition=no(this),u=this._vnode,l=to(u);if(a.data.directives&&a.data.directives.some(oo)&&(a.data.show=!0),l&&l.data&&!function(e,t){return t.key===e.key&&t.tag===e.tag}(a,l)&&!Ut(l)&&(!l.componentInstance||!l.componentInstance._vnode.isComment)){var f=l.data.transition=A({},c);if("out-in"===r)return this._leaving=!0,it(f,"afterLeave",function(){t._leaving=!1,t.$forceUpdate()}),ro(e,o);if("in-out"===r){if(Ut(a))return u;var p,d=function(){p()};it(c,"afterEnter",d),it(c,"enterCancelled",d),it(f,"delayLeave",function(e){p=e})}}return o}}},so=A({tag:String,moveClass:String},eo);function co(e){e.elm._moveCb&&e.elm._moveCb(),e.elm._enterCb&&e.elm._enterCb()}function uo(e){e.data.newPos=e.elm.getBoundingClientRect()}function lo(e){var t=e.data.pos,n=e.data.newPos,r=t.left-n.left,i=t.top-n.top;if(r||i){e.data.moved=!0;var o=e.elm.style;o.transform=o.WebkitTransform="translate("+r+"px,"+i+"px)",o.transitionDuration="0s"}}delete so.mode;var fo={Transition:ao,TransitionGroup:{props:so,beforeMount:function(){var e=this,t=this._update;this._update=function(n,r){var i=Zt(e);e.__patch__(e._vnode,e.kept,!1,!0),e._vnode=e.kept,i(),t.call(e,n,r)}},render:function(e){for(var t=this.tag||this.$vnode.data.tag||"span",n=Object.create(null),r=this.prevChildren=this.children,i=this.$slots.default||[],o=this.children=[],a=no(this),s=0;s<i.length;s++){var c=i[s];c.tag&&null!=c.key&&0!==String(c.key).indexOf("__vlist")&&(o.push(c),n[c.key]=c,(c.data||(c.data={})).transition=a)}if(r){for(var u=[],l=[],f=0;f<r.length;f++){var p=r[f];p.data.transition=a,p.data.pos=p.elm.getBoundingClientRect(),n[p.key]?u.push(p):l.push(p)}this.kept=e(t,null,u),this.removed=l}return e(t,null,o)},updated:function(){var e=this.prevChildren,t=this.moveClass||(this.name||"v")+"-move";e.length&&this.hasMove(e[0].elm,t)&&(e.forEach(co),e.forEach(uo),e.forEach(lo),this._reflow=document.body.offsetHeight,e.forEach(function(e){if(e.data.moved){var n=e.elm,r=n.style;Ni(n,t),r.transform=r.WebkitTransform=r.transitionDuration="",n.addEventListener(Ai,n._moveCb=function e(r){r&&r.target!==n||r&&!/transform$/.test(r.propertyName)||(n.removeEventListener(Ai,e),n._moveCb=null,ji(n,t))})}}))},methods:{hasMove:function(e,t){if(!wi)return!1;if(this._hasMove)return this._hasMove;var n=e.cloneNode();e._transitionClasses&&e._transitionClasses.forEach(function(e){_i(n,e)}),gi(n,t),n.style.display="none",this.$el.appendChild(n);var r=Mi(n);return this.$el.removeChild(n),this._hasMove=r.hasTransform}}}};wn.config.mustUseProp=jn,wn.config.isReservedTag=Wn,wn.config.isReservedAttr=En,wn.config.getTagNamespace=Zn,wn.config.isUnknownElement=function(e){if(!z)return!0;if(Wn(e))return!1;if(e=e.toLowerCase(),null!=Gn[e])return Gn[e];var t=document.createElement(e);return e.indexOf("-")>-1?Gn[e]=t.constructor===window.HTMLUnknownElement||t.constructor===window.HTMLElement:Gn[e]=/HTMLUnknownElement/.test(t.toString())},A(wn.options.directives,Qi),A(wn.options.components,fo),wn.prototype.__patch__=z?zi:S,wn.prototype.$mount=function(e,t){return function(e,t,n){var r;return e.$el=t,e.$options.render||(e.$options.render=ve),Yt(e,"beforeMount"),r=function(){e._update(e._render(),n)},new fn(e,r,S,{before:function(){e._isMounted&&!e._isDestroyed&&Yt(e,"beforeUpdate")}},!0),n=!1,null==e.$vnode&&(e._isMounted=!0,Yt(e,"mounted")),e}(this,e=e&&z?Yn(e):void 0,t)},z&&setTimeout(function(){F.devtools&&ne&&ne.emit("init",wn)},0);var po=/\{\{((?:.|\r?\n)+?)\}\}/g,vo=/[-.*+?^${}()|[\]\/\\]/g,ho=g(function(e){var t=e[0].replace(vo,"\\$&"),n=e[1].replace(vo,"\\$&");return new RegExp(t+"((?:.|\\n)+?)"+n,"g")});var mo={staticKeys:["staticClass"],transformNode:function(e,t){t.warn;var n=Fr(e,"class");n&&(e.staticClass=JSON.stringify(n));var r=Ir(e,"class",!1);r&&(e.classBinding=r)},genData:function(e){var t="";return e.staticClass&&(t+="staticClass:"+e.staticClass+","),e.classBinding&&(t+="class:"+e.classBinding+","),t}};var yo,go={staticKeys:["staticStyle"],transformNode:function(e,t){t.warn;var n=Fr(e,"style");n&&(e.staticStyle=JSON.stringify(ai(n)));var r=Ir(e,"style",!1);r&&(e.styleBinding=r)},genData:function(e){var t="";return e.staticStyle&&(t+="staticStyle:"+e.staticStyle+","),e.styleBinding&&(t+="style:("+e.styleBinding+"),"),t}},_o=function(e){return(yo=yo||document.createElement("div")).innerHTML=e,yo.textContent},bo=p("area,base,br,col,embed,frame,hr,img,input,isindex,keygen,link,meta,param,source,track,wbr"),$o=p("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source"),wo=p("address,article,aside,base,blockquote,body,caption,col,colgroup,dd,details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta,optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead,title,tr,track"),Co=/^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/,xo=/^\s*((?:v-[\w-]+:|@|:|#)\[[^=]+\][^\s"'<>\/=]*)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/,ko="[a-zA-Z_][\\-\\.0-9_a-zA-Z"+P.source+"]*",Ao="((?:"+ko+"\\:)?"+ko+")",Oo=new RegExp("^<"+Ao),So=/^\s*(\/?)>/,To=new RegExp("^<\\/"+Ao+"[^>]*>"),Eo=/^<!DOCTYPE [^>]+>/i,No=/^<!\--/,jo=/^<!\[/,Do=p("script,style,textarea",!0),Lo={},Mo={"&lt;":"<","&gt;":">","&quot;":'"',"&amp;":"&","&#10;":"\n","&#9;":"\t","&#39;":"'"},Io=/&(?:lt|gt|quot|amp|#39);/g,Fo=/&(?:lt|gt|quot|amp|#39|#10|#9);/g,Po=p("pre,textarea",!0),Ro=function(e,t){return e&&Po(e)&&"\n"===t[0]};function Ho(e,t){var n=t?Fo:Io;return e.replace(n,function(e){return Mo[e]})}var Bo,Uo,zo,Vo,Ko,Jo,qo,Wo,Zo=/^@|^v-on:/,Go=/^v-|^@|^:/,Xo=/([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/,Yo=/,([^,\}\]]*)(?:,([^,\}\]]*))?$/,Qo=/^\(|\)$/g,ea=/^\[.*\]$/,ta=/:(.*)$/,na=/^:|^\.|^v-bind:/,ra=/\.[^.\]]+(?=[^\]]*$)/g,ia=/^v-slot(:|$)|^#/,oa=/[\r\n]/,aa=/\s+/g,sa=g(_o),ca="_empty_";function ua(e,t,n){return{type:1,tag:e,attrsList:t,attrsMap:ma(t),rawAttrsMap:{},parent:n,children:[]}}function la(e,t){Bo=t.warn||Sr,Jo=t.isPreTag||T,qo=t.mustUseProp||T,Wo=t.getTagNamespace||T;t.isReservedTag;zo=Tr(t.modules,"transformNode"),Vo=Tr(t.modules,"preTransformNode"),Ko=Tr(t.modules,"postTransformNode"),Uo=t.delimiters;var n,r,i=[],o=!1!==t.preserveWhitespace,a=t.whitespace,s=!1,c=!1;function u(e){if(l(e),s||e.processed||(e=fa(e,t)),i.length||e===n||n.if&&(e.elseif||e.else)&&da(n,{exp:e.elseif,block:e}),r&&!e.forbidden)if(e.elseif||e.else)a=e,(u=function(e){var t=e.length;for(;t--;){if(1===e[t].type)return e[t];e.pop()}}(r.children))&&u.if&&da(u,{exp:a.elseif,block:a});else{if(e.slotScope){var o=e.slotTarget||'"default"';(r.scopedSlots||(r.scopedSlots={}))[o]=e}r.children.push(e),e.parent=r}var a,u;e.children=e.children.filter(function(e){return!e.slotScope}),l(e),e.pre&&(s=!1),Jo(e.tag)&&(c=!1);for(var f=0;f<Ko.length;f++)Ko[f](e,t)}function l(e){if(!c)for(var t;(t=e.children[e.children.length-1])&&3===t.type&&" "===t.text;)e.children.pop()}return function(e,t){for(var n,r,i=[],o=t.expectHTML,a=t.isUnaryTag||T,s=t.canBeLeftOpenTag||T,c=0;e;){if(n=e,r&&Do(r)){var u=0,l=r.toLowerCase(),f=Lo[l]||(Lo[l]=new RegExp("([\\s\\S]*?)(</"+l+"[^>]*>)","i")),p=e.replace(f,function(e,n,r){return u=r.length,Do(l)||"noscript"===l||(n=n.replace(/<!\--([\s\S]*?)-->/g,"$1").replace(/<!\[CDATA\[([\s\S]*?)]]>/g,"$1")),Ro(l,n)&&(n=n.slice(1)),t.chars&&t.chars(n),""});c+=e.length-p.length,e=p,A(l,c-u,c)}else{var d=e.indexOf("<");if(0===d){if(No.test(e)){var v=e.indexOf("--\x3e");if(v>=0){t.shouldKeepComment&&t.comment(e.substring(4,v),c,c+v+3),C(v+3);continue}}if(jo.test(e)){var h=e.indexOf("]>");if(h>=0){C(h+2);continue}}var m=e.match(Eo);if(m){C(m[0].length);continue}var y=e.match(To);if(y){var g=c;C(y[0].length),A(y[1],g,c);continue}var _=x();if(_){k(_),Ro(_.tagName,e)&&C(1);continue}}var b=void 0,$=void 0,w=void 0;if(d>=0){for($=e.slice(d);!(To.test($)||Oo.test($)||No.test($)||jo.test($)||(w=$.indexOf("<",1))<0);)d+=w,$=e.slice(d);b=e.substring(0,d)}d<0&&(b=e),b&&C(b.length),t.chars&&b&&t.chars(b,c-b.length,c)}if(e===n){t.chars&&t.chars(e);break}}function C(t){c+=t,e=e.substring(t)}function x(){var t=e.match(Oo);if(t){var n,r,i={tagName:t[1],attrs:[],start:c};for(C(t[0].length);!(n=e.match(So))&&(r=e.match(xo)||e.match(Co));)r.start=c,C(r[0].length),r.end=c,i.attrs.push(r);if(n)return i.unarySlash=n[1],C(n[0].length),i.end=c,i}}function k(e){var n=e.tagName,c=e.unarySlash;o&&("p"===r&&wo(n)&&A(r),s(n)&&r===n&&A(n));for(var u=a(n)||!!c,l=e.attrs.length,f=new Array(l),p=0;p<l;p++){var d=e.attrs[p],v=d[3]||d[4]||d[5]||"",h="a"===n&&"href"===d[1]?t.shouldDecodeNewlinesForHref:t.shouldDecodeNewlines;f[p]={name:d[1],value:Ho(v,h)}}u||(i.push({tag:n,lowerCasedTag:n.toLowerCase(),attrs:f,start:e.start,end:e.end}),r=n),t.start&&t.start(n,f,u,e.start,e.end)}function A(e,n,o){var a,s;if(null==n&&(n=c),null==o&&(o=c),e)for(s=e.toLowerCase(),a=i.length-1;a>=0&&i[a].lowerCasedTag!==s;a--);else a=0;if(a>=0){for(var u=i.length-1;u>=a;u--)t.end&&t.end(i[u].tag,n,o);i.length=a,r=a&&i[a-1].tag}else"br"===s?t.start&&t.start(e,[],!0,n,o):"p"===s&&(t.start&&t.start(e,[],!1,n,o),t.end&&t.end(e,n,o))}A()}(e,{warn:Bo,expectHTML:t.expectHTML,isUnaryTag:t.isUnaryTag,canBeLeftOpenTag:t.canBeLeftOpenTag,shouldDecodeNewlines:t.shouldDecodeNewlines,shouldDecodeNewlinesForHref:t.shouldDecodeNewlinesForHref,shouldKeepComment:t.comments,outputSourceRange:t.outputSourceRange,start:function(e,o,a,l,f){var p=r&&r.ns||Wo(e);q&&"svg"===p&&(o=function(e){for(var t=[],n=0;n<e.length;n++){var r=e[n];ya.test(r.name)||(r.name=r.name.replace(ga,""),t.push(r))}return t}(o));var d,v=ua(e,o,r);p&&(v.ns=p),"style"!==(d=v).tag&&("script"!==d.tag||d.attrsMap.type&&"text/javascript"!==d.attrsMap.type)||te()||(v.forbidden=!0);for(var h=0;h<Vo.length;h++)v=Vo[h](v,t)||v;s||(!function(e){null!=Fr(e,"v-pre")&&(e.pre=!0)}(v),v.pre&&(s=!0)),Jo(v.tag)&&(c=!0),s?function(e){var t=e.attrsList,n=t.length;if(n)for(var r=e.attrs=new Array(n),i=0;i<n;i++)r[i]={name:t[i].name,value:JSON.stringify(t[i].value)},null!=t[i].start&&(r[i].start=t[i].start,r[i].end=t[i].end);else e.pre||(e.plain=!0)}(v):v.processed||(pa(v),function(e){var t=Fr(e,"v-if");if(t)e.if=t,da(e,{exp:t,block:e});else{null!=Fr(e,"v-else")&&(e.else=!0);var n=Fr(e,"v-else-if");n&&(e.elseif=n)}}(v),function(e){null!=Fr(e,"v-once")&&(e.once=!0)}(v)),n||(n=v),a?u(v):(r=v,i.push(v))},end:function(e,t,n){var o=i[i.length-1];i.length-=1,r=i[i.length-1],u(o)},chars:function(e,t,n){if(r&&(!q||"textarea"!==r.tag||r.attrsMap.placeholder!==e)){var i,u,l,f=r.children;if(e=c||e.trim()?"script"===(i=r).tag||"style"===i.tag?e:sa(e):f.length?a?"condense"===a&&oa.test(e)?"":" ":o?" ":"":"")c||"condense"!==a||(e=e.replace(aa," ")),!s&&" "!==e&&(u=function(e,t){var n=t?ho(t):po;if(n.test(e)){for(var r,i,o,a=[],s=[],c=n.lastIndex=0;r=n.exec(e);){(i=r.index)>c&&(s.push(o=e.slice(c,i)),a.push(JSON.stringify(o)));var u=Ar(r[1].trim());a.push("_s("+u+")"),s.push({"@binding":u}),c=i+r[0].length}return c<e.length&&(s.push(o=e.slice(c)),a.push(JSON.stringify(o))),{expression:a.join("+"),tokens:s}}}(e,Uo))?l={type:2,expression:u.expression,tokens:u.tokens,text:e}:" "===e&&f.length&&" "===f[f.length-1].text||(l={type:3,text:e}),l&&f.push(l)}},comment:function(e,t,n){if(r){var i={type:3,text:e,isComment:!0};r.children.push(i)}}}),n}function fa(e,t){var n,r;(r=Ir(n=e,"key"))&&(n.key=r),e.plain=!e.key&&!e.scopedSlots&&!e.attrsList.length,function(e){var t=Ir(e,"ref");t&&(e.ref=t,e.refInFor=function(e){var t=e;for(;t;){if(void 0!==t.for)return!0;t=t.parent}return!1}(e))}(e),function(e){var t;"template"===e.tag?(t=Fr(e,"scope"),e.slotScope=t||Fr(e,"slot-scope")):(t=Fr(e,"slot-scope"))&&(e.slotScope=t);var n=Ir(e,"slot");n&&(e.slotTarget='""'===n?'"default"':n,e.slotTargetDynamic=!(!e.attrsMap[":slot"]&&!e.attrsMap["v-bind:slot"]),"template"===e.tag||e.slotScope||Nr(e,"slot",n,function(e,t){return e.rawAttrsMap[":"+t]||e.rawAttrsMap["v-bind:"+t]||e.rawAttrsMap[t]}(e,"slot")));if("template"===e.tag){var r=Pr(e,ia);if(r){var i=va(r),o=i.name,a=i.dynamic;e.slotTarget=o,e.slotTargetDynamic=a,e.slotScope=r.value||ca}}else{var s=Pr(e,ia);if(s){var c=e.scopedSlots||(e.scopedSlots={}),u=va(s),l=u.name,f=u.dynamic,p=c[l]=ua("template",[],e);p.slotTarget=l,p.slotTargetDynamic=f,p.children=e.children.filter(function(e){if(!e.slotScope)return e.parent=p,!0}),p.slotScope=s.value||ca,e.children=[],e.plain=!1}}}(e),function(e){"slot"===e.tag&&(e.slotName=Ir(e,"name"))}(e),function(e){var t;(t=Ir(e,"is"))&&(e.component=t);null!=Fr(e,"inline-template")&&(e.inlineTemplate=!0)}(e);for(var i=0;i<zo.length;i++)e=zo[i](e,t)||e;return function(e){var t,n,r,i,o,a,s,c,u=e.attrsList;for(t=0,n=u.length;t<n;t++)if(r=i=u[t].name,o=u[t].value,Go.test(r))if(e.hasBindings=!0,(a=ha(r.replace(Go,"")))&&(r=r.replace(ra,"")),na.test(r))r=r.replace(na,""),o=Ar(o),(c=ea.test(r))&&(r=r.slice(1,-1)),a&&(a.prop&&!c&&"innerHtml"===(r=b(r))&&(r="innerHTML"),a.camel&&!c&&(r=b(r)),a.sync&&(s=Br(o,"$event"),c?Mr(e,'"update:"+('+r+")",s,null,!1,0,u[t],!0):(Mr(e,"update:"+b(r),s,null,!1,0,u[t]),C(r)!==b(r)&&Mr(e,"update:"+C(r),s,null,!1,0,u[t])))),a&&a.prop||!e.component&&qo(e.tag,e.attrsMap.type,r)?Er(e,r,o,u[t],c):Nr(e,r,o,u[t],c);else if(Zo.test(r))r=r.replace(Zo,""),(c=ea.test(r))&&(r=r.slice(1,-1)),Mr(e,r,o,a,!1,0,u[t],c);else{var l=(r=r.replace(Go,"")).match(ta),f=l&&l[1];c=!1,f&&(r=r.slice(0,-(f.length+1)),ea.test(f)&&(f=f.slice(1,-1),c=!0)),Dr(e,r,i,o,f,c,a,u[t])}else Nr(e,r,JSON.stringify(o),u[t]),!e.component&&"muted"===r&&qo(e.tag,e.attrsMap.type,r)&&Er(e,r,"true",u[t])}(e),e}function pa(e){var t;if(t=Fr(e,"v-for")){var n=function(e){var t=e.match(Xo);if(!t)return;var n={};n.for=t[2].trim();var r=t[1].trim().replace(Qo,""),i=r.match(Yo);i?(n.alias=r.replace(Yo,"").trim(),n.iterator1=i[1].trim(),i[2]&&(n.iterator2=i[2].trim())):n.alias=r;return n}(t);n&&A(e,n)}}function da(e,t){e.ifConditions||(e.ifConditions=[]),e.ifConditions.push(t)}function va(e){var t=e.name.replace(ia,"");return t||"#"!==e.name[0]&&(t="default"),ea.test(t)?{name:t.slice(1,-1),dynamic:!0}:{name:'"'+t+'"',dynamic:!1}}function ha(e){var t=e.match(ra);if(t){var n={};return t.forEach(function(e){n[e.slice(1)]=!0}),n}}function ma(e){for(var t={},n=0,r=e.length;n<r;n++)t[e[n].name]=e[n].value;return t}var ya=/^xmlns:NS\d+/,ga=/^NS\d+:/;function _a(e){return ua(e.tag,e.attrsList.slice(),e.parent)}var ba=[mo,go,{preTransformNode:function(e,t){if("input"===e.tag){var n,r=e.attrsMap;if(!r["v-model"])return;if((r[":type"]||r["v-bind:type"])&&(n=Ir(e,"type")),r.type||n||!r["v-bind"]||(n="("+r["v-bind"]+").type"),n){var i=Fr(e,"v-if",!0),o=i?"&&("+i+")":"",a=null!=Fr(e,"v-else",!0),s=Fr(e,"v-else-if",!0),c=_a(e);pa(c),jr(c,"type","checkbox"),fa(c,t),c.processed=!0,c.if="("+n+")==='checkbox'"+o,da(c,{exp:c.if,block:c});var u=_a(e);Fr(u,"v-for",!0),jr(u,"type","radio"),fa(u,t),da(c,{exp:"("+n+")==='radio'"+o,block:u});var l=_a(e);return Fr(l,"v-for",!0),jr(l,":type",n),fa(l,t),da(c,{exp:i,block:l}),a?c.else=!0:s&&(c.elseif=s),c}}}}];var $a,wa,Ca={expectHTML:!0,modules:ba,directives:{model:function(e,t,n){var r=t.value,i=t.modifiers,o=e.tag,a=e.attrsMap.type;if(e.component)return Hr(e,r,i),!1;if("select"===o)!function(e,t,n){var r='var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return '+(n&&n.number?"_n(val)":"val")+"});";r=r+" "+Br(t,"$event.target.multiple ? $$selectedVal : $$selectedVal[0]"),Mr(e,"change",r,null,!0)}(e,r,i);else if("input"===o&&"checkbox"===a)!function(e,t,n){var r=n&&n.number,i=Ir(e,"value")||"null",o=Ir(e,"true-value")||"true",a=Ir(e,"false-value")||"false";Er(e,"checked","Array.isArray("+t+")?_i("+t+","+i+")>-1"+("true"===o?":("+t+")":":_q("+t+","+o+")")),Mr(e,"change","var $$a="+t+",$$el=$event.target,$$c=$$el.checked?("+o+"):("+a+");if(Array.isArray($$a)){var $$v="+(r?"_n("+i+")":i)+",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&("+Br(t,"$$a.concat([$$v])")+")}else{$$i>-1&&("+Br(t,"$$a.slice(0,$$i).concat($$a.slice($$i+1))")+")}}else{"+Br(t,"$$c")+"}",null,!0)}(e,r,i);else if("input"===o&&"radio"===a)!function(e,t,n){var r=n&&n.number,i=Ir(e,"value")||"null";Er(e,"checked","_q("+t+","+(i=r?"_n("+i+")":i)+")"),Mr(e,"change",Br(t,i),null,!0)}(e,r,i);else if("input"===o||"textarea"===o)!function(e,t,n){var r=e.attrsMap.type,i=n||{},o=i.lazy,a=i.number,s=i.trim,c=!o&&"range"!==r,u=o?"change":"range"===r?Wr:"input",l="$event.target.value";s&&(l="$event.target.value.trim()"),a&&(l="_n("+l+")");var f=Br(t,l);c&&(f="if($event.target.composing)return;"+f),Er(e,"value","("+t+")"),Mr(e,u,f,null,!0),(s||a)&&Mr(e,"blur","$forceUpdate()")}(e,r,i);else if(!F.isReservedTag(o))return Hr(e,r,i),!1;return!0},text:function(e,t){t.value&&Er(e,"textContent","_s("+t.value+")",t)},html:function(e,t){t.value&&Er(e,"innerHTML","_s("+t.value+")",t)}},isPreTag:function(e){return"pre"===e},isUnaryTag:bo,mustUseProp:jn,canBeLeftOpenTag:$o,isReservedTag:Wn,getTagNamespace:Zn,staticKeys:function(e){return e.reduce(function(e,t){return e.concat(t.staticKeys||[])},[]).join(",")}(ba)},xa=g(function(e){return p("type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap"+(e?","+e:""))});function ka(e,t){e&&($a=xa(t.staticKeys||""),wa=t.isReservedTag||T,function e(t){t.static=function(e){if(2===e.type)return!1;if(3===e.type)return!0;return!(!e.pre&&(e.hasBindings||e.if||e.for||d(e.tag)||!wa(e.tag)||function(e){for(;e.parent;){if("template"!==(e=e.parent).tag)return!1;if(e.for)return!0}return!1}(e)||!Object.keys(e).every($a)))}(t);if(1===t.type){if(!wa(t.tag)&&"slot"!==t.tag&&null==t.attrsMap["inline-template"])return;for(var n=0,r=t.children.length;n<r;n++){var i=t.children[n];e(i),i.static||(t.static=!1)}if(t.ifConditions)for(var o=1,a=t.ifConditions.length;o<a;o++){var s=t.ifConditions[o].block;e(s),s.static||(t.static=!1)}}}(e),function e(t,n){if(1===t.type){if((t.static||t.once)&&(t.staticInFor=n),t.static&&t.children.length&&(1!==t.children.length||3!==t.children[0].type))return void(t.staticRoot=!0);if(t.staticRoot=!1,t.children)for(var r=0,i=t.children.length;r<i;r++)e(t.children[r],n||!!t.for);if(t.ifConditions)for(var o=1,a=t.ifConditions.length;o<a;o++)e(t.ifConditions[o].block,n)}}(e,!1))}var Aa=/^([\w$_]+|\([^)]*?\))\s*=>|^function\s*(?:[\w$]+)?\s*\(/,Oa=/\([^)]*?\);*$/,Sa=/^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['[^']*?']|\["[^"]*?"]|\[\d+]|\[[A-Za-z_$][\w$]*])*$/,Ta={esc:27,tab:9,enter:13,space:32,up:38,left:37,right:39,down:40,delete:[8,46]},Ea={esc:["Esc","Escape"],tab:"Tab",enter:"Enter",space:[" ","Spacebar"],up:["Up","ArrowUp"],left:["Left","ArrowLeft"],right:["Right","ArrowRight"],down:["Down","ArrowDown"],delete:["Backspace","Delete","Del"]},Na=function(e){return"if("+e+")return null;"},ja={stop:"$event.stopPropagation();",prevent:"$event.preventDefault();",self:Na("$event.target !== $event.currentTarget"),ctrl:Na("!$event.ctrlKey"),shift:Na("!$event.shiftKey"),alt:Na("!$event.altKey"),meta:Na("!$event.metaKey"),left:Na("'button' in $event && $event.button !== 0"),middle:Na("'button' in $event && $event.button !== 1"),right:Na("'button' in $event && $event.button !== 2")};function Da(e,t){var n=t?"nativeOn:":"on:",r="",i="";for(var o in e){var a=La(e[o]);e[o]&&e[o].dynamic?i+=o+","+a+",":r+='"'+o+'":'+a+","}return r="{"+r.slice(0,-1)+"}",i?n+"_d("+r+",["+i.slice(0,-1)+"])":n+r}function La(e){if(!e)return"function(){}";if(Array.isArray(e))return"["+e.map(function(e){return La(e)}).join(",")+"]";var t=Sa.test(e.value),n=Aa.test(e.value),r=Sa.test(e.value.replace(Oa,""));if(e.modifiers){var i="",o="",a=[];for(var s in e.modifiers)if(ja[s])o+=ja[s],Ta[s]&&a.push(s);else if("exact"===s){var c=e.modifiers;o+=Na(["ctrl","shift","alt","meta"].filter(function(e){return!c[e]}).map(function(e){return"$event."+e+"Key"}).join("||"))}else a.push(s);return a.length&&(i+=function(e){return"if(!$event.type.indexOf('key')&&"+e.map(Ma).join("&&")+")return null;"}(a)),o&&(i+=o),"function($event){"+i+(t?"return "+e.value+"($event)":n?"return ("+e.value+")($event)":r?"return "+e.value:e.value)+"}"}return t||n?e.value:"function($event){"+(r?"return "+e.value:e.value)+"}"}function Ma(e){var t=parseInt(e,10);if(t)return"$event.keyCode!=="+t;var n=Ta[e],r=Ea[e];return"_k($event.keyCode,"+JSON.stringify(e)+","+JSON.stringify(n)+",$event.key,"+JSON.stringify(r)+")"}var Ia={on:function(e,t){e.wrapListeners=function(e){return"_g("+e+","+t.value+")"}},bind:function(e,t){e.wrapData=function(n){return"_b("+n+",'"+e.tag+"',"+t.value+","+(t.modifiers&&t.modifiers.prop?"true":"false")+(t.modifiers&&t.modifiers.sync?",true":"")+")"}},cloak:S},Fa=function(e){this.options=e,this.warn=e.warn||Sr,this.transforms=Tr(e.modules,"transformCode"),this.dataGenFns=Tr(e.modules,"genData"),this.directives=A(A({},Ia),e.directives);var t=e.isReservedTag||T;this.maybeComponent=function(e){return!!e.component||!t(e.tag)},this.onceId=0,this.staticRenderFns=[],this.pre=!1};function Pa(e,t){var n=new Fa(t);return{render:"with(this){return "+(e?Ra(e,n):'_c("div")')+"}",staticRenderFns:n.staticRenderFns}}function Ra(e,t){if(e.parent&&(e.pre=e.pre||e.parent.pre),e.staticRoot&&!e.staticProcessed)return Ha(e,t);if(e.once&&!e.onceProcessed)return Ba(e,t);if(e.for&&!e.forProcessed)return za(e,t);if(e.if&&!e.ifProcessed)return Ua(e,t);if("template"!==e.tag||e.slotTarget||t.pre){if("slot"===e.tag)return function(e,t){var n=e.slotName||'"default"',r=qa(e,t),i="_t("+n+(r?","+r:""),o=e.attrs||e.dynamicAttrs?Ga((e.attrs||[]).concat(e.dynamicAttrs||[]).map(function(e){return{name:b(e.name),value:e.value,dynamic:e.dynamic}})):null,a=e.attrsMap["v-bind"];!o&&!a||r||(i+=",null");o&&(i+=","+o);a&&(i+=(o?"":",null")+","+a);return i+")"}(e,t);var n;if(e.component)n=function(e,t,n){var r=t.inlineTemplate?null:qa(t,n,!0);return"_c("+e+","+Va(t,n)+(r?","+r:"")+")"}(e.component,e,t);else{var r;(!e.plain||e.pre&&t.maybeComponent(e))&&(r=Va(e,t));var i=e.inlineTemplate?null:qa(e,t,!0);n="_c('"+e.tag+"'"+(r?","+r:"")+(i?","+i:"")+")"}for(var o=0;o<t.transforms.length;o++)n=t.transforms[o](e,n);return n}return qa(e,t)||"void 0"}function Ha(e,t){e.staticProcessed=!0;var n=t.pre;return e.pre&&(t.pre=e.pre),t.staticRenderFns.push("with(this){return "+Ra(e,t)+"}"),t.pre=n,"_m("+(t.staticRenderFns.length-1)+(e.staticInFor?",true":"")+")"}function Ba(e,t){if(e.onceProcessed=!0,e.if&&!e.ifProcessed)return Ua(e,t);if(e.staticInFor){for(var n="",r=e.parent;r;){if(r.for){n=r.key;break}r=r.parent}return n?"_o("+Ra(e,t)+","+t.onceId+++","+n+")":Ra(e,t)}return Ha(e,t)}function Ua(e,t,n,r){return e.ifProcessed=!0,function e(t,n,r,i){if(!t.length)return i||"_e()";var o=t.shift();return o.exp?"("+o.exp+")?"+a(o.block)+":"+e(t,n,r,i):""+a(o.block);function a(e){return r?r(e,n):e.once?Ba(e,n):Ra(e,n)}}(e.ifConditions.slice(),t,n,r)}function za(e,t,n,r){var i=e.for,o=e.alias,a=e.iterator1?","+e.iterator1:"",s=e.iterator2?","+e.iterator2:"";return e.forProcessed=!0,(r||"_l")+"(("+i+"),function("+o+a+s+"){return "+(n||Ra)(e,t)+"})"}function Va(e,t){var n="{",r=function(e,t){var n=e.directives;if(!n)return;var r,i,o,a,s="directives:[",c=!1;for(r=0,i=n.length;r<i;r++){o=n[r],a=!0;var u=t.directives[o.name];u&&(a=!!u(e,o,t.warn)),a&&(c=!0,s+='{name:"'+o.name+'",rawName:"'+o.rawName+'"'+(o.value?",value:("+o.value+"),expression:"+JSON.stringify(o.value):"")+(o.arg?",arg:"+(o.isDynamicArg?o.arg:'"'+o.arg+'"'):"")+(o.modifiers?",modifiers:"+JSON.stringify(o.modifiers):"")+"},")}if(c)return s.slice(0,-1)+"]"}(e,t);r&&(n+=r+","),e.key&&(n+="key:"+e.key+","),e.ref&&(n+="ref:"+e.ref+","),e.refInFor&&(n+="refInFor:true,"),e.pre&&(n+="pre:true,"),e.component&&(n+='tag:"'+e.tag+'",');for(var i=0;i<t.dataGenFns.length;i++)n+=t.dataGenFns[i](e);if(e.attrs&&(n+="attrs:"+Ga(e.attrs)+","),e.props&&(n+="domProps:"+Ga(e.props)+","),e.events&&(n+=Da(e.events,!1)+","),e.nativeEvents&&(n+=Da(e.nativeEvents,!0)+","),e.slotTarget&&!e.slotScope&&(n+="slot:"+e.slotTarget+","),e.scopedSlots&&(n+=function(e,t,n){var r=e.for||Object.keys(t).some(function(e){var n=t[e];return n.slotTargetDynamic||n.if||n.for||Ka(n)}),i=!!e.if;if(!r)for(var o=e.parent;o;){if(o.slotScope&&o.slotScope!==ca||o.for){r=!0;break}o.if&&(i=!0),o=o.parent}var a=Object.keys(t).map(function(e){return Ja(t[e],n)}).join(",");return"scopedSlots:_u(["+a+"]"+(r?",null,true":"")+(!r&&i?",null,false,"+function(e){var t=5381,n=e.length;for(;n;)t=33*t^e.charCodeAt(--n);return t>>>0}(a):"")+")"}(e,e.scopedSlots,t)+","),e.model&&(n+="model:{value:"+e.model.value+",callback:"+e.model.callback+",expression:"+e.model.expression+"},"),e.inlineTemplate){var o=function(e,t){var n=e.children[0];if(n&&1===n.type){var r=Pa(n,t.options);return"inlineTemplate:{render:function(){"+r.render+"},staticRenderFns:["+r.staticRenderFns.map(function(e){return"function(){"+e+"}"}).join(",")+"]}"}}(e,t);o&&(n+=o+",")}return n=n.replace(/,$/,"")+"}",e.dynamicAttrs&&(n="_b("+n+',"'+e.tag+'",'+Ga(e.dynamicAttrs)+")"),e.wrapData&&(n=e.wrapData(n)),e.wrapListeners&&(n=e.wrapListeners(n)),n}function Ka(e){return 1===e.type&&("slot"===e.tag||e.children.some(Ka))}function Ja(e,t){var n=e.attrsMap["slot-scope"];if(e.if&&!e.ifProcessed&&!n)return Ua(e,t,Ja,"null");if(e.for&&!e.forProcessed)return za(e,t,Ja);var r=e.slotScope===ca?"":String(e.slotScope),i="function("+r+"){return "+("template"===e.tag?e.if&&n?"("+e.if+")?"+(qa(e,t)||"undefined")+":undefined":qa(e,t)||"undefined":Ra(e,t))+"}",o=r?"":",proxy:true";return"{key:"+(e.slotTarget||'"default"')+",fn:"+i+o+"}"}function qa(e,t,n,r,i){var o=e.children;if(o.length){var a=o[0];if(1===o.length&&a.for&&"template"!==a.tag&&"slot"!==a.tag){var s=n?t.maybeComponent(a)?",1":",0":"";return""+(r||Ra)(a,t)+s}var c=n?function(e,t){for(var n=0,r=0;r<e.length;r++){var i=e[r];if(1===i.type){if(Wa(i)||i.ifConditions&&i.ifConditions.some(function(e){return Wa(e.block)})){n=2;break}(t(i)||i.ifConditions&&i.ifConditions.some(function(e){return t(e.block)}))&&(n=1)}}return n}(o,t.maybeComponent):0,u=i||Za;return"["+o.map(function(e){return u(e,t)}).join(",")+"]"+(c?","+c:"")}}function Wa(e){return void 0!==e.for||"template"===e.tag||"slot"===e.tag}function Za(e,t){return 1===e.type?Ra(e,t):3===e.type&&e.isComment?(r=e,"_e("+JSON.stringify(r.text)+")"):"_v("+(2===(n=e).type?n.expression:Xa(JSON.stringify(n.text)))+")";var n,r}function Ga(e){for(var t="",n="",r=0;r<e.length;r++){var i=e[r],o=Xa(i.value);i.dynamic?n+=i.name+","+o+",":t+='"'+i.name+'":'+o+","}return t="{"+t.slice(0,-1)+"}",n?"_d("+t+",["+n.slice(0,-1)+"])":t}function Xa(e){return e.replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029")}new RegExp("\\b"+"do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const,super,throw,while,yield,delete,export,import,return,switch,default,extends,finally,continue,debugger,function,arguments".split(",").join("\\b|\\b")+"\\b");function Ya(e,t){try{return new Function(e)}catch(n){return t.push({err:n,code:e}),S}}function Qa(e){var t=Object.create(null);return function(n,r,i){(r=A({},r)).warn;delete r.warn;var o=r.delimiters?String(r.delimiters)+n:n;if(t[o])return t[o];var a=e(n,r),s={},c=[];return s.render=Ya(a.render,c),s.staticRenderFns=a.staticRenderFns.map(function(e){return Ya(e,c)}),t[o]=s}}var es,ts,ns=(es=function(e,t){var n=la(e.trim(),t);!1!==t.optimize&&ka(n,t);var r=Pa(n,t);return{ast:n,render:r.render,staticRenderFns:r.staticRenderFns}},function(e){function t(t,n){var r=Object.create(e),i=[],o=[];if(n)for(var a in n.modules&&(r.modules=(e.modules||[]).concat(n.modules)),n.directives&&(r.directives=A(Object.create(e.directives||null),n.directives)),n)"modules"!==a&&"directives"!==a&&(r[a]=n[a]);r.warn=function(e,t,n){(n?o:i).push(e)};var s=es(t.trim(),r);return s.errors=i,s.tips=o,s}return{compile:t,compileToFunctions:Qa(t)}})(Ca),rs=(ns.compile,ns.compileToFunctions);function is(e){return(ts=ts||document.createElement("div")).innerHTML=e?'<a href="\n"/>':'<div a="\n"/>',ts.innerHTML.indexOf("&#10;")>0}var os=!!z&&is(!1),as=!!z&&is(!0),ss=g(function(e){var t=Yn(e);return t&&t.innerHTML}),cs=wn.prototype.$mount;return wn.prototype.$mount=function(e,t){if((e=e&&Yn(e))===document.body||e===document.documentElement)return this;var n=this.$options;if(!n.render){var r=n.template;if(r)if("string"==typeof r)"#"===r.charAt(0)&&(r=ss(r));else{if(!r.nodeType)return this;r=r.innerHTML}else e&&(r=function(e){if(e.outerHTML)return e.outerHTML;var t=document.createElement("div");return t.appendChild(e.cloneNode(!0)),t.innerHTML}(e));if(r){var i=rs(r,{outputSourceRange:!1,shouldDecodeNewlines:os,shouldDecodeNewlinesForHref:as,delimiters:n.delimiters,comments:n.comments},this),o=i.render,a=i.staticRenderFns;n.render=o,n.staticRenderFns=a}}return cs.call(this,e,t)},wn.compile=rs,wn});
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(12).setImmediate))
-
-/***/ }),
-/* 41 */
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(42)
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(44)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49094,7 +49133,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49123,7 +49162,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49164,53 +49203,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
   }
 }
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(3)
-/* script */
-var __vue_script__ = __webpack_require__(45)
-/* template */
-var __vue_template__ = __webpack_require__(46)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/FormComponent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-70be8f72", Component.options)
-  } else {
-    hotAPI.reload("data-v-70be8f72", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ }),
 /* 45 */
@@ -49266,7 +49258,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
           _c("button", { staticClass: "btn btn-primary" }, [
-            _vm._v("\n                发送\n            ")
+            _vm._v("\n                发送 \n            ")
           ])
         ])
       ])
@@ -49287,7 +49279,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(48)
 /* template */
@@ -49345,11 +49337,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   props: ['question', 'user'],
+   props: ['question'],
    mounted: function mounted() {
       var _this = this;
 
-      axios.post('/api/question/follower', { 'question': this.question, 'user': this.user }).then(function (res) {
+      axios.post('/api/question/follower', { 'question': this.question }).then(function (res) {
          _this.followed = res.data.followed;
          console.log(res.data);
       });
@@ -49364,7 +49356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       follow: function follow() {
          var _this2 = this;
 
-         axios.post('/api/question/follow', { 'question': this.question, 'user': this.user }).then(function (res) {
+         axios.post('/api/question/follow', { 'question': this.question }).then(function (res) {
             _this2.followed = res.data.followed;
             console.log(res.data);
          });
@@ -49404,9 +49396,4927 @@ if (false) {
 
 /***/ }),
 /* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(51)
+/* template */
+var __vue_template__ = __webpack_require__(52)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/UserFollowButtion.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4292271c", Component.options)
+  } else {
+    hotAPI.reload("data-v-4292271c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+   props: ['user'],
+   mounted: function mounted() {
+      var _this = this;
+
+      axios.get('/api/user/followers/' + this.user).then(function (res) {
+         _this.followed = res.data.followed;
+      });
+   },
+   data: function data() {
+      return {
+         followed: false
+      };
+   },
+
+   methods: {
+      follow: function follow() {
+         var _this2 = this;
+
+         axios.post('/api/user/follow', { 'user': this.user }).then(function (res) {
+            _this2.followed = res.data.followed;
+            console.log(res.data);
+         });
+      }
+   },
+   computed: {
+      text: function text() {
+         return this.followed ? '已关注' : '关注他';
+      }
+   }
+});
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("button", {
+    staticClass: "btn btn-default",
+    class: { "btn-success": _vm.followed },
+    domProps: { textContent: _vm._s(_vm.text) },
+    on: { click: _vm.follow }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4292271c", module.exports)
+  }
+}
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(59)
+/* template */
+var __vue_template__ = __webpack_require__(60)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/WangEditor.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ed5c1272", Component.options)
+  } else {
+    hotAPI.reload("data-v-ed5c1272", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_wangeditor__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_wangeditor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_wangeditor__);
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'editor',
+  data: function data() {
+    return {
+      editorContent: ''
+    };
+  },
+
+  methods: {
+    getContent: function getContent() {
+      alert(this.editorContent);
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    var editor = new __WEBPACK_IMPORTED_MODULE_0_wangeditor___default.a('#editorElem');
+    editor.customConfig.onchange = function (html) {
+      _this.editorContent = html;
+    };
+    editor.create();
+  }
+});
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "form-group" }, [
+    _c("div", {
+      staticStyle: { "text-align": "left" },
+      attrs: { id: "editorElem" }
+    }),
+    _vm._v(" "),
+    _c("button", { on: { click: _vm.getContent } }, [_vm._v("提交答案")])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ed5c1272", module.exports)
+  }
+}
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.wangEditor = factory());
+}(this, (function () { 'use strict';
+
+/*
+    poly-fill
+*/
+
+var polyfill = function () {
+
+    // Object.assign
+    if (typeof Object.assign != 'function') {
+        Object.assign = function (target, varArgs) {
+            // .length of function is 2
+            if (target == null) {
+                // TypeError if undefined or null
+                throw new TypeError('Cannot convert undefined or null to object');
+            }
+
+            var to = Object(target);
+
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
+
+                if (nextSource != null) {
+                    // Skip over if undefined or null
+                    for (var nextKey in nextSource) {
+                        // Avoid bugs when hasOwnProperty is shadowed
+                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                            to[nextKey] = nextSource[nextKey];
+                        }
+                    }
+                }
+            }
+            return to;
+        };
+    }
+
+    // IE 中兼容 Element.prototype.matches
+    if (!Element.prototype.matches) {
+        Element.prototype.matches = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector || function (s) {
+            var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+                i = matches.length;
+            while (--i >= 0 && matches.item(i) !== this) {}
+            return i > -1;
+        };
+    }
+};
+
+/*
+    DOM 操作 API
+*/
+
+// 根据 html 代码片段创建 dom 对象
+function createElemByHTML(html) {
+    var div = void 0;
+    div = document.createElement('div');
+    div.innerHTML = html;
+    return div.children;
+}
+
+// 是否是 DOM List
+function isDOMList(selector) {
+    if (!selector) {
+        return false;
+    }
+    if (selector instanceof HTMLCollection || selector instanceof NodeList) {
+        return true;
+    }
+    return false;
+}
+
+// 封装 document.querySelectorAll
+function querySelectorAll(selector) {
+    var result = document.querySelectorAll(selector);
+    if (isDOMList(result)) {
+        return result;
+    } else {
+        return [result];
+    }
+}
+
+// 记录所有的事件绑定
+var eventList = [];
+
+// 创建构造函数
+function DomElement(selector) {
+    if (!selector) {
+        return;
+    }
+
+    // selector 本来就是 DomElement 对象，直接返回
+    if (selector instanceof DomElement) {
+        return selector;
+    }
+
+    this.selector = selector;
+    var nodeType = selector.nodeType;
+
+    // 根据 selector 得出的结果（如 DOM，DOM List）
+    var selectorResult = [];
+    if (nodeType === 9) {
+        // document 节点
+        selectorResult = [selector];
+    } else if (nodeType === 1) {
+        // 单个 DOM 节点
+        selectorResult = [selector];
+    } else if (isDOMList(selector) || selector instanceof Array) {
+        // DOM List 或者数组
+        selectorResult = selector;
+    } else if (typeof selector === 'string') {
+        // 字符串
+        selector = selector.replace('/\n/mg', '').trim();
+        if (selector.indexOf('<') === 0) {
+            // 如 <div>
+            selectorResult = createElemByHTML(selector);
+        } else {
+            // 如 #id .class
+            selectorResult = querySelectorAll(selector);
+        }
+    }
+
+    var length = selectorResult.length;
+    if (!length) {
+        // 空数组
+        return this;
+    }
+
+    // 加入 DOM 节点
+    var i = void 0;
+    for (i = 0; i < length; i++) {
+        this[i] = selectorResult[i];
+    }
+    this.length = length;
+}
+
+// 修改原型
+DomElement.prototype = {
+    constructor: DomElement,
+
+    // 类数组，forEach
+    forEach: function forEach(fn) {
+        var i = void 0;
+        for (i = 0; i < this.length; i++) {
+            var elem = this[i];
+            var result = fn.call(elem, elem, i);
+            if (result === false) {
+                break;
+            }
+        }
+        return this;
+    },
+
+    // clone
+    clone: function clone(deep) {
+        var cloneList = [];
+        this.forEach(function (elem) {
+            cloneList.push(elem.cloneNode(!!deep));
+        });
+        return $(cloneList);
+    },
+
+    // 获取第几个元素
+    get: function get(index) {
+        var length = this.length;
+        if (index >= length) {
+            index = index % length;
+        }
+        return $(this[index]);
+    },
+
+    // 第一个
+    first: function first() {
+        return this.get(0);
+    },
+
+    // 最后一个
+    last: function last() {
+        var length = this.length;
+        return this.get(length - 1);
+    },
+
+    // 绑定事件
+    on: function on(type, selector, fn) {
+        // selector 不为空，证明绑定事件要加代理
+        if (!fn) {
+            fn = selector;
+            selector = null;
+        }
+
+        // type 是否有多个
+        var types = [];
+        types = type.split(/\s+/);
+
+        return this.forEach(function (elem) {
+            types.forEach(function (type) {
+                if (!type) {
+                    return;
+                }
+
+                // 记录下，方便后面解绑
+                eventList.push({
+                    elem: elem,
+                    type: type,
+                    fn: fn
+                });
+
+                if (!selector) {
+                    // 无代理
+                    elem.addEventListener(type, fn);
+                    return;
+                }
+
+                // 有代理
+                elem.addEventListener(type, function (e) {
+                    var target = e.target;
+                    if (target.matches(selector)) {
+                        fn.call(target, e);
+                    }
+                });
+            });
+        });
+    },
+
+    // 取消事件绑定
+    off: function off(type, fn) {
+        return this.forEach(function (elem) {
+            elem.removeEventListener(type, fn);
+        });
+    },
+
+    // 获取/设置 属性
+    attr: function attr(key, val) {
+        if (val == null) {
+            // 获取值
+            return this[0].getAttribute(key);
+        } else {
+            // 设置值
+            return this.forEach(function (elem) {
+                elem.setAttribute(key, val);
+            });
+        }
+    },
+
+    // 添加 class
+    addClass: function addClass(className) {
+        if (!className) {
+            return this;
+        }
+        return this.forEach(function (elem) {
+            var arr = void 0;
+            if (elem.className) {
+                // 解析当前 className 转换为数组
+                arr = elem.className.split(/\s/);
+                arr = arr.filter(function (item) {
+                    return !!item.trim();
+                });
+                // 添加 class
+                if (arr.indexOf(className) < 0) {
+                    arr.push(className);
+                }
+                // 修改 elem.class
+                elem.className = arr.join(' ');
+            } else {
+                elem.className = className;
+            }
+        });
+    },
+
+    // 删除 class
+    removeClass: function removeClass(className) {
+        if (!className) {
+            return this;
+        }
+        return this.forEach(function (elem) {
+            var arr = void 0;
+            if (elem.className) {
+                // 解析当前 className 转换为数组
+                arr = elem.className.split(/\s/);
+                arr = arr.filter(function (item) {
+                    item = item.trim();
+                    // 删除 class
+                    if (!item || item === className) {
+                        return false;
+                    }
+                    return true;
+                });
+                // 修改 elem.class
+                elem.className = arr.join(' ');
+            }
+        });
+    },
+
+    // 修改 css
+    css: function css(key, val) {
+        var currentStyle = key + ':' + val + ';';
+        return this.forEach(function (elem) {
+            var style = (elem.getAttribute('style') || '').trim();
+            var styleArr = void 0,
+                resultArr = [];
+            if (style) {
+                // 将 style 按照 ; 拆分为数组
+                styleArr = style.split(';');
+                styleArr.forEach(function (item) {
+                    // 对每项样式，按照 : 拆分为 key 和 value
+                    var arr = item.split(':').map(function (i) {
+                        return i.trim();
+                    });
+                    if (arr.length === 2) {
+                        resultArr.push(arr[0] + ':' + arr[1]);
+                    }
+                });
+                // 替换或者新增
+                resultArr = resultArr.map(function (item) {
+                    if (item.indexOf(key) === 0) {
+                        return currentStyle;
+                    } else {
+                        return item;
+                    }
+                });
+                if (resultArr.indexOf(currentStyle) < 0) {
+                    resultArr.push(currentStyle);
+                }
+                // 结果
+                elem.setAttribute('style', resultArr.join('; '));
+            } else {
+                // style 无值
+                elem.setAttribute('style', currentStyle);
+            }
+        });
+    },
+
+    // 显示
+    show: function show() {
+        return this.css('display', 'block');
+    },
+
+    // 隐藏
+    hide: function hide() {
+        return this.css('display', 'none');
+    },
+
+    // 获取子节点
+    children: function children() {
+        var elem = this[0];
+        if (!elem) {
+            return null;
+        }
+
+        return $(elem.children);
+    },
+
+    // 获取子节点（包括文本节点）
+    childNodes: function childNodes() {
+        var elem = this[0];
+        if (!elem) {
+            return null;
+        }
+
+        return $(elem.childNodes);
+    },
+
+    // 增加子节点
+    append: function append($children) {
+        return this.forEach(function (elem) {
+            $children.forEach(function (child) {
+                elem.appendChild(child);
+            });
+        });
+    },
+
+    // 移除当前节点
+    remove: function remove() {
+        return this.forEach(function (elem) {
+            if (elem.remove) {
+                elem.remove();
+            } else {
+                var parent = elem.parentElement;
+                parent && parent.removeChild(elem);
+            }
+        });
+    },
+
+    // 是否包含某个子节点
+    isContain: function isContain($child) {
+        var elem = this[0];
+        var child = $child[0];
+        return elem.contains(child);
+    },
+
+    // 尺寸数据
+    getSizeData: function getSizeData() {
+        var elem = this[0];
+        return elem.getBoundingClientRect(); // 可得到 bottom height left right top width 的数据
+    },
+
+    // 封装 nodeName
+    getNodeName: function getNodeName() {
+        var elem = this[0];
+        return elem.nodeName;
+    },
+
+    // 从当前元素查找
+    find: function find(selector) {
+        var elem = this[0];
+        return $(elem.querySelectorAll(selector));
+    },
+
+    // 获取当前元素的 text
+    text: function text(val) {
+        if (!val) {
+            // 获取 text
+            var elem = this[0];
+            return elem.innerHTML.replace(/<.*?>/g, function () {
+                return '';
+            });
+        } else {
+            // 设置 text
+            return this.forEach(function (elem) {
+                elem.innerHTML = val;
+            });
+        }
+    },
+
+    // 获取 html
+    html: function html(value) {
+        var elem = this[0];
+        if (value == null) {
+            return elem.innerHTML;
+        } else {
+            elem.innerHTML = value;
+            return this;
+        }
+    },
+
+    // 获取 value
+    val: function val() {
+        var elem = this[0];
+        return elem.value.trim();
+    },
+
+    // focus
+    focus: function focus() {
+        return this.forEach(function (elem) {
+            elem.focus();
+        });
+    },
+
+    // parent
+    parent: function parent() {
+        var elem = this[0];
+        return $(elem.parentElement);
+    },
+
+    // parentUntil 找到符合 selector 的父节点
+    parentUntil: function parentUntil(selector, _currentElem) {
+        var results = document.querySelectorAll(selector);
+        var length = results.length;
+        if (!length) {
+            // 传入的 selector 无效
+            return null;
+        }
+
+        var elem = _currentElem || this[0];
+        if (elem.nodeName === 'BODY') {
+            return null;
+        }
+
+        var parent = elem.parentElement;
+        var i = void 0;
+        for (i = 0; i < length; i++) {
+            if (parent === results[i]) {
+                // 找到，并返回
+                return $(parent);
+            }
+        }
+
+        // 继续查找
+        return this.parentUntil(selector, parent);
+    },
+
+    // 判断两个 elem 是否相等
+    equal: function equal($elem) {
+        if ($elem.nodeType === 1) {
+            return this[0] === $elem;
+        } else {
+            return this[0] === $elem[0];
+        }
+    },
+
+    // 将该元素插入到某个元素前面
+    insertBefore: function insertBefore(selector) {
+        var $referenceNode = $(selector);
+        var referenceNode = $referenceNode[0];
+        if (!referenceNode) {
+            return this;
+        }
+        return this.forEach(function (elem) {
+            var parent = referenceNode.parentNode;
+            parent.insertBefore(elem, referenceNode);
+        });
+    },
+
+    // 将该元素插入到某个元素后面
+    insertAfter: function insertAfter(selector) {
+        var $referenceNode = $(selector);
+        var referenceNode = $referenceNode[0];
+        if (!referenceNode) {
+            return this;
+        }
+        return this.forEach(function (elem) {
+            var parent = referenceNode.parentNode;
+            if (parent.lastChild === referenceNode) {
+                // 最后一个元素
+                parent.appendChild(elem);
+            } else {
+                // 不是最后一个元素
+                parent.insertBefore(elem, referenceNode.nextSibling);
+            }
+        });
+    }
+};
+
+// new 一个对象
+function $(selector) {
+    return new DomElement(selector);
+}
+
+// 解绑所有事件，用于销毁编辑器
+$.offAll = function () {
+    eventList.forEach(function (item) {
+        var elem = item.elem;
+        var type = item.type;
+        var fn = item.fn;
+        // 解绑
+        elem.removeEventListener(type, fn);
+    });
+};
+
+/*
+    配置信息
+*/
+
+var config = {
+
+    // 默认菜单配置
+    menus: ['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
+
+    fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
+
+    colors: ['#000000', '#eeece0', '#1c487f', '#4d80bf', '#c24f4a', '#8baa4a', '#7b5ba1', '#46acc8', '#f9963b', '#ffffff'],
+
+    // // 语言配置
+    // lang: {
+    //     '设置标题': 'title',
+    //     '正文': 'p',
+    //     '链接文字': 'link text',
+    //     '链接': 'link',
+    //     '插入': 'insert',
+    //     '创建': 'init'
+    // },
+
+    // 表情
+    emotions: [{
+        // tab 的标题
+        title: '默认',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            alt: '[坏笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+        }, {
+            alt: '[舔屏]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
+        }, {
+            alt: '[污]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/pcmoren_wu_org.png'
+        }]
+    }, {
+        // tab 的标题
+        title: '新浪',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
+            alt: '[草泥马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
+            alt: '[神马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
+            alt: '[浮云]'
+        }]
+    }, {
+        // tab 的标题
+        title: 'emoji',
+        // type -> 'emoji' / 'image'
+        type: 'emoji',
+        // content -> 数组
+        content: '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😓 😪 😴 🙄 🤔 😬 🤐'.split(/\s/)
+    }],
+
+    // 编辑区域的 z-index
+    zIndex: 10000,
+
+    // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
+    debug: false,
+
+    // 插入链接时候的格式校验
+    linkCheck: function linkCheck(text, link) {
+        // text 是插入的文字
+        // link 是插入的链接
+        return true; // 返回 true 即表示成功
+        // return '校验失败' // 返回字符串即表示失败的提示信息
+    },
+
+    // 插入网络图片的校验
+    linkImgCheck: function linkImgCheck(src) {
+        // src 即图片的地址
+        return true; // 返回 true 即表示成功
+        // return '校验失败'  // 返回字符串即表示失败的提示信息
+    },
+
+    // 粘贴过滤样式，默认开启
+    pasteFilterStyle: true,
+
+    // 粘贴内容时，忽略图片。默认关闭
+    pasteIgnoreImg: false,
+
+    // 对粘贴的文字进行自定义处理，返回处理后的结果。编辑器会将处理后的结果粘贴到编辑区域中。
+    // IE 暂时不支持
+    pasteTextHandle: function pasteTextHandle(content) {
+        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+        return content;
+    },
+
+    // onchange 事件
+    // onchange: function (html) {
+    //     // html 即变化之后的内容
+    //     console.log(html)
+    // },
+
+    // 是否显示添加网络图片的 tab
+    showLinkImg: true,
+
+    // 插入网络图片的回调
+    linkImgCallback: function linkImgCallback(url) {
+        // console.log(url)  // url 即插入图片的地址
+    },
+
+    // 默认上传图片 max size: 5M
+    uploadImgMaxSize: 5 * 1024 * 1024,
+
+    // 配置一次最多上传几个图片
+    // uploadImgMaxLength: 5,
+
+    // 上传图片，是否显示 base64 格式
+    uploadImgShowBase64: false,
+
+    // 上传图片，server 地址（如果有值，则 base64 格式的配置则失效）
+    // uploadImgServer: '/upload',
+
+    // 自定义配置 filename
+    uploadFileName: '',
+
+    // 上传图片的自定义参数
+    uploadImgParams: {
+        // token: 'abcdef12345'
+    },
+
+    // 上传图片的自定义header
+    uploadImgHeaders: {
+        // 'Accept': 'text/x-json'
+    },
+
+    // 配置 XHR withCredentials
+    withCredentials: false,
+
+    // 自定义上传图片超时时间 ms
+    uploadImgTimeout: 10000,
+
+    // 上传图片 hook 
+    uploadImgHooks: {
+        // customInsert: function (insertLinkImg, result, editor) {
+        //     console.log('customInsert')
+        //     // 图片上传并返回结果，自定义插入图片的事件，而不是编辑器自动插入图片
+        //     const data = result.data1 || []
+        //     data.forEach(link => {
+        //         insertLinkImg(link)
+        //     })
+        // },
+        before: function before(xhr, editor, files) {
+            // 图片上传之前触发
+
+            // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+            // return {
+            //     prevent: true,
+            //     msg: '放弃上传'
+            // }
+        },
+        success: function success(xhr, editor, result) {
+            // 图片上传并返回结果，图片插入成功之后触发
+        },
+        fail: function fail(xhr, editor, result) {
+            // 图片上传并返回结果，但图片插入错误时触发
+        },
+        error: function error(xhr, editor) {
+            // 图片上传出错时触发
+        },
+        timeout: function timeout(xhr, editor) {
+            // 图片上传超时时触发
+        }
+    },
+
+    // 是否上传七牛云，默认为 false
+    qiniu: false
+
+};
+
+/*
+    工具
+*/
+
+// 和 UA 相关的属性
+var UA = {
+    _ua: navigator.userAgent,
+
+    // 是否 webkit
+    isWebkit: function isWebkit() {
+        var reg = /webkit/i;
+        return reg.test(this._ua);
+    },
+
+    // 是否 IE
+    isIE: function isIE() {
+        return 'ActiveXObject' in window;
+    }
+};
+
+// 遍历对象
+function objForEach(obj, fn) {
+    var key = void 0,
+        result = void 0;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            result = fn.call(obj, key, obj[key]);
+            if (result === false) {
+                break;
+            }
+        }
+    }
+}
+
+// 遍历类数组
+function arrForEach(fakeArr, fn) {
+    var i = void 0,
+        item = void 0,
+        result = void 0;
+    var length = fakeArr.length || 0;
+    for (i = 0; i < length; i++) {
+        item = fakeArr[i];
+        result = fn.call(fakeArr, item, i);
+        if (result === false) {
+            break;
+        }
+    }
+}
+
+// 获取随机数
+function getRandom(prefix) {
+    return prefix + Math.random().toString().slice(2);
+}
+
+// 替换 html 特殊字符
+function replaceHtmlSymbol(html) {
+    if (html == null) {
+        return '';
+    }
+    return html.replace(/</gm, '&lt;').replace(/>/gm, '&gt;').replace(/"/gm, '&quot;').replace(/(\r\n|\r|\n)/g, '<br/>');
+}
+
+// 返回百分比的格式
+
+
+// 判断是不是 function
+function isFunction(fn) {
+    return typeof fn === 'function';
+}
+
+/*
+    bold-menu
+*/
+// 构造函数
+function Bold(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-bold"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Bold.prototype = {
+    constructor: Bold,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 bold 命令
+        editor.cmd.do('bold');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('bold')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    替换多语言
+ */
+
+var replaceLang = function (editor, str) {
+    var langArgs = editor.config.langArgs || [];
+    var result = str;
+
+    langArgs.forEach(function (item) {
+        var reg = item.reg;
+        var val = item.val;
+
+        if (reg.test(result)) {
+            result = result.replace(reg, function () {
+                return val;
+            });
+        }
+    });
+
+    return result;
+};
+
+/*
+    droplist
+*/
+var _emptyFn = function _emptyFn() {};
+
+// 构造函数
+function DropList(menu, opt) {
+    var _this = this;
+
+    // droplist 所依附的菜单
+    var editor = menu.editor;
+    this.menu = menu;
+    this.opt = opt;
+    // 容器
+    var $container = $('<div class="w-e-droplist"></div>');
+
+    // 标题
+    var $title = opt.$title;
+    var titleHtml = void 0;
+    if ($title) {
+        // 替换多语言
+        titleHtml = $title.html();
+        titleHtml = replaceLang(editor, titleHtml);
+        $title.html(titleHtml);
+
+        $title.addClass('w-e-dp-title');
+        $container.append($title);
+    }
+
+    var list = opt.list || [];
+    var type = opt.type || 'list'; // 'list' 列表形式（如“标题”菜单） / 'inline-block' 块状形式（如“颜色”菜单）
+    var onClick = opt.onClick || _emptyFn;
+
+    // 加入 DOM 并绑定事件
+    var $list = $('<ul class="' + (type === 'list' ? 'w-e-list' : 'w-e-block') + '"></ul>');
+    $container.append($list);
+    list.forEach(function (item) {
+        var $elem = item.$elem;
+
+        // 替换多语言
+        var elemHtml = $elem.html();
+        elemHtml = replaceLang(editor, elemHtml);
+        $elem.html(elemHtml);
+
+        var value = item.value;
+        var $li = $('<li class="w-e-item"></li>');
+        if ($elem) {
+            $li.append($elem);
+            $list.append($li);
+            $li.on('click', function (e) {
+                onClick(value);
+
+                // 隐藏
+                _this.hideTimeoutId = setTimeout(function () {
+                    _this.hide();
+                }, 0);
+            });
+        }
+    });
+
+    // 绑定隐藏事件
+    $container.on('mouseleave', function (e) {
+        _this.hideTimeoutId = setTimeout(function () {
+            _this.hide();
+        }, 0);
+    });
+
+    // 记录属性
+    this.$container = $container;
+
+    // 基本属性
+    this._rendered = false;
+    this._show = false;
+}
+
+// 原型
+DropList.prototype = {
+    constructor: DropList,
+
+    // 显示（插入DOM）
+    show: function show() {
+        if (this.hideTimeoutId) {
+            // 清除之前的定时隐藏
+            clearTimeout(this.hideTimeoutId);
+        }
+
+        var menu = this.menu;
+        var $menuELem = menu.$elem;
+        var $container = this.$container;
+        if (this._show) {
+            return;
+        }
+        if (this._rendered) {
+            // 显示
+            $container.show();
+        } else {
+            // 加入 DOM 之前先定位位置
+            var menuHeight = $menuELem.getSizeData().height || 0;
+            var width = this.opt.width || 100; // 默认为 100
+            $container.css('margin-top', menuHeight + 'px').css('width', width + 'px');
+
+            // 加入到 DOM
+            $menuELem.append($container);
+            this._rendered = true;
+        }
+
+        // 修改属性
+        this._show = true;
+    },
+
+    // 隐藏（移除DOM）
+    hide: function hide() {
+        if (this.showTimeoutId) {
+            // 清除之前的定时显示
+            clearTimeout(this.showTimeoutId);
+        }
+
+        var $container = this.$container;
+        if (!this._show) {
+            return;
+        }
+        // 隐藏并需改属性
+        $container.hide();
+        this._show = false;
+    }
+};
+
+/*
+    menu - header
+*/
+// 构造函数
+function Head(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-header"></i></div>');
+    this.type = 'droplist';
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 100,
+        $title: $('<p>设置标题</p>'),
+        type: 'list', // droplist 以列表形式展示
+        list: [{ $elem: $('<h1>H1</h1>'), value: '<h1>' }, { $elem: $('<h2>H2</h2>'), value: '<h2>' }, { $elem: $('<h3>H3</h3>'), value: '<h3>' }, { $elem: $('<h4>H4</h4>'), value: '<h4>' }, { $elem: $('<h5>H5</h5>'), value: '<h5>' }, { $elem: $('<p>正文</p>'), value: '<p>' }],
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 Head 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+Head.prototype = {
+    constructor: Head,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+
+        var $selectionElem = editor.selection.getSelectionContainerElem();
+        if (editor.$textElem.equal($selectionElem)) {
+            // 不能选中多行来设置标题，否则会出现问题
+            // 例如选中的是 <p>xxx</p><p>yyy</p> 来设置标题，设置之后会成为 <h1>xxx<br>yyy</h1> 不符合预期
+            return;
+        }
+
+        editor.cmd.do('formatBlock', value);
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var reg = /^h/i;
+        var cmdValue = editor.cmd.queryCommandValue('formatBlock');
+        if (reg.test(cmdValue)) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    menu - fontSize
+*/
+
+// 构造函数
+function FontSize(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-text-heigh"></i></div>');
+    this.type = 'droplist';
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 160,
+        $title: $('<p>字号</p>'),
+        type: 'list', // droplist 以列表形式展示
+        list: [{ $elem: $('<span style="font-size: x-small;">x-small</span>'), value: '1' }, { $elem: $('<span style="font-size: small;">small</span>'), value: '2' }, { $elem: $('<span>normal</span>'), value: '3' }, { $elem: $('<span style="font-size: large;">large</span>'), value: '4' }, { $elem: $('<span style="font-size: x-large;">x-large</span>'), value: '5' }, { $elem: $('<span style="font-size: xx-large;">xx-large</span>'), value: '6' }],
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 FontSize 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+FontSize.prototype = {
+    constructor: FontSize,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+        editor.cmd.do('fontSize', value);
+    }
+};
+
+/*
+    menu - fontName
+*/
+
+// 构造函数
+function FontName(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-font"></i></div>');
+    this.type = 'droplist';
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 获取配置的字体
+    var config = editor.config;
+    var fontNames = config.fontNames || [];
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 100,
+        $title: $('<p>字体</p>'),
+        type: 'list', // droplist 以列表形式展示
+        list: fontNames.map(function (fontName) {
+            return { $elem: $('<span style="font-family: ' + fontName + ';">' + fontName + '</span>'), value: fontName };
+        }),
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 FontName 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+FontName.prototype = {
+    constructor: FontName,
+
+    _command: function _command(value) {
+        var editor = this.editor;
+        editor.cmd.do('fontName', value);
+    }
+};
+
+/*
+    panel
+*/
+
+var emptyFn = function emptyFn() {};
+
+// 记录已经显示 panel 的菜单
+var _isCreatedPanelMenus = [];
+
+// 构造函数
+function Panel(menu, opt) {
+    this.menu = menu;
+    this.opt = opt;
+}
+
+// 原型
+Panel.prototype = {
+    constructor: Panel,
+
+    // 显示（插入DOM）
+    show: function show() {
+        var _this = this;
+
+        var menu = this.menu;
+        if (_isCreatedPanelMenus.indexOf(menu) >= 0) {
+            // 该菜单已经创建了 panel 不能再创建
+            return;
+        }
+
+        var editor = menu.editor;
+        var $body = $('body');
+        var $textContainerElem = editor.$textContainerElem;
+        var opt = this.opt;
+
+        // panel 的容器
+        var $container = $('<div class="w-e-panel-container"></div>');
+        var width = opt.width || 300; // 默认 300px
+        $container.css('width', width + 'px').css('margin-left', (0 - width) / 2 + 'px');
+
+        // 添加关闭按钮
+        var $closeBtn = $('<i class="w-e-icon-close w-e-panel-close"></i>');
+        $container.append($closeBtn);
+        $closeBtn.on('click', function () {
+            _this.hide();
+        });
+
+        // 准备 tabs 容器
+        var $tabTitleContainer = $('<ul class="w-e-panel-tab-title"></ul>');
+        var $tabContentContainer = $('<div class="w-e-panel-tab-content"></div>');
+        $container.append($tabTitleContainer).append($tabContentContainer);
+
+        // 设置高度
+        var height = opt.height;
+        if (height) {
+            $tabContentContainer.css('height', height + 'px').css('overflow-y', 'auto');
+        }
+
+        // tabs
+        var tabs = opt.tabs || [];
+        var tabTitleArr = [];
+        var tabContentArr = [];
+        tabs.forEach(function (tab, tabIndex) {
+            if (!tab) {
+                return;
+            }
+            var title = tab.title || '';
+            var tpl = tab.tpl || '';
+
+            // 替换多语言
+            title = replaceLang(editor, title);
+            tpl = replaceLang(editor, tpl);
+
+            // 添加到 DOM
+            var $title = $('<li class="w-e-item">' + title + '</li>');
+            $tabTitleContainer.append($title);
+            var $content = $(tpl);
+            $tabContentContainer.append($content);
+
+            // 记录到内存
+            $title._index = tabIndex;
+            tabTitleArr.push($title);
+            tabContentArr.push($content);
+
+            // 设置 active 项
+            if (tabIndex === 0) {
+                $title._active = true;
+                $title.addClass('w-e-active');
+            } else {
+                $content.hide();
+            }
+
+            // 绑定 tab 的事件
+            $title.on('click', function (e) {
+                if ($title._active) {
+                    return;
+                }
+                // 隐藏所有的 tab
+                tabTitleArr.forEach(function ($title) {
+                    $title._active = false;
+                    $title.removeClass('w-e-active');
+                });
+                tabContentArr.forEach(function ($content) {
+                    $content.hide();
+                });
+
+                // 显示当前的 tab
+                $title._active = true;
+                $title.addClass('w-e-active');
+                $content.show();
+            });
+        });
+
+        // 绑定关闭事件
+        $container.on('click', function (e) {
+            // 点击时阻止冒泡
+            e.stopPropagation();
+        });
+        $body.on('click', function (e) {
+            _this.hide();
+        });
+
+        // 添加到 DOM
+        $textContainerElem.append($container);
+
+        // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
+        tabs.forEach(function (tab, index) {
+            if (!tab) {
+                return;
+            }
+            var events = tab.events || [];
+            events.forEach(function (event) {
+                var selector = event.selector;
+                var type = event.type;
+                var fn = event.fn || emptyFn;
+                var $content = tabContentArr[index];
+                $content.find(selector).on(type, function (e) {
+                    e.stopPropagation();
+                    var needToHide = fn(e);
+                    // 执行完事件之后，是否要关闭 panel
+                    if (needToHide) {
+                        _this.hide();
+                    }
+                });
+            });
+        });
+
+        // focus 第一个 elem
+        var $inputs = $container.find('input[type=text],textarea');
+        if ($inputs.length) {
+            $inputs.get(0).focus();
+        }
+
+        // 添加到属性
+        this.$container = $container;
+
+        // 隐藏其他 panel
+        this._hideOtherPanels();
+        // 记录该 menu 已经创建了 panel
+        _isCreatedPanelMenus.push(menu);
+    },
+
+    // 隐藏（移除DOM）
+    hide: function hide() {
+        var menu = this.menu;
+        var $container = this.$container;
+        if ($container) {
+            $container.remove();
+        }
+
+        // 将该 menu 记录中移除
+        _isCreatedPanelMenus = _isCreatedPanelMenus.filter(function (item) {
+            if (item === menu) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    },
+
+    // 一个 panel 展示时，隐藏其他 panel
+    _hideOtherPanels: function _hideOtherPanels() {
+        if (!_isCreatedPanelMenus.length) {
+            return;
+        }
+        _isCreatedPanelMenus.forEach(function (menu) {
+            var panel = menu.panel || {};
+            if (panel.hide) {
+                panel.hide();
+            }
+        });
+    }
+};
+
+/*
+    menu - link
+*/
+// 构造函数
+function Link(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Link.prototype = {
+    constructor: Link,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        var editor = this.editor;
+        var $linkelem = void 0;
+
+        if (this._active) {
+            // 当前选区在链接里面
+            $linkelem = editor.selection.getSelectionContainerElem();
+            if (!$linkelem) {
+                return;
+            }
+            // 将该元素都包含在选取之内，以便后面整体替换
+            editor.selection.createRangeByElem($linkelem);
+            editor.selection.restoreSelection();
+            // 显示 panel
+            this._createPanel($linkelem.text(), $linkelem.attr('href'));
+        } else {
+            // 当前选区不在链接里面
+            if (editor.selection.isSelectionEmpty()) {
+                // 选区是空的，未选中内容
+                this._createPanel('', '');
+            } else {
+                // 选中内容了
+                this._createPanel(editor.selection.getSelectionText(), '');
+            }
+        }
+    },
+
+    // 创建 panel
+    _createPanel: function _createPanel(text, link) {
+        var _this = this;
+
+        // panel 中需要用到的id
+        var inputLinkId = getRandom('input-link');
+        var inputTextId = getRandom('input-text');
+        var btnOkId = getRandom('btn-ok');
+        var btnDelId = getRandom('btn-del');
+
+        // 是否显示“删除链接”
+        var delBtnDisplay = this._active ? 'inline-block' : 'none';
+
+        // 初始化并显示 panel
+        var panel = new Panel(this, {
+            width: 300,
+            // panel 中可包含多个 tab
+            tabs: [{
+                // tab 的标题
+                title: '链接',
+                // 模板
+                tpl: '<div>\n                            <input id="' + inputTextId + '" type="text" class="block" value="' + text + '" placeholder="\u94FE\u63A5\u6587\u5B57"/></td>\n                            <input id="' + inputLinkId + '" type="text" class="block" value="' + link + '" placeholder="http://..."/></td>\n                            <div class="w-e-button-container">\n                                <button id="' + btnOkId + '" class="right">\u63D2\u5165</button>\n                                <button id="' + btnDelId + '" class="gray right" style="display:' + delBtnDisplay + '">\u5220\u9664\u94FE\u63A5</button>\n                            </div>\n                        </div>',
+                // 事件绑定
+                events: [
+                // 插入链接
+                {
+                    selector: '#' + btnOkId,
+                    type: 'click',
+                    fn: function fn() {
+                        // 执行插入链接
+                        var $link = $('#' + inputLinkId);
+                        var $text = $('#' + inputTextId);
+                        var link = $link.val();
+                        var text = $text.val();
+                        _this._insertLink(text, link);
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                },
+                // 删除链接
+                {
+                    selector: '#' + btnDelId,
+                    type: 'click',
+                    fn: function fn() {
+                        // 执行删除链接
+                        _this._delLink();
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // tab end
+            ] // tabs end
+        });
+
+        // 显示 panel
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 删除当前链接
+    _delLink: function _delLink() {
+        if (!this._active) {
+            return;
+        }
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        var selectionText = editor.selection.getSelectionText();
+        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>');
+    },
+
+    // 插入链接
+    _insertLink: function _insertLink(text, link) {
+        var editor = this.editor;
+        var config = editor.config;
+        var linkCheck = config.linkCheck;
+        var checkResult = true; // 默认为 true
+        if (linkCheck && typeof linkCheck === 'function') {
+            checkResult = linkCheck(text, link);
+        }
+        if (checkResult === true) {
+            editor.cmd.do('insertHTML', '<a href="' + link + '" target="_blank">' + text + '</a>');
+        } else {
+            alert(checkResult);
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        if ($selectionELem.getNodeName() === 'A') {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    italic-menu
+*/
+// 构造函数
+function Italic(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-italic"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Italic.prototype = {
+    constructor: Italic,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 italic 命令
+        editor.cmd.do('italic');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('italic')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    redo-menu
+*/
+// 构造函数
+function Redo(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-redo"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Redo.prototype = {
+    constructor: Redo,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+
+        // 执行 redo 命令
+        editor.cmd.do('redo');
+    }
+};
+
+/*
+    strikeThrough-menu
+*/
+// 构造函数
+function StrikeThrough(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-strikethrough"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+StrikeThrough.prototype = {
+    constructor: StrikeThrough,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 strikeThrough 命令
+        editor.cmd.do('strikeThrough');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('strikeThrough')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    underline-menu
+*/
+// 构造函数
+function Underline(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-underline"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Underline.prototype = {
+    constructor: Underline,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 underline 命令
+        editor.cmd.do('underline');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('underline')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    undo-menu
+*/
+// 构造函数
+function Undo(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-undo"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Undo.prototype = {
+    constructor: Undo,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+
+        // 执行 undo 命令
+        editor.cmd.do('undo');
+    }
+};
+
+/*
+    menu - list
+*/
+// 构造函数
+function List(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-list2"></i></div>');
+    this.type = 'droplist';
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 120,
+        $title: $('<p>设置列表</p>'),
+        type: 'list', // droplist 以列表形式展示
+        list: [{ $elem: $('<span><i class="w-e-icon-list-numbered"></i> 有序列表</span>'), value: 'insertOrderedList' }, { $elem: $('<span><i class="w-e-icon-list2"></i> 无序列表</span>'), value: 'insertUnorderedList' }],
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 List 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+List.prototype = {
+    constructor: List,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        editor.selection.restoreSelection();
+        if (editor.cmd.queryCommandState(value)) {
+            return;
+        }
+        editor.cmd.do(value);
+
+        // 验证列表是否被包裹在 <p> 之内
+        var $selectionElem = editor.selection.getSelectionContainerElem();
+        if ($selectionElem.getNodeName() === 'LI') {
+            $selectionElem = $selectionElem.parent();
+        }
+        if (/^ol|ul$/i.test($selectionElem.getNodeName()) === false) {
+            return;
+        }
+        if ($selectionElem.equal($textElem)) {
+            // 证明是顶级标签，没有被 <p> 包裹
+            return;
+        }
+        var $parent = $selectionElem.parent();
+        if ($parent.equal($textElem)) {
+            // $parent 是顶级标签，不能删除
+            return;
+        }
+
+        $selectionElem.insertAfter($parent);
+        $parent.remove();
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('insertUnOrderedList') || editor.cmd.queryCommandState('insertOrderedList')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    menu - justify
+*/
+// 构造函数
+function Justify(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"></i></div>');
+    this.type = 'droplist';
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 100,
+        $title: $('<p>对齐方式</p>'),
+        type: 'list', // droplist 以列表形式展示
+        list: [{ $elem: $('<span><i class="w-e-icon-paragraph-left"></i> 靠左</span>'), value: 'justifyLeft' }, { $elem: $('<span><i class="w-e-icon-paragraph-center"></i> 居中</span>'), value: 'justifyCenter' }, { $elem: $('<span><i class="w-e-icon-paragraph-right"></i> 靠右</span>'), value: 'justifyRight' }],
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 List 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+Justify.prototype = {
+    constructor: Justify,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+        editor.cmd.do(value);
+    }
+};
+
+/*
+    menu - Forecolor
+*/
+// 构造函数
+function ForeColor(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"></i></div>');
+    this.type = 'droplist';
+
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 120,
+        $title: $('<p>文字颜色</p>'),
+        type: 'inline-block', // droplist 内容以 block 形式展示
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-pencil2"></i>'), value: color };
+        }),
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 ForeColor 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+ForeColor.prototype = {
+    constructor: ForeColor,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+        editor.cmd.do('foreColor', value);
+    }
+};
+
+/*
+    menu - BackColor
+*/
+// 构造函数
+function BackColor(editor) {
+    var _this = this;
+
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"></i></div>');
+    this.type = 'droplist';
+
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
+    // 当前是否 active 状态
+    this._active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList(this, {
+        width: 120,
+        $title: $('<p>背景色</p>'),
+        type: 'inline-block', // droplist 内容以 block 形式展示
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-paint-brush"></i>'), value: color };
+        }),
+        onClick: function onClick(value) {
+            // 注意 this 是指向当前的 BackColor 对象
+            _this._command(value);
+        }
+    });
+}
+
+// 原型
+BackColor.prototype = {
+    constructor: BackColor,
+
+    // 执行命令
+    _command: function _command(value) {
+        var editor = this.editor;
+        editor.cmd.do('backColor', value);
+    }
+};
+
+/*
+    menu - quote
+*/
+// 构造函数
+function Quote(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-quotes-left"></i>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Quote.prototype = {
+    constructor: Quote,
+
+    onClick: function onClick(e) {
+        var editor = this.editor;
+        var $selectionElem = editor.selection.getSelectionContainerElem();
+        var nodeName = $selectionElem.getNodeName();
+
+        if (!UA.isIE()) {
+            if (nodeName === 'BLOCKQUOTE') {
+                // 撤销 quote
+                editor.cmd.do('formatBlock', '<P>');
+            } else {
+                // 转换为 quote
+                editor.cmd.do('formatBlock', '<BLOCKQUOTE>');
+            }
+            return;
+        }
+
+        // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
+        var content = void 0,
+            $targetELem = void 0;
+        if (nodeName === 'P') {
+            // 将 P 转换为 quote
+            content = $selectionElem.text();
+            $targetELem = $('<blockquote>' + content + '</blockquote>');
+            $targetELem.insertAfter($selectionElem);
+            $selectionElem.remove();
+            return;
+        }
+        if (nodeName === 'BLOCKQUOTE') {
+            // 撤销 quote
+            content = $selectionElem.text();
+            $targetELem = $('<p>' + content + '</p>');
+            $targetELem.insertAfter($selectionElem);
+            $selectionElem.remove();
+        }
+    },
+
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var reg = /^BLOCKQUOTE$/i;
+        var cmdValue = editor.cmd.queryCommandValue('formatBlock');
+        if (reg.test(cmdValue)) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    menu - code
+*/
+// 构造函数
+function Code(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-terminal"></i>\n        </div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Code.prototype = {
+    constructor: Code,
+
+    onClick: function onClick(e) {
+        var editor = this.editor;
+        var $startElem = editor.selection.getSelectionStartElem();
+        var $endElem = editor.selection.getSelectionEndElem();
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+        var selectionText = editor.selection.getSelectionText();
+        var $code = void 0;
+
+        if (!$startElem.equal($endElem)) {
+            // 跨元素选择，不做处理
+            editor.selection.restoreSelection();
+            return;
+        }
+        if (!isSeleEmpty) {
+            // 选取不是空，用 <code> 包裹即可
+            $code = $('<code>' + selectionText + '</code>');
+            editor.cmd.do('insertElem', $code);
+            editor.selection.createRangeByElem($code, false);
+            editor.selection.restoreSelection();
+            return;
+        }
+
+        // 选取是空，且没有夸元素选择，则插入 <pre><code></code></prev>
+        if (this._active) {
+            // 选中状态，将编辑内容
+            this._createPanel($startElem.html());
+        } else {
+            // 未选中状态，将创建内容
+            this._createPanel();
+        }
+    },
+
+    _createPanel: function _createPanel(value) {
+        var _this = this;
+
+        // value - 要编辑的内容
+        value = value || '';
+        var type = !value ? 'new' : 'edit';
+        var textId = getRandom('texxt');
+        var btnId = getRandom('btn');
+
+        var panel = new Panel(this, {
+            width: 500,
+            // 一个 Panel 包含多个 tab
+            tabs: [{
+                // 标题
+                title: '插入代码',
+                // 模板
+                tpl: '<div>\n                        <textarea id="' + textId + '" style="height:145px;;">' + value + '</textarea>\n                        <div class="w-e-button-container">\n                            <button id="' + btnId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    <div>',
+                // 事件绑定
+                events: [
+                // 插入代码
+                {
+                    selector: '#' + btnId,
+                    type: 'click',
+                    fn: function fn() {
+                        var $text = $('#' + textId);
+                        var text = $text.val() || $text.html();
+                        text = replaceHtmlSymbol(text);
+                        if (type === 'new') {
+                            // 新插入
+                            _this._insertCode(text);
+                        } else {
+                            // 编辑更新
+                            _this._updateCode(text);
+                        }
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // first tab end
+            ] // tabs end
+        }); // new Panel end
+
+        // 显示 panel
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 插入代码
+    _insertCode: function _insertCode(value) {
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', '<pre><code>' + value + '</code></pre><p><br></p>');
+    },
+
+    // 更新代码
+    _updateCode: function _updateCode(value) {
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        $selectionELem.html(value);
+        editor.selection.restoreSelection();
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        var $parentElem = $selectionELem.parent();
+        if ($selectionELem.getNodeName() === 'CODE' && $parentElem.getNodeName() === 'PRE') {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    menu - emoticon
+*/
+// 构造函数
+function Emoticon(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-happy"></i>\n        </div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Emoticon.prototype = {
+    constructor: Emoticon,
+
+    onClick: function onClick() {
+        this._createPanel();
+    },
+
+    _createPanel: function _createPanel() {
+        var _this = this;
+
+        var editor = this.editor;
+        var config = editor.config;
+        // 获取表情配置
+        var emotions = config.emotions || [];
+
+        // 创建表情 dropPanel 的配置
+        var tabConfig = [];
+        emotions.forEach(function (emotData) {
+            var emotType = emotData.type;
+            var content = emotData.content || [];
+
+            // 这一组表情最终拼接出来的 html
+            var faceHtml = '';
+
+            // emoji 表情
+            if (emotType === 'emoji') {
+                content.forEach(function (item) {
+                    if (item) {
+                        faceHtml += '<span class="w-e-item">' + item + '</span>';
+                    }
+                });
+            }
+            // 图片表情
+            if (emotType === 'image') {
+                content.forEach(function (item) {
+                    var src = item.src;
+                    var alt = item.alt;
+                    if (src) {
+                        // 加一个 data-w-e 属性，点击图片的时候不再提示编辑图片
+                        faceHtml += '<span class="w-e-item"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>';
+                    }
+                });
+            }
+
+            tabConfig.push({
+                title: emotData.title,
+                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
+                events: [{
+                    selector: 'span.w-e-item',
+                    type: 'click',
+                    fn: function fn(e) {
+                        var target = e.target;
+                        var $target = $(target);
+                        var nodeName = $target.getNodeName();
+
+                        var insertHtml = void 0;
+                        if (nodeName === 'IMG') {
+                            // 插入图片
+                            insertHtml = $target.parent().html();
+                        } else {
+                            // 插入 emoji
+                            insertHtml = '<span>' + $target.html() + '</span>';
+                        }
+
+                        _this._insert(insertHtml);
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            });
+        });
+
+        var panel = new Panel(this, {
+            width: 300,
+            height: 200,
+            // 一个 Panel 包含多个 tab
+            tabs: tabConfig
+        });
+
+        // 显示 panel
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 插入表情
+    _insert: function _insert(emotHtml) {
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', emotHtml);
+    }
+};
+
+/*
+    menu - table
+*/
+// 构造函数
+function Table(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"></i></div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Table.prototype = {
+    constructor: Table,
+
+    onClick: function onClick() {
+        if (this._active) {
+            // 编辑现有表格
+            this._createEditPanel();
+        } else {
+            // 插入新表格
+            this._createInsertPanel();
+        }
+    },
+
+    // 创建插入新表格的 panel
+    _createInsertPanel: function _createInsertPanel() {
+        var _this = this;
+
+        // 用到的 id
+        var btnInsertId = getRandom('btn');
+        var textRowNum = getRandom('row');
+        var textColNum = getRandom('col');
+
+        var panel = new Panel(this, {
+            width: 250,
+            // panel 包含多个 tab
+            tabs: [{
+                // 标题
+                title: '插入表格',
+                // 模板
+                tpl: '<div>\n                        <p style="text-align:left; padding:5px 0;">\n                            \u521B\u5EFA\n                            <input id="' + textRowNum + '" type="text" value="5" style="width:40px;text-align:center;"/>\n                            \u884C\n                            <input id="' + textColNum + '" type="text" value="5" style="width:40px;text-align:center;"/>\n                            \u5217\u7684\u8868\u683C\n                        </p>\n                        <div class="w-e-button-container">\n                            <button id="' + btnInsertId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    // 点击按钮，插入表格
+                    selector: '#' + btnInsertId,
+                    type: 'click',
+                    fn: function fn() {
+                        var rowNum = parseInt($('#' + textRowNum).val());
+                        var colNum = parseInt($('#' + textColNum).val());
+
+                        if (rowNum && colNum && rowNum > 0 && colNum > 0) {
+                            // form 数据有效
+                            _this._insert(rowNum, colNum);
+                        }
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // first tab end
+            ] // tabs end
+        }); // panel end
+
+        // 展示 panel
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 插入表格
+    _insert: function _insert(rowNum, colNum) {
+        // 拼接 table 模板
+        var r = void 0,
+            c = void 0;
+        var html = '<table border="0" width="100%" cellpadding="0" cellspacing="0">';
+        for (r = 0; r < rowNum; r++) {
+            html += '<tr>';
+            if (r === 0) {
+                for (c = 0; c < colNum; c++) {
+                    html += '<th>&nbsp;</th>';
+                }
+            } else {
+                for (c = 0; c < colNum; c++) {
+                    html += '<td>&nbsp;</td>';
+                }
+            }
+            html += '</tr>';
+        }
+        html += '</table><p><br></p>';
+
+        // 执行命令
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', html);
+
+        // 防止 firefox 下出现 resize 的控制点
+        editor.cmd.do('enableObjectResizing', false);
+        editor.cmd.do('enableInlineTableEditing', false);
+    },
+
+    // 创建编辑表格的 panel
+    _createEditPanel: function _createEditPanel() {
+        var _this2 = this;
+
+        // 可用的 id
+        var addRowBtnId = getRandom('add-row');
+        var addColBtnId = getRandom('add-col');
+        var delRowBtnId = getRandom('del-row');
+        var delColBtnId = getRandom('del-col');
+        var delTableBtnId = getRandom('del-table');
+
+        // 创建 panel 对象
+        var panel = new Panel(this, {
+            width: 320,
+            // panel 包含多个 tab
+            tabs: [{
+                // 标题
+                title: '编辑表格',
+                // 模板
+                tpl: '<div>\n                        <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">\n                            <button id="' + addRowBtnId + '" class="left">\u589E\u52A0\u884C</button>\n                            <button id="' + delRowBtnId + '" class="red left">\u5220\u9664\u884C</button>\n                            <button id="' + addColBtnId + '" class="left">\u589E\u52A0\u5217</button>\n                            <button id="' + delColBtnId + '" class="red left">\u5220\u9664\u5217</button>\n                        </div>\n                        <div class="w-e-button-container">\n                            <button id="' + delTableBtnId + '" class="gray left">\u5220\u9664\u8868\u683C</button>\n                        </dv>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    // 增加行
+                    selector: '#' + addRowBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._addRow();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 增加列
+                    selector: '#' + addColBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._addCol();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除行
+                    selector: '#' + delRowBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delRow();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除列
+                    selector: '#' + delColBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delCol();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除表格
+                    selector: '#' + delTableBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delTable();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            }]
+        });
+        // 显示 panel
+        panel.show();
+    },
+
+    // 获取选中的单元格的位置信息
+    _getLocationData: function _getLocationData() {
+        var result = {};
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        var nodeName = $selectionELem.getNodeName();
+        if (nodeName !== 'TD' && nodeName !== 'TH') {
+            return;
+        }
+
+        // 获取 td index
+        var $tr = $selectionELem.parent();
+        var $tds = $tr.children();
+        var tdLength = $tds.length;
+        $tds.forEach(function (td, index) {
+            if (td === $selectionELem[0]) {
+                // 记录并跳出循环
+                result.td = {
+                    index: index,
+                    elem: td,
+                    length: tdLength
+                };
+                return false;
+            }
+        });
+
+        // 获取 tr index
+        var $tbody = $tr.parent();
+        var $trs = $tbody.children();
+        var trLength = $trs.length;
+        $trs.forEach(function (tr, index) {
+            if (tr === $tr[0]) {
+                // 记录并跳出循环
+                result.tr = {
+                    index: index,
+                    elem: tr,
+                    length: trLength
+                };
+                return false;
+            }
+        });
+
+        // 返回结果
+        return result;
+    },
+
+    // 增加行
+    _addRow: function _addRow() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var $currentTr = $(trData.elem);
+        var tdData = locationData.td;
+        var tdLength = tdData.length;
+
+        // 拼接即将插入的字符串
+        var newTr = document.createElement('tr');
+        var tpl = '',
+            i = void 0;
+        for (i = 0; i < tdLength; i++) {
+            tpl += '<td>&nbsp;</td>';
+        }
+        newTr.innerHTML = tpl;
+        // 插入
+        $(newTr).insertAfter($currentTr);
+    },
+
+    // 增加列
+    _addCol: function _addCol() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var tdData = locationData.td;
+        var tdIndex = tdData.index;
+        var $currentTr = $(trData.elem);
+        var $trParent = $currentTr.parent();
+        var $trs = $trParent.children();
+
+        // 遍历所有行
+        $trs.forEach(function (tr) {
+            var $tr = $(tr);
+            var $tds = $tr.children();
+            var $currentTd = $tds.get(tdIndex);
+            var name = $currentTd.getNodeName().toLowerCase();
+
+            // new 一个 td，并插入
+            var newTd = document.createElement(name);
+            $(newTd).insertAfter($currentTd);
+        });
+    },
+
+    // 删除行
+    _delRow: function _delRow() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var $currentTr = $(trData.elem);
+        $currentTr.remove();
+    },
+
+    // 删除列
+    _delCol: function _delCol() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var tdData = locationData.td;
+        var tdIndex = tdData.index;
+        var $currentTr = $(trData.elem);
+        var $trParent = $currentTr.parent();
+        var $trs = $trParent.children();
+
+        // 遍历所有行
+        $trs.forEach(function (tr) {
+            var $tr = $(tr);
+            var $tds = $tr.children();
+            var $currentTd = $tds.get(tdIndex);
+            // 删除
+            $currentTd.remove();
+        });
+    },
+
+    // 删除表格
+    _delTable: function _delTable() {
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        var $table = $selectionELem.parentUntil('table');
+        if (!$table) {
+            return;
+        }
+        $table.remove();
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        if (!$selectionELem) {
+            return;
+        }
+        var nodeName = $selectionELem.getNodeName();
+        if (nodeName === 'TD' || nodeName === 'TH') {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    menu - video
+*/
+// 构造函数
+function Video(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"></i></div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Video.prototype = {
+    constructor: Video,
+
+    onClick: function onClick() {
+        this._createPanel();
+    },
+
+    _createPanel: function _createPanel() {
+        var _this = this;
+
+        // 创建 id
+        var textValId = getRandom('text-val');
+        var btnId = getRandom('btn');
+
+        // 创建 panel
+        var panel = new Panel(this, {
+            width: 350,
+            // 一个 panel 多个 tab
+            tabs: [{
+                // 标题
+                title: '插入视频',
+                // 模板
+                tpl: '<div>\n                        <input id="' + textValId + '" type="text" class="block" placeholder="\u683C\u5F0F\u5982\uFF1A<iframe src=... ></iframe>"/>\n                        <div class="w-e-button-container">\n                            <button id="' + btnId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    selector: '#' + btnId,
+                    type: 'click',
+                    fn: function fn() {
+                        var $text = $('#' + textValId);
+                        var val = $text.val().trim();
+
+                        // 测试用视频地址
+                        // <iframe height=498 width=510 src='http://player.youku.com/embed/XMjcwMzc3MzM3Mg==' frameborder=0 'allowfullscreen'></iframe>
+
+                        if (val) {
+                            // 插入视频
+                            _this._insert(val);
+                        }
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // first tab end
+            ] // tabs end
+        }); // panel end
+
+        // 显示 panel
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 插入视频
+    _insert: function _insert(val) {
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', val + '<p><br></p>');
+    }
+};
+
+/*
+    menu - img
+*/
+// 构造函数
+function Image(editor) {
+    this.editor = editor;
+    var imgMenuId = getRandom('w-e-img');
+    this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"></i></div>');
+    editor.imgMenuId = imgMenuId;
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Image.prototype = {
+    constructor: Image,
+
+    onClick: function onClick() {
+        var editor = this.editor;
+        var config = editor.config;
+        if (config.qiniu) {
+            return;
+        }
+        if (this._active) {
+            this._createEditPanel();
+        } else {
+            this._createInsertPanel();
+        }
+    },
+
+    _createEditPanel: function _createEditPanel() {
+        var editor = this.editor;
+
+        // id
+        var width30 = getRandom('width-30');
+        var width50 = getRandom('width-50');
+        var width100 = getRandom('width-100');
+        var delBtn = getRandom('del-btn');
+
+        // tab 配置
+        var tabsConfig = [{
+            title: '编辑图片',
+            tpl: '<div>\n                    <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">\n                        <span style="float:left;font-size:14px;margin:4px 5px 0 5px;color:#333;">\u6700\u5927\u5BBD\u5EA6\uFF1A</span>\n                        <button id="' + width30 + '" class="left">30%</button>\n                        <button id="' + width50 + '" class="left">50%</button>\n                        <button id="' + width100 + '" class="left">100%</button>\n                    </div>\n                    <div class="w-e-button-container">\n                        <button id="' + delBtn + '" class="gray left">\u5220\u9664\u56FE\u7247</button>\n                    </dv>\n                </div>',
+            events: [{
+                selector: '#' + width30,
+                type: 'click',
+                fn: function fn() {
+                    var $img = editor._selectedImg;
+                    if ($img) {
+                        $img.css('max-width', '30%');
+                    }
+                    // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                    return true;
+                }
+            }, {
+                selector: '#' + width50,
+                type: 'click',
+                fn: function fn() {
+                    var $img = editor._selectedImg;
+                    if ($img) {
+                        $img.css('max-width', '50%');
+                    }
+                    // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                    return true;
+                }
+            }, {
+                selector: '#' + width100,
+                type: 'click',
+                fn: function fn() {
+                    var $img = editor._selectedImg;
+                    if ($img) {
+                        $img.css('max-width', '100%');
+                    }
+                    // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                    return true;
+                }
+            }, {
+                selector: '#' + delBtn,
+                type: 'click',
+                fn: function fn() {
+                    var $img = editor._selectedImg;
+                    if ($img) {
+                        $img.remove();
+                    }
+                    // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                    return true;
+                }
+            }]
+        }];
+
+        // 创建 panel 并显示
+        var panel = new Panel(this, {
+            width: 300,
+            tabs: tabsConfig
+        });
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    _createInsertPanel: function _createInsertPanel() {
+        var editor = this.editor;
+        var uploadImg = editor.uploadImg;
+        var config = editor.config;
+
+        // id
+        var upTriggerId = getRandom('up-trigger');
+        var upFileId = getRandom('up-file');
+        var linkUrlId = getRandom('link-url');
+        var linkBtnId = getRandom('link-btn');
+
+        // tabs 的配置
+        var tabsConfig = [{
+            title: '上传图片',
+            tpl: '<div class="w-e-up-img-container">\n                    <div id="' + upTriggerId + '" class="w-e-up-btn">\n                        <i class="w-e-icon-upload2"></i>\n                    </div>\n                    <div style="display:none;">\n                        <input id="' + upFileId + '" type="file" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>\n                    </div>\n                </div>',
+            events: [{
+                // 触发选择图片
+                selector: '#' + upTriggerId,
+                type: 'click',
+                fn: function fn() {
+                    var $file = $('#' + upFileId);
+                    var fileElem = $file[0];
+                    if (fileElem) {
+                        fileElem.click();
+                    } else {
+                        // 返回 true 可关闭 panel
+                        return true;
+                    }
+                }
+            }, {
+                // 选择图片完毕
+                selector: '#' + upFileId,
+                type: 'change',
+                fn: function fn() {
+                    var $file = $('#' + upFileId);
+                    var fileElem = $file[0];
+                    if (!fileElem) {
+                        // 返回 true 可关闭 panel
+                        return true;
+                    }
+
+                    // 获取选中的 file 对象列表
+                    var fileList = fileElem.files;
+                    if (fileList.length) {
+                        uploadImg.uploadImg(fileList);
+                    }
+
+                    // 返回 true 可关闭 panel
+                    return true;
+                }
+            }]
+        }, // first tab end
+        {
+            title: '网络图片',
+            tpl: '<div>\n                    <input id="' + linkUrlId + '" type="text" class="block" placeholder="\u56FE\u7247\u94FE\u63A5"/></td>\n                    <div class="w-e-button-container">\n                        <button id="' + linkBtnId + '" class="right">\u63D2\u5165</button>\n                    </div>\n                </div>',
+            events: [{
+                selector: '#' + linkBtnId,
+                type: 'click',
+                fn: function fn() {
+                    var $linkUrl = $('#' + linkUrlId);
+                    var url = $linkUrl.val().trim();
+
+                    if (url) {
+                        uploadImg.insertLinkImg(url);
+                    }
+
+                    // 返回 true 表示函数执行结束之后关闭 panel
+                    return true;
+                }
+            }]
+        } // second tab end
+        ]; // tabs end
+
+        // 判断 tabs 的显示
+        var tabsConfigResult = [];
+        if ((config.uploadImgShowBase64 || config.uploadImgServer || config.customUploadImg) && window.FileReader) {
+            // 显示“上传图片”
+            tabsConfigResult.push(tabsConfig[0]);
+        }
+        if (config.showLinkImg) {
+            // 显示“网络图片”
+            tabsConfigResult.push(tabsConfig[1]);
+        }
+
+        // 创建 panel 并显示
+        var panel = new Panel(this, {
+            width: 300,
+            tabs: tabsConfigResult
+        });
+        panel.show();
+
+        // 记录属性
+        this.panel = panel;
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor._selectedImg) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    所有菜单的汇总
+*/
+
+// 存储菜单的构造函数
+var MenuConstructors = {};
+
+MenuConstructors.bold = Bold;
+
+MenuConstructors.head = Head;
+
+MenuConstructors.fontSize = FontSize;
+
+MenuConstructors.fontName = FontName;
+
+MenuConstructors.link = Link;
+
+MenuConstructors.italic = Italic;
+
+MenuConstructors.redo = Redo;
+
+MenuConstructors.strikeThrough = StrikeThrough;
+
+MenuConstructors.underline = Underline;
+
+MenuConstructors.undo = Undo;
+
+MenuConstructors.list = List;
+
+MenuConstructors.justify = Justify;
+
+MenuConstructors.foreColor = ForeColor;
+
+MenuConstructors.backColor = BackColor;
+
+MenuConstructors.quote = Quote;
+
+MenuConstructors.code = Code;
+
+MenuConstructors.emoticon = Emoticon;
+
+MenuConstructors.table = Table;
+
+MenuConstructors.video = Video;
+
+MenuConstructors.image = Image;
+
+/*
+    菜单集合
+*/
+// 构造函数
+function Menus(editor) {
+    this.editor = editor;
+    this.menus = {};
+}
+
+// 修改原型
+Menus.prototype = {
+    constructor: Menus,
+
+    // 初始化菜单
+    init: function init() {
+        var _this = this;
+
+        var editor = this.editor;
+        var config = editor.config || {};
+        var configMenus = config.menus || []; // 获取配置中的菜单
+
+        // 根据配置信息，创建菜单
+        configMenus.forEach(function (menuKey) {
+            var MenuConstructor = MenuConstructors[menuKey];
+            if (MenuConstructor && typeof MenuConstructor === 'function') {
+                // 创建单个菜单
+                _this.menus[menuKey] = new MenuConstructor(editor);
+            }
+        });
+
+        // 添加到菜单栏
+        this._addToToolbar();
+
+        // 绑定事件
+        this._bindEvent();
+    },
+
+    // 添加到菜单栏
+    _addToToolbar: function _addToToolbar() {
+        var editor = this.editor;
+        var $toolbarElem = editor.$toolbarElem;
+        var menus = this.menus;
+        var config = editor.config;
+        // config.zIndex 是配置的编辑区域的 z-index，菜单的 z-index 得在其基础上 +1
+        var zIndex = config.zIndex + 1;
+        objForEach(menus, function (key, menu) {
+            var $elem = menu.$elem;
+            if ($elem) {
+                // 设置 z-index
+                $elem.css('z-index', zIndex);
+                $toolbarElem.append($elem);
+            }
+        });
+    },
+
+    // 绑定菜单 click mouseenter 事件
+    _bindEvent: function _bindEvent() {
+        var menus = this.menus;
+        var editor = this.editor;
+        objForEach(menus, function (key, menu) {
+            var type = menu.type;
+            if (!type) {
+                return;
+            }
+            var $elem = menu.$elem;
+            var droplist = menu.droplist;
+            var panel = menu.panel;
+
+            // 点击类型，例如 bold
+            if (type === 'click' && menu.onClick) {
+                $elem.on('click', function (e) {
+                    if (editor.selection.getRange() == null) {
+                        return;
+                    }
+                    menu.onClick(e);
+                });
+            }
+
+            // 下拉框，例如 head
+            if (type === 'droplist' && droplist) {
+                $elem.on('mouseenter', function (e) {
+                    if (editor.selection.getRange() == null) {
+                        return;
+                    }
+                    // 显示
+                    droplist.showTimeoutId = setTimeout(function () {
+                        droplist.show();
+                    }, 200);
+                }).on('mouseleave', function (e) {
+                    // 隐藏
+                    droplist.hideTimeoutId = setTimeout(function () {
+                        droplist.hide();
+                    }, 0);
+                });
+            }
+
+            // 弹框类型，例如 link
+            if (type === 'panel' && menu.onClick) {
+                $elem.on('click', function (e) {
+                    e.stopPropagation();
+                    if (editor.selection.getRange() == null) {
+                        return;
+                    }
+                    // 在自定义事件中显示 panel
+                    menu.onClick(e);
+                });
+            }
+        });
+    },
+
+    // 尝试修改菜单状态
+    changeActive: function changeActive() {
+        var menus = this.menus;
+        objForEach(menus, function (key, menu) {
+            if (menu.tryChangeActive) {
+                setTimeout(function () {
+                    menu.tryChangeActive();
+                }, 100);
+            }
+        });
+    }
+};
+
+/*
+    粘贴信息的处理
+*/
+
+// 获取粘贴的纯文本
+function getPasteText(e) {
+    var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData;
+    var pasteText = void 0;
+    if (clipboardData == null) {
+        pasteText = window.clipboardData && window.clipboardData.getData('text');
+    } else {
+        pasteText = clipboardData.getData('text/plain');
+    }
+
+    return replaceHtmlSymbol(pasteText);
+}
+
+// 获取粘贴的html
+function getPasteHtml(e, filterStyle, ignoreImg) {
+    var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData;
+    var pasteText = void 0,
+        pasteHtml = void 0;
+    if (clipboardData == null) {
+        pasteText = window.clipboardData && window.clipboardData.getData('text');
+    } else {
+        pasteText = clipboardData.getData('text/plain');
+        pasteHtml = clipboardData.getData('text/html');
+    }
+    if (!pasteHtml && pasteText) {
+        pasteHtml = '<p>' + replaceHtmlSymbol(pasteText) + '</p>';
+    }
+    if (!pasteHtml) {
+        return;
+    }
+
+    // 过滤word中状态过来的无用字符
+    var docSplitHtml = pasteHtml.split('</html>');
+    if (docSplitHtml.length === 2) {
+        pasteHtml = docSplitHtml[0];
+    }
+
+    // 过滤无用标签
+    pasteHtml = pasteHtml.replace(/<(meta|script|link).+?>/igm, '');
+    // 去掉注释
+    pasteHtml = pasteHtml.replace(/<!--.*?-->/mg, '');
+    // 过滤 data-xxx 属性
+    pasteHtml = pasteHtml.replace(/\s?data-.+?=('|").+?('|")/igm, '');
+
+    if (ignoreImg) {
+        // 忽略图片
+        pasteHtml = pasteHtml.replace(/<img.+?>/igm, '');
+    }
+
+    if (filterStyle) {
+        // 过滤样式
+        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").*?('|")/igm, '');
+    } else {
+        // 保留样式
+        pasteHtml = pasteHtml.replace(/\s?class=('|").*?('|")/igm, '');
+    }
+
+    return pasteHtml;
+}
+
+// 获取粘贴的图片文件
+function getPasteImgs(e) {
+    var result = [];
+    var txt = getPasteText(e);
+    if (txt) {
+        // 有文字，就忽略图片
+        return result;
+    }
+
+    var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData || {};
+    var items = clipboardData.items;
+    if (!items) {
+        return result;
+    }
+
+    objForEach(items, function (key, value) {
+        var type = value.type;
+        if (/image/i.test(type)) {
+            result.push(value.getAsFile());
+        }
+    });
+
+    return result;
+}
+
+/*
+    编辑区域
+*/
+
+// 获取一个 elem.childNodes 的 JSON 数据
+function getChildrenJSON($elem) {
+    var result = [];
+    var $children = $elem.childNodes() || []; // 注意 childNodes() 可以获取文本节点
+    $children.forEach(function (curElem) {
+        var elemResult = void 0;
+        var nodeType = curElem.nodeType;
+
+        // 文本节点
+        if (nodeType === 3) {
+            elemResult = curElem.textContent;
+            elemResult = replaceHtmlSymbol(elemResult);
+        }
+
+        // 普通 DOM 节点
+        if (nodeType === 1) {
+            elemResult = {};
+
+            // tag
+            elemResult.tag = curElem.nodeName.toLowerCase();
+            // attr
+            var attrData = [];
+            var attrList = curElem.attributes || {};
+            var attrListLength = attrList.length || 0;
+            for (var i = 0; i < attrListLength; i++) {
+                var attr = attrList[i];
+                attrData.push({
+                    name: attr.name,
+                    value: attr.value
+                });
+            }
+            elemResult.attrs = attrData;
+            // children（递归）
+            elemResult.children = getChildrenJSON($(curElem));
+        }
+
+        result.push(elemResult);
+    });
+    return result;
+}
+
+// 构造函数
+function Text(editor) {
+    this.editor = editor;
+}
+
+// 修改原型
+Text.prototype = {
+    constructor: Text,
+
+    // 初始化
+    init: function init() {
+        // 绑定事件
+        this._bindEvent();
+    },
+
+    // 清空内容
+    clear: function clear() {
+        this.html('<p><br></p>');
+    },
+
+    // 获取 设置 html
+    html: function html(val) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        var html = void 0;
+        if (val == null) {
+            html = $textElem.html();
+            // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
+            html = html.replace(/\u200b/gm, '');
+            return html;
+        } else {
+            $textElem.html(val);
+
+            // 初始化选取，将光标定位到内容尾部
+            editor.initSelection();
+        }
+    },
+
+    // 获取 JSON
+    getJSON: function getJSON() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        return getChildrenJSON($textElem);
+    },
+
+    // 获取 设置 text
+    text: function text(val) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        var text = void 0;
+        if (val == null) {
+            text = $textElem.text();
+            // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
+            text = text.replace(/\u200b/gm, '');
+            return text;
+        } else {
+            $textElem.text('<p>' + val + '</p>');
+
+            // 初始化选取，将光标定位到内容尾部
+            editor.initSelection();
+        }
+    },
+
+    // 追加内容
+    append: function append(html) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        $textElem.append($(html));
+
+        // 初始化选取，将光标定位到内容尾部
+        editor.initSelection();
+    },
+
+    // 绑定事件
+    _bindEvent: function _bindEvent() {
+        // 实时保存选取
+        this._saveRangeRealTime();
+
+        // 按回车建时的特殊处理
+        this._enterKeyHandle();
+
+        // 清空时保留 <p><br></p>
+        this._clearHandle();
+
+        // 粘贴事件（粘贴文字，粘贴图片）
+        this._pasteHandle();
+
+        // tab 特殊处理
+        this._tabHandle();
+
+        // img 点击
+        this._imgHandle();
+
+        // 拖拽事件
+        this._dragHandle();
+    },
+
+    // 实时保存选取
+    _saveRangeRealTime: function _saveRangeRealTime() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+
+        // 保存当前的选区
+        function saveRange(e) {
+            // 随时保存选区
+            editor.selection.saveRange();
+            // 更新按钮 ative 状态
+            editor.menus.changeActive();
+        }
+        // 按键后保存
+        $textElem.on('keyup', saveRange);
+        $textElem.on('mousedown', function (e) {
+            // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
+            $textElem.on('mouseleave', saveRange);
+        });
+        $textElem.on('mouseup', function (e) {
+            saveRange();
+            // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
+            $textElem.off('mouseleave', saveRange);
+        });
+    },
+
+    // 按回车键时的特殊处理
+    _enterKeyHandle: function _enterKeyHandle() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+
+        function insertEmptyP($selectionElem) {
+            var $p = $('<p><br></p>');
+            $p.insertBefore($selectionElem);
+            editor.selection.createRangeByElem($p, true);
+            editor.selection.restoreSelection();
+            $selectionElem.remove();
+        }
+
+        // 将回车之后生成的非 <p> 的顶级标签，改为 <p>
+        function pHandle(e) {
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            var $parentElem = $selectionElem.parent();
+
+            if ($parentElem.html() === '<code><br></code>') {
+                // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
+                // 而且继续回车跳不出去，因此只能特殊处理
+                insertEmptyP($selectionElem);
+                return;
+            }
+
+            if (!$parentElem.equal($textElem)) {
+                // 不是顶级标签
+                return;
+            }
+
+            var nodeName = $selectionElem.getNodeName();
+            if (nodeName === 'P') {
+                // 当前的标签是 P ，不用做处理
+                return;
+            }
+
+            if ($selectionElem.text()) {
+                // 有内容，不做处理
+                return;
+            }
+
+            // 插入 <p> ，并将选取定位到 <p>，删除当前标签
+            insertEmptyP($selectionElem);
+        }
+
+        $textElem.on('keyup', function (e) {
+            if (e.keyCode !== 13) {
+                // 不是回车键
+                return;
+            }
+            // 将回车之后生成的非 <p> 的顶级标签，改为 <p>
+            pHandle(e);
+        });
+
+        // <pre><code></code></pre> 回车时 特殊处理
+        function codeHandle(e) {
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var $parentElem = $selectionElem.parent();
+            var selectionNodeName = $selectionElem.getNodeName();
+            var parentNodeName = $parentElem.getNodeName();
+
+            if (selectionNodeName !== 'CODE' || parentNodeName !== 'PRE') {
+                // 不符合要求 忽略
+                return;
+            }
+
+            if (!editor.cmd.queryCommandSupported('insertHTML')) {
+                // 必须原生支持 insertHTML 命令
+                return;
+            }
+
+            // 处理：光标定位到代码末尾，联系点击两次回车，即跳出代码块
+            if (editor._willBreakCode === true) {
+                // 此时可以跳出代码块
+                // 插入 <p> ，并将选取定位到 <p>
+                var $p = $('<p><br></p>');
+                $p.insertAfter($parentElem);
+                editor.selection.createRangeByElem($p, true);
+                editor.selection.restoreSelection();
+
+                // 修改状态
+                editor._willBreakCode = false;
+
+                e.preventDefault();
+                return;
+            }
+
+            var _startOffset = editor.selection.getRange().startOffset;
+
+            // 处理：回车时，不能插入 <br> 而是插入 \n ，因为是在 pre 标签里面
+            editor.cmd.do('insertHTML', '\n');
+            editor.selection.saveRange();
+            if (editor.selection.getRange().startOffset === _startOffset) {
+                // 没起作用，再来一遍
+                editor.cmd.do('insertHTML', '\n');
+            }
+
+            var codeLength = $selectionElem.html().length;
+            if (editor.selection.getRange().startOffset + 1 === codeLength) {
+                // 说明光标在代码最后的位置，执行了回车操作
+                // 记录下来，以便下次回车时候跳出 code
+                editor._willBreakCode = true;
+            }
+
+            // 阻止默认行为
+            e.preventDefault();
+        }
+
+        $textElem.on('keydown', function (e) {
+            if (e.keyCode !== 13) {
+                // 不是回车键
+                // 取消即将跳转代码块的记录
+                editor._willBreakCode = false;
+                return;
+            }
+            // <pre><code></code></pre> 回车时 特殊处理
+            codeHandle(e);
+        });
+    },
+
+    // 清空时保留 <p><br></p>
+    _clearHandle: function _clearHandle() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+
+        $textElem.on('keydown', function (e) {
+            if (e.keyCode !== 8) {
+                return;
+            }
+            var txtHtml = $textElem.html().toLowerCase().trim();
+            if (txtHtml === '<p><br></p>') {
+                // 最后剩下一个空行，就不再删除了
+                e.preventDefault();
+                return;
+            }
+        });
+
+        $textElem.on('keyup', function (e) {
+            if (e.keyCode !== 8) {
+                return;
+            }
+            var $p = void 0;
+            var txtHtml = $textElem.html().toLowerCase().trim();
+
+            // firefox 时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
+            if (!txtHtml || txtHtml === '<br>') {
+                // 内容空了
+                $p = $('<p><br/></p>');
+                $textElem.html(''); // 一定要先清空，否则在 firefox 下有问题
+                $textElem.append($p);
+                editor.selection.createRangeByElem($p, false, true);
+                editor.selection.restoreSelection();
+            }
+        });
+    },
+
+    // 粘贴事件（粘贴文字 粘贴图片）
+    _pasteHandle: function _pasteHandle() {
+        var editor = this.editor;
+        var config = editor.config;
+        var pasteFilterStyle = config.pasteFilterStyle;
+        var pasteTextHandle = config.pasteTextHandle;
+        var ignoreImg = config.pasteIgnoreImg;
+        var $textElem = editor.$textElem;
+
+        // 粘贴图片、文本的事件，每次只能执行一个
+        // 判断该次粘贴事件是否可以执行
+        var pasteTime = 0;
+        function canDo() {
+            var now = Date.now();
+            var flag = false;
+            if (now - pasteTime >= 100) {
+                // 间隔大于 100 ms ，可以执行
+                flag = true;
+            }
+            pasteTime = now;
+            return flag;
+        }
+        function resetTime() {
+            pasteTime = 0;
+        }
+
+        // 粘贴文字
+        $textElem.on('paste', function (e) {
+            if (UA.isIE()) {
+                return;
+            } else {
+                // 阻止默认行为，使用 execCommand 的粘贴命令
+                e.preventDefault();
+            }
+
+            // 粘贴图片和文本，只能同时使用一个
+            if (!canDo()) {
+                return;
+            }
+
+            // 获取粘贴的文字
+            var pasteHtml = getPasteHtml(e, pasteFilterStyle, ignoreImg);
+            var pasteText = getPasteText(e);
+            pasteText = pasteText.replace(/\n/gm, '<br>');
+
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var nodeName = $selectionElem.getNodeName();
+
+            // code 中只能粘贴纯文本
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteText = '' + (pasteTextHandle(pasteText) || '');
+                }
+                editor.cmd.do('insertHTML', '<p>' + pasteText + '</p>');
+                return;
+            }
+
+            // 先放开注释，有问题再追查 ————
+            // // 表格中忽略，可能会出现异常问题
+            // if (nodeName === 'TD' || nodeName === 'TH') {
+            //     return
+            // }
+
+            if (!pasteHtml) {
+                // 没有内容，可继续执行下面的图片粘贴
+                resetTime();
+                return;
+            }
+            try {
+                // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
+                // 因此执行 insertHTML 会报错
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteHtml = '' + (pasteTextHandle(pasteHtml) || '');
+                }
+                editor.cmd.do('insertHTML', pasteHtml);
+            } catch (ex) {
+                // 此时使用 pasteText 来兼容一下
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteText = '' + (pasteTextHandle(pasteText) || '');
+                }
+                editor.cmd.do('insertHTML', '<p>' + pasteText + '</p>');
+            }
+        });
+
+        // 粘贴图片
+        $textElem.on('paste', function (e) {
+            if (UA.isIE()) {
+                return;
+            } else {
+                e.preventDefault();
+            }
+
+            // 粘贴图片和文本，只能同时使用一个
+            if (!canDo()) {
+                return;
+            }
+
+            // 获取粘贴的图片
+            var pasteFiles = getPasteImgs(e);
+            if (!pasteFiles || !pasteFiles.length) {
+                return;
+            }
+
+            // 获取当前的元素
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var nodeName = $selectionElem.getNodeName();
+
+            // code 中粘贴忽略
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                return;
+            }
+
+            // 上传图片
+            var uploadImg = editor.uploadImg;
+            uploadImg.uploadImg(pasteFiles);
+        });
+    },
+
+    // tab 特殊处理
+    _tabHandle: function _tabHandle() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+
+        $textElem.on('keydown', function (e) {
+            if (e.keyCode !== 9) {
+                return;
+            }
+            if (!editor.cmd.queryCommandSupported('insertHTML')) {
+                // 必须原生支持 insertHTML 命令
+                return;
+            }
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var $parentElem = $selectionElem.parent();
+            var selectionNodeName = $selectionElem.getNodeName();
+            var parentNodeName = $parentElem.getNodeName();
+
+            if (selectionNodeName === 'CODE' && parentNodeName === 'PRE') {
+                // <pre><code> 里面
+                editor.cmd.do('insertHTML', '    ');
+            } else {
+                // 普通文字
+                editor.cmd.do('insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
+
+            e.preventDefault();
+        });
+    },
+
+    // img 点击
+    _imgHandle: function _imgHandle() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+
+        // 为图片增加 selected 样式
+        $textElem.on('click', 'img', function (e) {
+            var img = this;
+            var $img = $(img);
+
+            if ($img.attr('data-w-e') === '1') {
+                // 是表情图片，忽略
+                return;
+            }
+
+            // 记录当前点击过的图片
+            editor._selectedImg = $img;
+
+            // 修改选区并 restore ，防止用户此时点击退格键，会删除其他内容
+            editor.selection.createRangeByElem($img);
+            editor.selection.restoreSelection();
+        });
+
+        // 去掉图片的 selected 样式
+        $textElem.on('click  keyup', function (e) {
+            if (e.target.matches('img')) {
+                // 点击的是图片，忽略
+                return;
+            }
+            // 删除记录
+            editor._selectedImg = null;
+        });
+    },
+
+    // 拖拽事件
+    _dragHandle: function _dragHandle() {
+        var editor = this.editor;
+
+        // 禁用 document 拖拽事件
+        var $document = $(document);
+        $document.on('dragleave drop dragenter dragover', function (e) {
+            e.preventDefault();
+        });
+
+        // 添加编辑区域拖拽事件
+        var $textElem = editor.$textElem;
+        $textElem.on('drop', function (e) {
+            e.preventDefault();
+            var files = e.dataTransfer && e.dataTransfer.files;
+            if (!files || !files.length) {
+                return;
+            }
+
+            // 上传图片
+            var uploadImg = editor.uploadImg;
+            uploadImg.uploadImg(files);
+        });
+    }
+};
+
+/*
+    命令，封装 document.execCommand
+*/
+
+// 构造函数
+function Command(editor) {
+    this.editor = editor;
+}
+
+// 修改原型
+Command.prototype = {
+    constructor: Command,
+
+    // 执行命令
+    do: function _do(name, value) {
+        var editor = this.editor;
+
+        // 使用 styleWithCSS
+        if (!editor._useStyleWithCSS) {
+            document.execCommand('styleWithCSS', null, true);
+            editor._useStyleWithCSS = true;
+        }
+
+        // 如果无选区，忽略
+        if (!editor.selection.getRange()) {
+            return;
+        }
+
+        // 恢复选取
+        editor.selection.restoreSelection();
+
+        // 执行
+        var _name = '_' + name;
+        if (this[_name]) {
+            // 有自定义事件
+            this[_name](value);
+        } else {
+            // 默认 command
+            this._execCommand(name, value);
+        }
+
+        // 修改菜单状态
+        editor.menus.changeActive();
+
+        // 最后，恢复选取保证光标在原来的位置闪烁
+        editor.selection.saveRange();
+        editor.selection.restoreSelection();
+
+        // 触发 onchange
+        editor.change && editor.change();
+    },
+
+    // 自定义 insertHTML 事件
+    _insertHTML: function _insertHTML(html) {
+        var editor = this.editor;
+        var range = editor.selection.getRange();
+
+        if (this.queryCommandSupported('insertHTML')) {
+            // W3C
+            this._execCommand('insertHTML', html);
+        } else if (range.insertNode) {
+            // IE
+            range.deleteContents();
+            range.insertNode($(html)[0]);
+        } else if (range.pasteHTML) {
+            // IE <= 10
+            range.pasteHTML(html);
+        }
+    },
+
+    // 插入 elem
+    _insertElem: function _insertElem($elem) {
+        var editor = this.editor;
+        var range = editor.selection.getRange();
+
+        if (range.insertNode) {
+            range.deleteContents();
+            range.insertNode($elem[0]);
+        }
+    },
+
+    // 封装 execCommand
+    _execCommand: function _execCommand(name, value) {
+        document.execCommand(name, false, value);
+    },
+
+    // 封装 document.queryCommandValue
+    queryCommandValue: function queryCommandValue(name) {
+        return document.queryCommandValue(name);
+    },
+
+    // 封装 document.queryCommandState
+    queryCommandState: function queryCommandState(name) {
+        return document.queryCommandState(name);
+    },
+
+    // 封装 document.queryCommandSupported
+    queryCommandSupported: function queryCommandSupported(name) {
+        return document.queryCommandSupported(name);
+    }
+};
+
+/*
+    selection range API
+*/
+
+// 构造函数
+function API(editor) {
+    this.editor = editor;
+    this._currentRange = null;
+}
+
+// 修改原型
+API.prototype = {
+    constructor: API,
+
+    // 获取 range 对象
+    getRange: function getRange() {
+        return this._currentRange;
+    },
+
+    // 保存选区
+    saveRange: function saveRange(_range) {
+        if (_range) {
+            // 保存已有选区
+            this._currentRange = _range;
+            return;
+        }
+
+        // 获取当前的选区
+        var selection = window.getSelection();
+        if (selection.rangeCount === 0) {
+            return;
+        }
+        var range = selection.getRangeAt(0);
+
+        // 判断选区内容是否在编辑内容之内
+        var $containerElem = this.getSelectionContainerElem(range);
+        if (!$containerElem) {
+            return;
+        }
+
+        // 判断选区内容是否在不可编辑区域之内
+        if ($containerElem.attr('contenteditable') === 'false' || $containerElem.parentUntil('[contenteditable=false]')) {
+            return;
+        }
+
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        if ($textElem.isContain($containerElem)) {
+            // 是编辑内容之内的
+            this._currentRange = range;
+        }
+    },
+
+    // 折叠选区
+    collapseRange: function collapseRange(toStart) {
+        if (toStart == null) {
+            // 默认为 false
+            toStart = false;
+        }
+        var range = this._currentRange;
+        if (range) {
+            range.collapse(toStart);
+        }
+    },
+
+    // 选中区域的文字
+    getSelectionText: function getSelectionText() {
+        var range = this._currentRange;
+        if (range) {
+            return this._currentRange.toString();
+        } else {
+            return '';
+        }
+    },
+
+    // 选区的 $Elem
+    getSelectionContainerElem: function getSelectionContainerElem(range) {
+        range = range || this._currentRange;
+        var elem = void 0;
+        if (range) {
+            elem = range.commonAncestorContainer;
+            return $(elem.nodeType === 1 ? elem : elem.parentNode);
+        }
+    },
+    getSelectionStartElem: function getSelectionStartElem(range) {
+        range = range || this._currentRange;
+        var elem = void 0;
+        if (range) {
+            elem = range.startContainer;
+            return $(elem.nodeType === 1 ? elem : elem.parentNode);
+        }
+    },
+    getSelectionEndElem: function getSelectionEndElem(range) {
+        range = range || this._currentRange;
+        var elem = void 0;
+        if (range) {
+            elem = range.endContainer;
+            return $(elem.nodeType === 1 ? elem : elem.parentNode);
+        }
+    },
+
+    // 选区是否为空
+    isSelectionEmpty: function isSelectionEmpty() {
+        var range = this._currentRange;
+        if (range && range.startContainer) {
+            if (range.startContainer === range.endContainer) {
+                if (range.startOffset === range.endOffset) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+
+    // 恢复选区
+    restoreSelection: function restoreSelection() {
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(this._currentRange);
+    },
+
+    // 创建一个空白（即 &#8203 字符）选区
+    createEmptyRange: function createEmptyRange() {
+        var editor = this.editor;
+        var range = this.getRange();
+        var $elem = void 0;
+
+        if (!range) {
+            // 当前无 range
+            return;
+        }
+        if (!this.isSelectionEmpty()) {
+            // 当前选区必须没有内容才可以
+            return;
+        }
+
+        try {
+            // 目前只支持 webkit 内核
+            if (UA.isWebkit()) {
+                // 插入 &#8203
+                editor.cmd.do('insertHTML', '&#8203;');
+                // 修改 offset 位置
+                range.setEnd(range.endContainer, range.endOffset + 1);
+                // 存储
+                this.saveRange(range);
+            } else {
+                $elem = $('<strong>&#8203;</strong>');
+                editor.cmd.do('insertElem', $elem);
+                this.createRangeByElem($elem, true);
+            }
+        } catch (ex) {
+            // 部分情况下会报错，兼容一下
+        }
+    },
+
+    // 根据 $Elem 设置选区
+    createRangeByElem: function createRangeByElem($elem, toStart, isContent) {
+        // $elem - 经过封装的 elem
+        // toStart - true 开始位置，false 结束位置
+        // isContent - 是否选中Elem的内容
+        if (!$elem.length) {
+            return;
+        }
+
+        var elem = $elem[0];
+        var range = document.createRange();
+
+        if (isContent) {
+            range.selectNodeContents(elem);
+        } else {
+            range.selectNode(elem);
+        }
+
+        if (typeof toStart === 'boolean') {
+            range.collapse(toStart);
+        }
+
+        // 存储 range
+        this.saveRange(range);
+    }
+};
+
+/*
+    上传进度条
+*/
+
+function Progress(editor) {
+    this.editor = editor;
+    this._time = 0;
+    this._isShow = false;
+    this._isRender = false;
+    this._timeoutId = 0;
+    this.$textContainer = editor.$textContainerElem;
+    this.$bar = $('<div class="w-e-progress"></div>');
+}
+
+Progress.prototype = {
+    constructor: Progress,
+
+    show: function show(progress) {
+        var _this = this;
+
+        // 状态处理
+        if (this._isShow) {
+            return;
+        }
+        this._isShow = true;
+
+        // 渲染
+        var $bar = this.$bar;
+        if (!this._isRender) {
+            var $textContainer = this.$textContainer;
+            $textContainer.append($bar);
+        } else {
+            this._isRender = true;
+        }
+
+        // 改变进度（节流，100ms 渲染一次）
+        if (Date.now() - this._time > 100) {
+            if (progress <= 1) {
+                $bar.css('width', progress * 100 + '%');
+                this._time = Date.now();
+            }
+        }
+
+        // 隐藏
+        var timeoutId = this._timeoutId;
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(function () {
+            _this._hide();
+        }, 500);
+    },
+
+    _hide: function _hide() {
+        var $bar = this.$bar;
+        $bar.remove();
+
+        // 修改状态
+        this._time = 0;
+        this._isShow = false;
+        this._isRender = false;
+    }
+};
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+/*
+    上传图片
+*/
+
+// 构造函数
+function UploadImg(editor) {
+    this.editor = editor;
+}
+
+// 原型
+UploadImg.prototype = {
+    constructor: UploadImg,
+
+    // 根据 debug 弹出不同的信息
+    _alert: function _alert(alertInfo, debugInfo) {
+        var editor = this.editor;
+        var debug = editor.config.debug;
+        var customAlert = editor.config.customAlert;
+
+        if (debug) {
+            throw new Error('wangEditor: ' + (debugInfo || alertInfo));
+        } else {
+            if (customAlert && typeof customAlert === 'function') {
+                customAlert(alertInfo);
+            } else {
+                alert(alertInfo);
+            }
+        }
+    },
+
+    // 根据链接插入图片
+    insertLinkImg: function insertLinkImg(link) {
+        var _this2 = this;
+
+        if (!link) {
+            return;
+        }
+        var editor = this.editor;
+        var config = editor.config;
+
+        // 校验格式
+        var linkImgCheck = config.linkImgCheck;
+        var checkResult = void 0;
+        if (linkImgCheck && typeof linkImgCheck === 'function') {
+            checkResult = linkImgCheck(link);
+            if (typeof checkResult === 'string') {
+                // 校验失败，提示信息
+                alert(checkResult);
+                return;
+            }
+        }
+
+        editor.cmd.do('insertHTML', '<img src="' + link + '" style="max-width:100%;"/>');
+
+        // 验证图片 url 是否有效，无效的话给出提示
+        var img = document.createElement('img');
+        img.onload = function () {
+            var callback = config.linkImgCallback;
+            if (callback && typeof callback === 'function') {
+                callback(link);
+            }
+
+            img = null;
+        };
+        img.onerror = function () {
+            img = null;
+            // 无法成功下载图片
+            _this2._alert('插入图片错误', 'wangEditor: \u63D2\u5165\u56FE\u7247\u51FA\u9519\uFF0C\u56FE\u7247\u94FE\u63A5\u662F "' + link + '"\uFF0C\u4E0B\u8F7D\u8BE5\u94FE\u63A5\u5931\u8D25');
+            return;
+        };
+        img.onabort = function () {
+            img = null;
+        };
+        img.src = link;
+    },
+
+    // 上传图片
+    uploadImg: function uploadImg(files) {
+        var _this3 = this;
+
+        if (!files || !files.length) {
+            return;
+        }
+
+        // ------------------------------ 获取配置信息 ------------------------------
+        var editor = this.editor;
+        var config = editor.config;
+        var uploadImgServer = config.uploadImgServer;
+        var uploadImgShowBase64 = config.uploadImgShowBase64;
+
+        var maxSize = config.uploadImgMaxSize;
+        var maxSizeM = maxSize / 1024 / 1024;
+        var maxLength = config.uploadImgMaxLength || 10000;
+        var uploadFileName = config.uploadFileName || '';
+        var uploadImgParams = config.uploadImgParams || {};
+        var uploadImgParamsWithUrl = config.uploadImgParamsWithUrl;
+        var uploadImgHeaders = config.uploadImgHeaders || {};
+        var hooks = config.uploadImgHooks || {};
+        var timeout = config.uploadImgTimeout || 3000;
+        var withCredentials = config.withCredentials;
+        if (withCredentials == null) {
+            withCredentials = false;
+        }
+        var customUploadImg = config.customUploadImg;
+
+        if (!customUploadImg) {
+            // 没有 customUploadImg 的情况下，需要如下两个配置才能继续进行图片上传
+            if (!uploadImgServer && !uploadImgShowBase64) {
+                return;
+            }
+        }
+
+        // ------------------------------ 验证文件信息 ------------------------------
+        var resultFiles = [];
+        var errInfo = [];
+        arrForEach(files, function (file) {
+            var name = file.name;
+            var size = file.size;
+
+            // chrome 低版本 name === undefined
+            if (!name || !size) {
+                return;
+            }
+
+            if (/\.(jpg|jpeg|png|bmp|gif|webp)$/i.test(name) === false) {
+                // 后缀名不合法，不是图片
+                errInfo.push('\u3010' + name + '\u3011\u4E0D\u662F\u56FE\u7247');
+                return;
+            }
+            if (maxSize < size) {
+                // 上传图片过大
+                errInfo.push('\u3010' + name + '\u3011\u5927\u4E8E ' + maxSizeM + 'M');
+                return;
+            }
+
+            // 验证通过的加入结果列表
+            resultFiles.push(file);
+        });
+        // 抛出验证信息
+        if (errInfo.length) {
+            this._alert('图片验证未通过: \n' + errInfo.join('\n'));
+            return;
+        }
+        if (resultFiles.length > maxLength) {
+            this._alert('一次最多上传' + maxLength + '张图片');
+            return;
+        }
+
+        // ------------------------------ 自定义上传 ------------------------------
+        if (customUploadImg && typeof customUploadImg === 'function') {
+            customUploadImg(resultFiles, this.insertLinkImg.bind(this));
+
+            // 阻止以下代码执行
+            return;
+        }
+
+        // 添加图片数据
+        var formdata = new FormData();
+        arrForEach(resultFiles, function (file) {
+            var name = uploadFileName || file.name;
+            formdata.append(name, file);
+        });
+
+        // ------------------------------ 上传图片 ------------------------------
+        if (uploadImgServer && typeof uploadImgServer === 'string') {
+            // 添加参数
+            var uploadImgServerArr = uploadImgServer.split('#');
+            uploadImgServer = uploadImgServerArr[0];
+            var uploadImgServerHash = uploadImgServerArr[1] || '';
+            objForEach(uploadImgParams, function (key, val) {
+                // 因使用者反应，自定义参数不能默认 encode ，由 v3.1.1 版本开始注释掉
+                // val = encodeURIComponent(val)
+
+                // 第一，将参数拼接到 url 中
+                if (uploadImgParamsWithUrl) {
+                    if (uploadImgServer.indexOf('?') > 0) {
+                        uploadImgServer += '&';
+                    } else {
+                        uploadImgServer += '?';
+                    }
+                    uploadImgServer = uploadImgServer + key + '=' + val;
+                }
+
+                // 第二，将参数添加到 formdata 中
+                formdata.append(key, val);
+            });
+            if (uploadImgServerHash) {
+                uploadImgServer += '#' + uploadImgServerHash;
+            }
+
+            // 定义 xhr
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', uploadImgServer);
+
+            // 设置超时
+            xhr.timeout = timeout;
+            xhr.ontimeout = function () {
+                // hook - timeout
+                if (hooks.timeout && typeof hooks.timeout === 'function') {
+                    hooks.timeout(xhr, editor);
+                }
+
+                _this3._alert('上传图片超时');
+            };
+
+            // 监控 progress
+            if (xhr.upload) {
+                xhr.upload.onprogress = function (e) {
+                    var percent = void 0;
+                    // 进度条
+                    var progressBar = new Progress(editor);
+                    if (e.lengthComputable) {
+                        percent = e.loaded / e.total;
+                        progressBar.show(percent);
+                    }
+                };
+            }
+
+            // 返回数据
+            xhr.onreadystatechange = function () {
+                var result = void 0;
+                if (xhr.readyState === 4) {
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        // hook - error
+                        if (hooks.error && typeof hooks.error === 'function') {
+                            hooks.error(xhr, editor);
+                        }
+
+                        // xhr 返回状态错误
+                        _this3._alert('上传图片发生错误', '\u4E0A\u4F20\u56FE\u7247\u53D1\u751F\u9519\u8BEF\uFF0C\u670D\u52A1\u5668\u8FD4\u56DE\u72B6\u6001\u662F ' + xhr.status);
+                        return;
+                    }
+
+                    result = xhr.responseText;
+                    if ((typeof result === 'undefined' ? 'undefined' : _typeof(result)) !== 'object') {
+                        try {
+                            result = JSON.parse(result);
+                        } catch (ex) {
+                            // hook - fail
+                            if (hooks.fail && typeof hooks.fail === 'function') {
+                                hooks.fail(xhr, editor, result);
+                            }
+
+                            _this3._alert('上传图片失败', '上传图片返回结果错误，返回结果是: ' + result);
+                            return;
+                        }
+                    }
+                    if (!hooks.customInsert && result.errno != '0') {
+                        // hook - fail
+                        if (hooks.fail && typeof hooks.fail === 'function') {
+                            hooks.fail(xhr, editor, result);
+                        }
+
+                        // 数据错误
+                        _this3._alert('上传图片失败', '上传图片返回结果错误，返回结果 errno=' + result.errno);
+                    } else {
+                        if (hooks.customInsert && typeof hooks.customInsert === 'function') {
+                            // 使用者自定义插入方法
+                            hooks.customInsert(_this3.insertLinkImg.bind(_this3), result, editor);
+                        } else {
+                            // 将图片插入编辑器
+                            var data = result.data || [];
+                            data.forEach(function (link) {
+                                _this3.insertLinkImg(link);
+                            });
+                        }
+
+                        // hook - success
+                        if (hooks.success && typeof hooks.success === 'function') {
+                            hooks.success(xhr, editor, result);
+                        }
+                    }
+                }
+            };
+
+            // hook - before
+            if (hooks.before && typeof hooks.before === 'function') {
+                var beforeResult = hooks.before(xhr, editor, resultFiles);
+                if (beforeResult && (typeof beforeResult === 'undefined' ? 'undefined' : _typeof(beforeResult)) === 'object') {
+                    if (beforeResult.prevent) {
+                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                        this._alert(beforeResult.msg);
+                        return;
+                    }
+                }
+            }
+
+            // 自定义 headers
+            objForEach(uploadImgHeaders, function (key, val) {
+                xhr.setRequestHeader(key, val);
+            });
+
+            // 跨域传 cookie
+            xhr.withCredentials = withCredentials;
+
+            // 发送请求
+            xhr.send(formdata);
+
+            // 注意，要 return 。不去操作接下来的 base64 显示方式
+            return;
+        }
+
+        // ------------------------------ 显示 base64 格式 ------------------------------
+        if (uploadImgShowBase64) {
+            arrForEach(files, function (file) {
+                var _this = _this3;
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    _this.insertLinkImg(this.result);
+                };
+            });
+        }
+    }
+};
+
+/*
+    编辑器构造函数
+*/
+
+// id，累加
+var editorId = 1;
+
+// 构造函数
+function Editor(toolbarSelector, textSelector) {
+    if (toolbarSelector == null) {
+        // 没有传入任何参数，报错
+        throw new Error('错误：初始化编辑器时候未传入任何参数，请查阅文档');
+    }
+    // id，用以区分单个页面不同的编辑器对象
+    this.id = 'wangEditor-' + editorId++;
+
+    this.toolbarSelector = toolbarSelector;
+    this.textSelector = textSelector;
+
+    // 自定义配置
+    this.customConfig = {};
+}
+
+// 修改原型
+Editor.prototype = {
+    constructor: Editor,
+
+    // 初始化配置
+    _initConfig: function _initConfig() {
+        // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
+        var target = {};
+        this.config = Object.assign(target, config, this.customConfig);
+
+        // 将语言配置，生成正则表达式
+        var langConfig = this.config.lang || {};
+        var langArgs = [];
+        objForEach(langConfig, function (key, val) {
+            // key 即需要生成正则表达式的规则，如“插入链接”
+            // val 即需要被替换成的语言，如“insert link”
+            langArgs.push({
+                reg: new RegExp(key, 'img'),
+                val: val
+
+            });
+        });
+        this.config.langArgs = langArgs;
+    },
+
+    // 初始化 DOM
+    _initDom: function _initDom() {
+        var _this = this;
+
+        var toolbarSelector = this.toolbarSelector;
+        var $toolbarSelector = $(toolbarSelector);
+        var textSelector = this.textSelector;
+
+        var config$$1 = this.config;
+        var zIndex = config$$1.zIndex;
+
+        // 定义变量
+        var $toolbarElem = void 0,
+            $textContainerElem = void 0,
+            $textElem = void 0,
+            $children = void 0;
+
+        if (textSelector == null) {
+            // 只传入一个参数，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
+            $toolbarElem = $('<div></div>');
+            $textContainerElem = $('<div></div>');
+
+            // 将编辑器区域原有的内容，暂存起来
+            $children = $toolbarSelector.children();
+
+            // 添加到 DOM 结构中
+            $toolbarSelector.append($toolbarElem).append($textContainerElem);
+
+            // 自行创建的，需要配置默认的样式
+            $toolbarElem.css('background-color', '#f1f1f1').css('border', '1px solid #ccc');
+            $textContainerElem.css('border', '1px solid #ccc').css('border-top', 'none').css('height', '300px');
+        } else {
+            // toolbar 和 text 的选择器都有值，记录属性
+            $toolbarElem = $toolbarSelector;
+            $textContainerElem = $(textSelector);
+            // 将编辑器区域原有的内容，暂存起来
+            $children = $textContainerElem.children();
+        }
+
+        // 编辑区域
+        $textElem = $('<div></div>');
+        $textElem.attr('contenteditable', 'true').css('width', '100%').css('height', '100%');
+
+        // 初始化编辑区域内容
+        if ($children && $children.length) {
+            $textElem.append($children);
+        } else {
+            $textElem.append($('<p><br></p>'));
+        }
+
+        // 编辑区域加入DOM
+        $textContainerElem.append($textElem);
+
+        // 设置通用的 class
+        $toolbarElem.addClass('w-e-toolbar');
+        $textContainerElem.addClass('w-e-text-container');
+        $textContainerElem.css('z-index', zIndex);
+        $textElem.addClass('w-e-text');
+
+        // 添加 ID
+        var toolbarElemId = getRandom('toolbar-elem');
+        $toolbarElem.attr('id', toolbarElemId);
+        var textElemId = getRandom('text-elem');
+        $textElem.attr('id', textElemId);
+
+        // 记录属性
+        this.$toolbarElem = $toolbarElem;
+        this.$textContainerElem = $textContainerElem;
+        this.$textElem = $textElem;
+        this.toolbarElemId = toolbarElemId;
+        this.textElemId = textElemId;
+
+        // 记录输入法的开始和结束
+        var compositionEnd = true;
+        $textContainerElem.on('compositionstart', function () {
+            // 输入法开始输入
+            compositionEnd = false;
+        });
+        $textContainerElem.on('compositionend', function () {
+            // 输入法结束输入
+            compositionEnd = true;
+        });
+
+        // 绑定 onchange
+        $textContainerElem.on('click keyup', function () {
+            // 输入法结束才出发 onchange
+            compositionEnd && _this.change && _this.change();
+        });
+        $toolbarElem.on('click', function () {
+            this.change && this.change();
+        });
+
+        //绑定 onfocus 与 onblur 事件
+        if (config$$1.onfocus || config$$1.onblur) {
+            // 当前编辑器是否是焦点状态
+            this.isFocus = false;
+
+            $(document).on('click', function (e) {
+                //判断当前点击元素是否在编辑器内
+                var isChild = $textElem.isContain($(e.target));
+
+                //判断当前点击元素是否为工具栏
+                var isToolbar = $toolbarElem.isContain($(e.target));
+                var isMenu = $toolbarElem[0] == e.target ? true : false;
+
+                if (!isChild) {
+                    //若为选择工具栏中的功能，则不视为成blur操作
+                    if (isToolbar && !isMenu) {
+                        return;
+                    }
+
+                    if (_this.isFocus) {
+                        _this.onblur && _this.onblur();
+                    }
+                    _this.isFocus = false;
+                } else {
+                    if (!_this.isFocus) {
+                        _this.onfocus && _this.onfocus();
+                    }
+                    _this.isFocus = true;
+                }
+            });
+        }
+    },
+
+    // 封装 command
+    _initCommand: function _initCommand() {
+        this.cmd = new Command(this);
+    },
+
+    // 封装 selection range API
+    _initSelectionAPI: function _initSelectionAPI() {
+        this.selection = new API(this);
+    },
+
+    // 添加图片上传
+    _initUploadImg: function _initUploadImg() {
+        this.uploadImg = new UploadImg(this);
+    },
+
+    // 初始化菜单
+    _initMenus: function _initMenus() {
+        this.menus = new Menus(this);
+        this.menus.init();
+    },
+
+    // 添加 text 区域
+    _initText: function _initText() {
+        this.txt = new Text(this);
+        this.txt.init();
+    },
+
+    // 初始化选区，将光标定位到内容尾部
+    initSelection: function initSelection(newLine) {
+        var $textElem = this.$textElem;
+        var $children = $textElem.children();
+        if (!$children.length) {
+            // 如果编辑器区域无内容，添加一个空行，重新设置选区
+            $textElem.append($('<p><br></p>'));
+            this.initSelection();
+            return;
+        }
+
+        var $last = $children.last();
+
+        if (newLine) {
+            // 新增一个空行
+            var html = $last.html().toLowerCase();
+            var nodeName = $last.getNodeName();
+            if (html !== '<br>' && html !== '<br\/>' || nodeName !== 'P') {
+                // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
+                $textElem.append($('<p><br></p>'));
+                this.initSelection();
+                return;
+            }
+        }
+
+        this.selection.createRangeByElem($last, false, true);
+        this.selection.restoreSelection();
+    },
+
+    // 绑定事件
+    _bindEvent: function _bindEvent() {
+        // -------- 绑定 onchange 事件 --------
+        var onChangeTimeoutId = 0;
+        var beforeChangeHtml = this.txt.html();
+        var config$$1 = this.config;
+
+        // onchange 触发延迟时间
+        var onchangeTimeout = config$$1.onchangeTimeout;
+        onchangeTimeout = parseInt(onchangeTimeout, 10);
+        if (!onchangeTimeout || onchangeTimeout <= 0) {
+            onchangeTimeout = 200;
+        }
+
+        var onchange = config$$1.onchange;
+        if (onchange && typeof onchange === 'function') {
+            // 触发 change 的有三个场景：
+            // 1. $textContainerElem.on('click keyup')
+            // 2. $toolbarElem.on('click')
+            // 3. editor.cmd.do()
+            this.change = function () {
+                // 判断是否有变化
+                var currentHtml = this.txt.html();
+
+                if (currentHtml.length === beforeChangeHtml.length) {
+                    // 需要比较每一个字符
+                    if (currentHtml === beforeChangeHtml) {
+                        return;
+                    }
+                }
+
+                // 执行，使用节流
+                if (onChangeTimeoutId) {
+                    clearTimeout(onChangeTimeoutId);
+                }
+                onChangeTimeoutId = setTimeout(function () {
+                    // 触发配置的 onchange 函数
+                    onchange(currentHtml);
+                    beforeChangeHtml = currentHtml;
+                }, onchangeTimeout);
+            };
+        }
+
+        // -------- 绑定 onblur 事件 --------
+        var onblur = config$$1.onblur;
+        if (onblur && typeof onblur === 'function') {
+            this.onblur = function () {
+                var currentHtml = this.txt.html();
+                onblur(currentHtml);
+            };
+        }
+
+        // -------- 绑定 onfocus 事件 --------
+        var onfocus = config$$1.onfocus;
+        if (onfocus && typeof onfocus === 'function') {
+            this.onfocus = function () {
+                onfocus();
+            };
+        }
+    },
+
+    // 创建编辑器
+    create: function create() {
+        // 初始化配置信息
+        this._initConfig();
+
+        // 初始化 DOM
+        this._initDom();
+
+        // 封装 command API
+        this._initCommand();
+
+        // 封装 selection range API
+        this._initSelectionAPI();
+
+        // 添加 text
+        this._initText();
+
+        // 初始化菜单
+        this._initMenus();
+
+        // 添加 图片上传
+        this._initUploadImg();
+
+        // 初始化选区，将光标定位到内容尾部
+        this.initSelection(true);
+
+        // 绑定事件
+        this._bindEvent();
+    },
+
+    // 解绑所有事件（暂时不对外开放）
+    _offAllEvent: function _offAllEvent() {
+        $.offAll();
+    }
+};
+
+// 检验是否浏览器环境
+try {
+    document;
+} catch (ex) {
+    throw new Error('请在浏览器环境下运行');
+}
+
+// polyfill
+polyfill();
+
+// 这里的 `inlinecss` 将被替换成 css 代码的内容，详情可去 ./gulpfile.js 中搜索 `inlinecss` 关键字
+var inlinecss = '.w-e-toolbar,.w-e-text-container,.w-e-menu-panel {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-toolbar *,.w-e-text-container *,.w-e-menu-panel * {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-clear-fix:after {  content: "";  display: table;  clear: both;}.w-e-toolbar .w-e-droplist {  position: absolute;  left: 0;  top: 0;  background-color: #fff;  border: 1px solid #f1f1f1;  border-right-color: #ccc;  border-bottom-color: #ccc;}.w-e-toolbar .w-e-droplist .w-e-dp-title {  text-align: center;  color: #999;  line-height: 2;  border-bottom: 1px solid #f1f1f1;  font-size: 13px;}.w-e-toolbar .w-e-droplist ul.w-e-list {  list-style: none;  line-height: 1;}.w-e-toolbar .w-e-droplist ul.w-e-list li.w-e-item {  color: #333;  padding: 5px 0;}.w-e-toolbar .w-e-droplist ul.w-e-list li.w-e-item:hover {  background-color: #f1f1f1;}.w-e-toolbar .w-e-droplist ul.w-e-block {  list-style: none;  text-align: left;  padding: 5px;}.w-e-toolbar .w-e-droplist ul.w-e-block li.w-e-item {  display: inline-block;  *display: inline;  *zoom: 1;  padding: 3px 5px;}.w-e-toolbar .w-e-droplist ul.w-e-block li.w-e-item:hover {  background-color: #f1f1f1;}@font-face {  font-family: \'w-e-icon\';  src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAABhQAAsAAAAAGAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgDxIPBGNtYXAAAAFoAAABBAAAAQQrSf4BZ2FzcAAAAmwAAAAIAAAACAAAABBnbHlmAAACdAAAEvAAABLwfpUWUWhlYWQAABVkAAAANgAAADYQp00kaGhlYQAAFZwAAAAkAAAAJAfEA+FobXR4AAAVwAAAAIQAAACEeAcD7GxvY2EAABZEAAAARAAAAERBSEX+bWF4cAAAFogAAAAgAAAAIAAsALZuYW1lAAAWqAAAAYYAAAGGmUoJ+3Bvc3QAABgwAAAAIAAAACAAAwAAAAMD3gGQAAUAAAKZAswAAACPApkCzAAAAesAMwEJAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA8fwDwP/AAEADwABAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAwAAAAMAAAAcAAEAAwAAABwAAwABAAAAHAAEAOgAAAA2ACAABAAWAAEAIOkG6Q3pEulH6Wbpd+m56bvpxunL6d/qDepc6l/qZepo6nHqefAN8BTxIPHc8fz//f//AAAAAAAg6QbpDekS6UfpZel36bnpu+nG6cvp3+oN6lzqX+pi6mjqcep38A3wFPEg8dzx/P/9//8AAf/jFv4W+Bb0FsAWoxaTFlIWURZHFkMWMBYDFbUVsxWxFa8VpxWiEA8QCQ7+DkMOJAADAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAACAAD/wAQAA8AABAATAAABNwEnAQMuAScTNwEjAQMlATUBBwGAgAHAQP5Anxc7MmOAAYDA/oDAAoABgP6ATgFAQAHAQP5A/p0yOxcBEU4BgP6A/YDAAYDA/oCAAAQAAAAABAADgAAQACEALQA0AAABOAExETgBMSE4ATEROAExITUhIgYVERQWMyEyNjURNCYjBxQGIyImNTQ2MzIWEyE1EwEzNwPA/IADgPyAGiYmGgOAGiYmGoA4KCg4OCgoOED9AOABAEDgA0D9AAMAQCYa/QAaJiYaAwAaJuAoODgoKDg4/biAAYD+wMAAAAIAAABABAADQAA4ADwAAAEmJy4BJyYjIgcOAQcGBwYHDgEHBhUUFx4BFxYXFhceARcWMzI3PgE3Njc2Nz4BNzY1NCcuAScmJwERDQED1TY4OXY8PT8/PTx2OTg2CwcICwMDAwMLCAcLNjg5djw9Pz89PHY5ODYLBwgLAwMDAwsIBwv9qwFA/sADIAgGBggCAgICCAYGCCkqKlktLi8vLi1ZKiopCAYGCAICAgIIBgYIKSoqWS0uLy8uLVkqKin94AGAwMAAAAAAAgDA/8ADQAPAABsAJwAAASIHDgEHBhUUFx4BFxYxMDc+ATc2NTQnLgEnJgMiJjU0NjMyFhUUBgIAQjs6VxkZMjJ4MjIyMngyMhkZVzo7QlBwcFBQcHADwBkZVzo7Qnh9fcxBQUFBzH19eEI7OlcZGf4AcFBQcHBQUHAAAAEAAAAABAADgAArAAABIgcOAQcGBycRISc+ATMyFx4BFxYVFAcOAQcGBxc2Nz4BNzY1NCcuAScmIwIANTIyXCkpI5YBgJA1i1BQRUZpHh4JCSIYGB5VKCAgLQwMKCiLXl1qA4AKCycbHCOW/oCQNDweHmlGRVArKClJICEaYCMrK2I2NjlqXV6LKCgAAQAAAAAEAAOAACoAABMUFx4BFxYXNyYnLgEnJjU0Nz4BNzYzMhYXByERByYnLgEnJiMiBw4BBwYADAwtICAoVR4YGCIJCR4eaUZFUFCLNZABgJYjKSlcMjI1al1eiygoAYA5NjZiKysjYBohIEkpKCtQRUZpHh48NJABgJYjHBsnCwooKIteXQAAAAACAAAAQAQBAwAAJgBNAAATMhceARcWFRQHDgEHBiMiJy4BJyY1JzQ3PgE3NjMVIgYHDgEHPgEhMhceARcWFRQHDgEHBiMiJy4BJyY1JzQ3PgE3NjMVIgYHDgEHPgHhLikpPRESEhE9KSkuLikpPRESASMjelJRXUB1LQkQBwgSAkkuKSk9ERISET0pKS4uKSk9ERIBIyN6UlFdQHUtCRAHCBICABIRPSkpLi4pKT0REhIRPSkpLiBdUVJ6IyOAMC4IEwoCARIRPSkpLi4pKT0REhIRPSkpLiBdUVJ6IyOAMC4IEwoCAQAABgBA/8AEAAPAAAMABwALABEAHQApAAAlIRUhESEVIREhFSEnESM1IzUTFTMVIzU3NSM1MxUVESM1MzUjNTM1IzUBgAKA/YACgP2AAoD9gMBAQECAwICAwMCAgICAgIACAIACAIDA/wDAQP3yMkCSPDJAku7+wEBAQEBAAAYAAP/ABAADwAADAAcACwAXACMALwAAASEVIREhFSERIRUhATQ2MzIWFRQGIyImETQ2MzIWFRQGIyImETQ2MzIWFRQGIyImAYACgP2AAoD9gAKA/YD+gEs1NUtLNTVLSzU1S0s1NUtLNTVLSzU1SwOAgP8AgP8AgANANUtLNTVLS/61NUtLNTVLS/61NUtLNTVLSwADAAAAAAQAA6AAAwANABQAADchFSElFSE1EyEVITUhJQkBIxEjEQAEAPwABAD8AIABAAEAAQD9YAEgASDggEBAwEBAAQCAgMABIP7g/wABAAAAAAACAB7/zAPiA7QAMwBkAAABIiYnJicmNDc2PwE+ATMyFhcWFxYUBwYPAQYiJyY0PwE2NCcuASMiBg8BBhQXFhQHDgEjAyImJyYnJjQ3Nj8BNjIXFhQPAQYUFx4BMzI2PwE2NCcmNDc2MhcWFxYUBwYPAQ4BIwG4ChMIIxISEhIjwCNZMTFZIyMSEhISI1gPLA8PD1gpKRQzHBwzFMApKQ8PCBMKuDFZIyMSEhISI1gPLA8PD1gpKRQzHBwzFMApKQ8PDysQIxISEhIjwCNZMQFECAckLS1eLS0kwCIlJSIkLS1eLS0kVxAQDysPWCl0KRQVFRTAKXQpDysQBwj+iCUiJC0tXi0tJFcQEA8rD1gpdCkUFRUUwCl0KQ8rEA8PJC0tXi0tJMAiJQAAAAAFAAD/wAQAA8AAGwA3AFMAXwBrAAAFMjc+ATc2NTQnLgEnJiMiBw4BBwYVFBceARcWEzIXHgEXFhUUBw4BBwYjIicuAScmNTQ3PgE3NhMyNz4BNzY3BgcOAQcGIyInLgEnJicWFx4BFxYnNDYzMhYVFAYjIiYlNDYzMhYVFAYjIiYCAGpdXosoKCgoi15dampdXosoKCgoi15dalZMTHEgISEgcUxMVlZMTHEgISEgcUxMVisrKlEmJiMFHBtWODc/Pzc4VhscBSMmJlEqK9UlGxslJRsbJQGAJRsbJSUbGyVAKCiLXl1qal1eiygoKCiLXl1qal1eiygoA6AhIHFMTFZWTExxICEhIHFMTFZWTExxICH+CQYGFRAQFEM6OlYYGRkYVjo6QxQQEBUGBvcoODgoKDg4KCg4OCgoODgAAAMAAP/ABAADwAAbADcAQwAAASIHDgEHBhUUFx4BFxYzMjc+ATc2NTQnLgEnJgMiJy4BJyY1NDc+ATc2MzIXHgEXFhUUBw4BBwYTBycHFwcXNxc3JzcCAGpdXosoKCgoi15dampdXosoKCgoi15dalZMTHEgISEgcUxMVlZMTHEgISEgcUxMSqCgYKCgYKCgYKCgA8AoKIteXWpqXV6LKCgoKIteXWpqXV6LKCj8YCEgcUxMVlZMTHEgISEgcUxMVlZMTHEgIQKgoKBgoKBgoKBgoKAAAQBl/8ADmwPAACkAAAEiJiMiBw4BBwYVFBYzLgE1NDY3MAcGAgcGBxUhEzM3IzceATMyNjcOAQMgRGhGcVNUbRobSUgGDWVKEBBLPDxZAT1sxizXNC1VJi5QGB09A7AQHh1hPj9BTTsLJjeZbwN9fv7Fj5AjGQIAgPYJDzdrCQcAAAAAAgAAAAAEAAOAAAkAFwAAJTMHJzMRIzcXIyURJyMRMxUhNTMRIwcRA4CAoKCAgKCggP8AQMCA/oCAwEDAwMACAMDAwP8AgP1AQEACwIABAAADAMAAAANAA4AAFgAfACgAAAE+ATU0Jy4BJyYjIREhMjc+ATc2NTQmATMyFhUUBisBEyMRMzIWFRQGAsQcIBQURi4vNf7AAYA1Ly5GFBRE/oRlKjw8KWafn58sPj4B2yJULzUvLkYUFPyAFBRGLi81RnQBRks1NUv+gAEASzU1SwAAAAACAMAAAANAA4AAHwAjAAABMxEUBw4BBwYjIicuAScmNREzERQWFx4BMzI2Nz4BNQEhFSECwIAZGVc6O0JCOzpXGRmAGxgcSSgoSRwYG/4AAoD9gAOA/mA8NDVOFhcXFk41NDwBoP5gHjgXGBsbGBc4Hv6ggAAAAAABAIAAAAOAA4AACwAAARUjATMVITUzASM1A4CA/sCA/kCAAUCAA4BA/QBAQAMAQAABAAAAAAQAA4AAPQAAARUjHgEVFAYHDgEjIiYnLgE1MxQWMzI2NTQmIyE1IS4BJy4BNTQ2Nz4BMzIWFx4BFSM0JiMiBhUUFjMyFhcEAOsVFjUwLHE+PnEsMDWAck5OcnJO/gABLAIEATA1NTAscT4+cSwwNYByTk5yck47bisBwEAdQSI1YiQhJCQhJGI1NExMNDRMQAEDASRiNTViJCEkJCEkYjU0TEw0NEwhHwAAAAcAAP/ABAADwAADAAcACwAPABMAGwAjAAATMxUjNzMVIyUzFSM3MxUjJTMVIwMTIRMzEyETAQMhAyMDIQMAgIDAwMABAICAwMDAAQCAgBAQ/QAQIBACgBD9QBADABAgEP2AEAHAQEBAQEBAQEBAAkD+QAHA/oABgPwAAYD+gAFA/sAAAAoAAAAABAADgAADAAcACwAPABMAFwAbAB8AIwAnAAATESERATUhFR0BITUBFSE1IxUhNREhFSElIRUhETUhFQEhFSEhNSEVAAQA/YABAP8AAQD/AED/AAEA/wACgAEA/wABAPyAAQD/AAKAAQADgPyAA4D9wMDAQMDAAgDAwMDA/wDAwMABAMDA/sDAwMAAAAUAAAAABAADgAADAAcACwAPABMAABMhFSEVIRUhESEVIREhFSERIRUhAAQA/AACgP2AAoD9gAQA/AAEAPwAA4CAQID/AIABQID/AIAAAAAABQAAAAAEAAOAAAMABwALAA8AEwAAEyEVIRchFSERIRUhAyEVIREhFSEABAD8AMACgP2AAoD9gMAEAPwABAD8AAOAgECA/wCAAUCA/wCAAAAFAAAAAAQAA4AAAwAHAAsADwATAAATIRUhBSEVIREhFSEBIRUhESEVIQAEAPwAAYACgP2AAoD9gP6ABAD8AAQA/AADgIBAgP8AgAFAgP8AgAAAAAABAD8APwLmAuYALAAAJRQPAQYjIi8BBwYjIi8BJjU0PwEnJjU0PwE2MzIfATc2MzIfARYVFA8BFxYVAuYQThAXFxCoqBAXFhBOEBCoqBAQThAWFxCoqBAXFxBOEBCoqBDDFhBOEBCoqBAQThAWFxCoqBAXFxBOEBCoqBAQThAXFxCoqBAXAAAABgAAAAADJQNuABQAKAA8AE0AVQCCAAABERQHBisBIicmNRE0NzY7ATIXFhUzERQHBisBIicmNRE0NzY7ATIXFhcRFAcGKwEiJyY1ETQ3NjsBMhcWExEhERQXFhcWMyEyNzY3NjUBIScmJyMGBwUVFAcGKwERFAcGIyEiJyY1ESMiJyY9ATQ3NjsBNzY3NjsBMhcWHwEzMhcWFQElBgUIJAgFBgYFCCQIBQaSBQUIJQgFBQUFCCUIBQWSBQUIJQgFBQUFCCUIBQVJ/gAEBAUEAgHbAgQEBAT+gAEAGwQGtQYEAfcGBQg3Ghsm/iUmGxs3CAUFBQUIsSgIFxYXtxcWFgkosAgFBgIS/rcIBQUFBQgBSQgFBgYFCP63CAUFBQUIAUkIBQYGBQj+twgFBQUFCAFJCAUGBgX+WwId/eMNCwoFBQUFCgsNAmZDBQICBVUkCAYF/eMwIiMhIi8CIAUGCCQIBQVgFQ8PDw8VYAUFCAACAAcASQO3Aq8AGgAuAAAJAQYjIi8BJjU0PwEnJjU0PwE2MzIXARYVFAcBFRQHBiMhIicmPQE0NzYzITIXFgFO/vYGBwgFHQYG4eEGBh0FCAcGAQoGBgJpBQUI/dsIBQUFBQgCJQgFBQGF/vYGBhwGCAcG4OEGBwcGHQUF/vUFCAcG/vslCAUFBQUIJQgFBQUFAAAAAQAjAAAD3QNuALMAACUiJyYjIgcGIyInJjU0NzY3Njc2NzY9ATQnJiMhIgcGHQEUFxYXFjMWFxYVFAcGIyInJiMiBwYjIicmNTQ3Njc2NzY3Nj0BETQ1NDU0JzQnJicmJyYnJicmIyInJjU0NzYzMhcWMzI3NjMyFxYVFAcGIwYHBgcGHQEUFxYzITI3Nj0BNCcmJyYnJjU0NzYzMhcWMzI3NjMyFxYVFAcGByIHBgcGFREUFxYXFhcyFxYVFAcGIwPBGTMyGhkyMxkNCAcJCg0MERAKEgEHFf5+FgcBFQkSEw4ODAsHBw4bNTUaGDExGA0HBwkJCwwQDwkSAQIBAgMEBAUIEhENDQoLBwcOGjU1GhgwMRgOBwcJCgwNEBAIFAEHDwGQDgcBFAoXFw8OBwcOGTMyGRkxMRkOBwcKCg0NEBEIFBQJEREODQoLBwcOAAICAgIMCw8RCQkBAQMDBQxE4AwFAwMFDNRRDQYBAgEICBIPDA0CAgICDAwOEQgJAQIDAwUNRSEB0AINDQgIDg4KCgsLBwcDBgEBCAgSDwwNAgICAg0MDxEICAECAQYMULYMBwEBBwy2UAwGAQEGBxYPDA0CAgICDQwPEQgIAQECBg1P/eZEDAYCAgEJCBEPDA0AAAIAAP+3A/8DtwATADkAAAEyFxYVFAcCBwYjIicmNTQ3ATYzARYXFh8BFgcGIyInJicmJyY1FhcWFxYXFjMyNzY3Njc2NzY3NjcDmygeHhq+TDdFSDQ0NQFtISn9+BcmJy8BAkxMe0c2NiEhEBEEExQQEBIRCRcIDxITFRUdHR4eKQO3GxooJDP+mUY0NTRJSTABSx/9sSsfHw0oek1MGhsuLzo6RAMPDgsLCgoWJRsaEREKCwQEAgABAAAAAAAA9evv618PPPUACwQAAAAAANbEBFgAAAAA1sQEWAAA/7cEAQPAAAAACAACAAAAAAAAAAEAAAPA/8AAAAQAAAD//wQBAAEAAAAAAAAAAAAAAAAAAAAhBAAAAAAAAAAAAAAAAgAAAAQAAAAEAAAABAAAAAQAAMAEAAAABAAAAAQAAAAEAABABAAAAAQAAAAEAAAeBAAAAAQAAAAEAABlBAAAAAQAAMAEAADABAAAgAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAMlAD8DJQAAA74ABwQAACMD/wAAAAAAAAAKABQAHgBMAJQA+AE2AXwBwgI2AnQCvgLoA34EHgSIBMoE8gU0BXAFiAXgBiIGagaSBroG5AcoB+AIKgkcCXgAAQAAACEAtAAKAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAcAAAABAAAAAAACAAcAYAABAAAAAAADAAcANgABAAAAAAAEAAcAdQABAAAAAAAFAAsAFQABAAAAAAAGAAcASwABAAAAAAAKABoAigADAAEECQABAA4ABwADAAEECQACAA4AZwADAAEECQADAA4APQADAAEECQAEAA4AfAADAAEECQAFABYAIAADAAEECQAGAA4AUgADAAEECQAKADQApGljb21vb24AaQBjAG8AbQBvAG8AblZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMGljb21vb24AaQBjAG8AbQBvAG8Abmljb21vb24AaQBjAG8AbQBvAG8AblJlZ3VsYXIAUgBlAGcAdQBsAGEAcmljb21vb24AaQBjAG8AbQBvAG8AbkZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format(\'truetype\');  font-weight: normal;  font-style: normal;}[class^="w-e-icon-"],[class*=" w-e-icon-"] {  /* use !important to prevent issues with browser extensions that change fonts */  font-family: \'w-e-icon\' !important;  speak: none;  font-style: normal;  font-weight: normal;  font-variant: normal;  text-transform: none;  line-height: 1;  /* Better Font Rendering =========== */  -webkit-font-smoothing: antialiased;  -moz-osx-font-smoothing: grayscale;}.w-e-icon-close:before {  content: "\\f00d";}.w-e-icon-upload2:before {  content: "\\e9c6";}.w-e-icon-trash-o:before {  content: "\\f014";}.w-e-icon-header:before {  content: "\\f1dc";}.w-e-icon-pencil2:before {  content: "\\e906";}.w-e-icon-paint-brush:before {  content: "\\f1fc";}.w-e-icon-image:before {  content: "\\e90d";}.w-e-icon-play:before {  content: "\\e912";}.w-e-icon-location:before {  content: "\\e947";}.w-e-icon-undo:before {  content: "\\e965";}.w-e-icon-redo:before {  content: "\\e966";}.w-e-icon-quotes-left:before {  content: "\\e977";}.w-e-icon-list-numbered:before {  content: "\\e9b9";}.w-e-icon-list2:before {  content: "\\e9bb";}.w-e-icon-link:before {  content: "\\e9cb";}.w-e-icon-happy:before {  content: "\\e9df";}.w-e-icon-bold:before {  content: "\\ea62";}.w-e-icon-underline:before {  content: "\\ea63";}.w-e-icon-italic:before {  content: "\\ea64";}.w-e-icon-strikethrough:before {  content: "\\ea65";}.w-e-icon-table2:before {  content: "\\ea71";}.w-e-icon-paragraph-left:before {  content: "\\ea77";}.w-e-icon-paragraph-center:before {  content: "\\ea78";}.w-e-icon-paragraph-right:before {  content: "\\ea79";}.w-e-icon-terminal:before {  content: "\\f120";}.w-e-icon-page-break:before {  content: "\\ea68";}.w-e-icon-cancel-circle:before {  content: "\\ea0d";}.w-e-icon-font:before {  content: "\\ea5c";}.w-e-icon-text-heigh:before {  content: "\\ea5f";}.w-e-toolbar {  display: -webkit-box;  display: -ms-flexbox;  display: flex;  padding: 0 5px;  /* flex-wrap: wrap; */  /* 单个菜单 */}.w-e-toolbar .w-e-menu {  position: relative;  text-align: center;  padding: 5px 10px;  cursor: pointer;}.w-e-toolbar .w-e-menu i {  color: #999;}.w-e-toolbar .w-e-menu:hover i {  color: #333;}.w-e-toolbar .w-e-active i {  color: #1e88e5;}.w-e-toolbar .w-e-active:hover i {  color: #1e88e5;}.w-e-text-container .w-e-panel-container {  position: absolute;  top: 0;  left: 50%;  border: 1px solid #ccc;  border-top: 0;  box-shadow: 1px 1px 2px #ccc;  color: #333;  background-color: #fff;  /* 为 emotion panel 定制的样式 */  /* 上传图片的 panel 定制样式 */}.w-e-text-container .w-e-panel-container .w-e-panel-close {  position: absolute;  right: 0;  top: 0;  padding: 5px;  margin: 2px 5px 0 0;  cursor: pointer;  color: #999;}.w-e-text-container .w-e-panel-container .w-e-panel-close:hover {  color: #333;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title {  list-style: none;  display: -webkit-box;  display: -ms-flexbox;  display: flex;  font-size: 14px;  margin: 2px 10px 0 10px;  border-bottom: 1px solid #f1f1f1;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-item {  padding: 3px 5px;  color: #999;  cursor: pointer;  margin: 0 3px;  position: relative;  top: 1px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-active {  color: #333;  border-bottom: 1px solid #333;  cursor: default;  font-weight: 700;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content {  padding: 10px 15px 10px 15px;  font-size: 16px;  /* 输入框的样式 */  /* 按钮的样式 */}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input:focus,.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus,.w-e-text-container .w-e-panel-container .w-e-panel-tab-content button:focus {  outline: none;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea {  width: 100%;  border: 1px solid #ccc;  padding: 5px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus {  border-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text] {  border: none;  border-bottom: 1px solid #ccc;  font-size: 14px;  height: 20px;  color: #333;  text-align: left;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text].small {  width: 30px;  text-align: center;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text].block {  display: block;  width: 100%;  margin: 10px 0;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text]:focus {  border-bottom: 2px solid #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button {  font-size: 14px;  color: #1e88e5;  border: none;  padding: 5px 10px;  background-color: #fff;  cursor: pointer;  border-radius: 3px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.left {  float: left;  margin-right: 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {  float: right;  margin-left: 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.gray {  color: #999;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.red {  color: #c24f4a;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button:hover {  background-color: #f1f1f1;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container:after {  content: "";  display: table;  clear: both;}.w-e-text-container .w-e-panel-container .w-e-emoticon-container .w-e-item {  cursor: pointer;  font-size: 18px;  padding: 0 3px;  display: inline-block;  *display: inline;  *zoom: 1;}.w-e-text-container .w-e-panel-container .w-e-up-img-container {  text-align: center;}.w-e-text-container .w-e-panel-container .w-e-up-img-container .w-e-up-btn {  display: inline-block;  *display: inline;  *zoom: 1;  color: #999;  cursor: pointer;  font-size: 60px;  line-height: 1;}.w-e-text-container .w-e-panel-container .w-e-up-img-container .w-e-up-btn:hover {  color: #333;}.w-e-text-container {  position: relative;}.w-e-text-container .w-e-progress {  position: absolute;  background-color: #1e88e5;  bottom: 0;  left: 0;  height: 1px;}.w-e-text {  padding: 0 10px;  overflow-y: scroll;}.w-e-text p,.w-e-text h1,.w-e-text h2,.w-e-text h3,.w-e-text h4,.w-e-text h5,.w-e-text table,.w-e-text pre {  margin: 10px 0;  line-height: 1.5;}.w-e-text ul,.w-e-text ol {  margin: 10px 0 10px 20px;}.w-e-text blockquote {  display: block;  border-left: 8px solid #d0e5f2;  padding: 5px 10px;  margin: 10px 0;  line-height: 1.4;  font-size: 100%;  background-color: #f1f1f1;}.w-e-text code {  display: inline-block;  *display: inline;  *zoom: 1;  background-color: #f1f1f1;  border-radius: 3px;  padding: 3px 5px;  margin: 0 3px;}.w-e-text pre code {  display: block;}.w-e-text table {  border-top: 1px solid #ccc;  border-left: 1px solid #ccc;}.w-e-text table td,.w-e-text table th {  border-bottom: 1px solid #ccc;  border-right: 1px solid #ccc;  padding: 3px 5px;}.w-e-text table th {  border-bottom: 2px solid #ccc;  text-align: center;}.w-e-text:focus {  outline: none;}.w-e-text img {  cursor: pointer;}.w-e-text img:hover {  box-shadow: 0 0 5px #333;}';
+
+// 将 css 代码添加到 <style> 中
+var style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = inlinecss;
+document.getElementsByTagName('HEAD').item(0).appendChild(style);
+
+// 返回
+var index = window.wangEditor || Editor;
+
+return index;
+
+})));
+
 
 /***/ })
 /******/ ]);

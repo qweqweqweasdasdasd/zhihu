@@ -48,9 +48,8 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AnswerRequest $request)
+    public function store(Request $request)
     {
-
         $data = [
             'question_id' => (int)$request->get('question_id'),
             'user_id' => Auth::user()->id,

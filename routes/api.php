@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('api')->get('/topic', function (Request $request) {
+Route::middleware('auth:api')->get('/topic', function (Request $request) {
   
     $topic = \App\Topic::select(['id','name'])
     		->where('name','like','%'.$request->query('q').'%')
@@ -25,37 +25,38 @@ Route::middleware('api')->get('/topic', function (Request $request) {
 
     return $topic;
 });	
-	
+
+
 Route::post('/question/follower', function (Request $request) {
-    
-    $followed = \App\Follow::where('question_id',$request->get('question'))
-    						->where('user_id',$request->get('user'))
-    						->count();
+    $user = \Auth::guard('api')->user();
+
+    $followed = $user->followd($request->get('question'));
 
     if(!$followed){
     	return response()->json(['followed'=>false]);
     }
     return response()->json(['followed'=>true]);
-});
+})->middleware('auth:api');
 
 
 Route::post('/question/follow', function (Request $request) {
-    
-    $followed = \App\Follow::where('question_id',$request->get('question'))
-    						->where('user_id',$request->get('user'))
-    						->first();
+    $user = \Auth::guard('api')->user();
+    $question = \App\Question::find($request->get('question'));
 
-    if($followed == null){
-    	// 添加
-    	\App\Follow::create([
-    		'question_id' => $request->get('question'),
-    		'user_id' => $request->get('user')
-    	]);
-    	return response()->json(['followed'=>true]);
+    $followed = $user->followThis($question->id);
+
+    if(count($followed['detached']) > 0){
+       
+        $question->decrement('followers_count');
+        return response()->json(['followed'=>false]);
     }
-    // 删除
-    $followed->delete();
-    return response()->json(['followed'=>false]);
-});
+
+    $question->increment('followers_count');
+    return response()->json(['followed'=>true]);
+})->middleware('auth:api');
+
+// 用户关注用户接口
+Route::get('/user/followers/{user}','Api\FollowersController@index');
+Route::post('/user/follow','Api\FollowersController@follow');
 
 Route::get('/email/sendEmail','Api\AppController@sendEmail');

@@ -9,3 +9,10 @@ zhihu-11: select2  || tags = true
 zhihu-13: 使用 repository 模式 模型的操作放在这个模式里面 
 zhihu-14: 编辑问题  || 登录者是问题的发布者 权限 可以编辑 || 删除问题 (没有删除中间表)
 zhihu-18: 用户关注问题 使用多对多关系 里面 toggle() 方法
+zhihu-20: vue.js 组件 npm install || npm run watch  
+zhihu-21: laravel api 无权限访问 authorization 定义了一个<meta>标签 js 获取到里面的content [? 关注问题之后数量没有动态显示 ?]
+zhihu-22: 用户关注用户 关系看不懂	关注作者的时候发送私信 [? 用户关注作者 作者被关注加一 , 用户关注加一 ?]
+zhihu-24: 站内信息通知 使用 Notification 小技巧 snake(class_bansename()); 方式根据类的不同加载到不同的消息通知
+zhihu-25: 定义一个channel 发送邮箱 重新构建了发送邮箱的代码,,(写一个基类实现发送邮箱的功能,子类继承实现不同的邮箱功能)
+
+

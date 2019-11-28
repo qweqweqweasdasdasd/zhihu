@@ -8,11 +8,10 @@
 </template>
 <script>
 	export default {
-		props: ['question'],
+		props: ['user'],
 	    mounted(){
-	    	axios.post('/api/question/follower',{'question':this.question}).then(res => {
+	    	axios.get('/api/user/followers/' + this.user).then(res => {
 	    		this.followed = res.data.followed
-	    		console.log(res.data)
 	    	})
 	    },
 	    data(){
@@ -22,7 +21,7 @@
 	    },
 	    methods: {
 	    	follow(){
-	    		axios.post('/api/question/follow',{'question':this.question}).then(res => {
+	    		axios.post('/api/user/follow',{'user':this.user}).then(res => {
 		    		this.followed = res.data.followed
 		    		console.log(res.data)
 		    	})
@@ -30,7 +29,7 @@
 	    },
 	    computed: {
 	    	text() {
-	    		return this.followed ? '已关注' : '未关注'
+	    		return this.followed ? '已关注' : '关注他'
 	    	}
 	    }
 	}

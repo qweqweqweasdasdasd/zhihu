@@ -9,8 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Vue from 'vue/dist/vue.min.js';
-import $ from "jquery";
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -21,6 +20,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 Vue.component('form-component', require('./components/FormComponent.vue'));
 Vue.component('question-follow-button', require('./components/QuestionFollowButton.vue'));
+Vue.component('user-follow-button', require('./components/UserFollowButtion.vue'));
+
+Vue.component('wang-editor', require('./components/WangEditor.vue'));
 
 
 const app = new Vue({
