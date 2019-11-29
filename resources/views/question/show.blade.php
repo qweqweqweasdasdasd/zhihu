@@ -30,9 +30,13 @@
                             <button type="submit" class="btn  btn-block">删除</button>
                         </form>
                     @endif
-
+                    <comments type="question" 
+                              model="{{$question->id}}" 
+                              count="{{$question->conments_count}}">
+                    </comments>
             </div> 
         </div>
+        
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header follow">
@@ -63,7 +67,8 @@
                             <div class="media">
                                 <div class="media-left">
                                     <a href="">
-                                        <img width="48px;" class="media-object" src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}">
+                                       <!--  <img width="48px;" class="media-object" src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}"> -->
+                                       <user-vote-button answer="{{$answer->id}}" count="{{$answer->votes_count}}"></user-vote-button>
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -73,6 +78,10 @@
                                         </a>
                                     </h4>
                                 </div>
+                            <comments type="answer" 
+                                      model="{{$answer->id}}" 
+                                      count="{{$answer->conments_count}}">
+                            </comments>
                             </div>
                             <br>
                         @endforeach
@@ -126,7 +135,7 @@
                     <!-- vue 组件 -->
                     <user-follow-button user="{{$question->user_id}}"></user-follow-button>
                     <!-- vue 组件 -->
-                    <a href="" class="btn">发送私信</a>
+                    <send-message user="{{$question->user_id}}"></send-message>
                 </div>
             </div>
         </div>

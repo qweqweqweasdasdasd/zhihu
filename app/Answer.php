@@ -28,4 +28,12 @@ class Answer extends Model
     {
     	return $this->belongsTo('App\Question','question_id','id');
     }
+
+    /**
+     *  答案和评论 多态关系
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Comment','commentable');
+    }
 }

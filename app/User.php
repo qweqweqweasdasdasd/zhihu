@@ -81,6 +81,30 @@ class User extends Authenticatable
     }
 
     /**
+     *  用户关注答案的关系 多对多
+     */
+    public function votes()
+    {
+        return $this->belongsToMany('App\Answer','votes','user_id','answer_id')->withTimestamps();
+    }
+
+    /**
+     *  用户关注点赞答案
+     */
+    public function voteFor($answer)
+    {
+        return $this->votes()->toggle($answer);
+    }
+
+    /**
+     *  用户是否关注点赞答案
+     */
+    public function hasVotedFor($id)
+    {
+        return !! $this->votes()->where('answer_id',$id)->count();
+    }
+
+    /**
      *  用户关注用户关系 多对多 
      */
     public function followersUser()
@@ -112,5 +136,11 @@ class User extends Authenticatable
         return !! $this->follows()->where('question_id',$question)->count();
     }
 
-
+    /**
+     *  用户和私信的关系 多对多
+     */
+    public function messages()
+    {
+        return $this->belongsToMany('App\Message','messages','to_user_id')->withTimestamps();
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <button
-    		class="btn btn-default"
+    		class="btn btn-default float-left"
     		v-bind:class="{'btn-success':followed}"
     		v-text="text"
     		v-on:click="follow">
@@ -8,6 +8,7 @@
 </template>
 <script>
 	export default {
+		name: 'userfollowbutton',
 		props: ['user'],
 	    mounted(){
 	    	axios.get('/api/user/followers/' + this.user).then(res => {
@@ -34,3 +35,9 @@
 	    }
 	}
 </script>
+
+<style lang="css" scoped>
+	.float-left{
+		float: left;
+	}
+</style>

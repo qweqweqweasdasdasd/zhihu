@@ -4,6 +4,7 @@
 		<div id="editorElem" style="text-align:left"></div>
  		<button v-on:click="getContent">提交答案</button>
 	</div>
+  
 </template>
 <script>
  import E from 'wangeditor'

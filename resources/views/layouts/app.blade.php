@@ -14,7 +14,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -22,7 +22,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <script type="text/javascript">
+        @if(Auth::check()){
+            window.Zhihu = {
+                name:"{{Auth::user()->name}}",
+                avatar:"{{Auth::user()->avatar}}"
+            }
+        }
+        @endif
+    </script>
 </head>
 <body>
     <div id="app">

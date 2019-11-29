@@ -2,10 +2,6 @@
 
 @section('content')
 
-<wang-editor></wang-editor>
 
-@endsection
-
-@section('my-js')
-
+<send-message></send-message>
 @endsection

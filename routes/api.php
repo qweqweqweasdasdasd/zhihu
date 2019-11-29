@@ -13,50 +13,26 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:api')->get('/topic', 'Server\TopicController@index');	
 
-Route::middleware('auth:api')->get('/topic', function (Request $request) {
-  
-    $topic = \App\Topic::select(['id','name'])
-    		->where('name','like','%'.$request->query('q').'%')
-    		->get();
-
-    return $topic;
-});	
-
-
-Route::post('/question/follower', function (Request $request) {
-    $user = \Auth::guard('api')->user();
-
-    $followed = $user->followd($request->get('question'));
-
-    if(!$followed){
-    	return response()->json(['followed'=>false]);
-    }
-    return response()->json(['followed'=>true]);
-})->middleware('auth:api');
-
-
-Route::post('/question/follow', function (Request $request) {
-    $user = \Auth::guard('api')->user();
-    $question = \App\Question::find($request->get('question'));
-
-    $followed = $user->followThis($question->id);
-
-    if(count($followed['detached']) > 0){
-       
-        $question->decrement('followers_count');
-        return response()->json(['followed'=>false]);
-    }
-
-    $question->increment('followers_count');
-    return response()->json(['followed'=>true]);
-})->middleware('auth:api');
+// 用户关注问题接口
+Route::post('/question/follower', 'Server\QuestionFollowController@followers')->middleware('auth:api');
+Route::post('/question/follow', 'Server\QuestionFollowController@followThisQuestion')->middleware('auth:api');
 
 // 用户关注用户接口
 Route::get('/user/followers/{user}','Api\FollowersController@index');
 Route::post('/user/follow','Api\FollowersController@follow');
+
+// 用户对答案点赞接口
+Route::post('/answer/{id}/vote/users','Api\VoteController@users');
+Route::post('/answer/vote','Api\VoteController@vote');
+
+// 访客发送私信
+Route::post('/message/store','Server\MessageController@store');
+
+// 评论问题或者答案
+Route::get('/answer/{id}/comments','Server\CommentsController@answers');
+Route::get('/question/{id}/comments','Server\CommentsController@questions');
+Route::post('/comment/store','Server\CommentsController@store');
 
 Route::get('/email/sendEmail','Api\AppController@sendEmail');

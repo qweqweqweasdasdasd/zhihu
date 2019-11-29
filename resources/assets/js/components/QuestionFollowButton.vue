@@ -8,6 +8,7 @@
 </template>
 <script>
 	export default {
+		name: 'questionfollowbutton',
 		props: ['question'],
 	    mounted(){
 	    	axios.post('/api/question/follower',{'question':this.question}).then(res => {

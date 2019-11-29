@@ -54,4 +54,12 @@ class QuestionRepository
             return (int)$topic;
         })->toArray();
 	}
+
+	/**
+	 *	通过id获取到问题和评论
+	 */
+	public function GetQuestionCommentById($id)
+	{
+		return Question::with('comments','comments.user')->where('id',$id)->first();
+	}
 }

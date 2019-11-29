@@ -45,6 +45,14 @@ class Question extends Model
     }
 
     /**
+     *  问题和评论 多态关系
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Comment','commentable');
+    }
+
+    /**
      *  问题和用户的关系 多对多
      */
     public function follows()
