@@ -137,10 +137,10 @@ class User extends Authenticatable
     }
 
     /**
-     *  用户和私信的关系 多对多
+     *  用户和私信的关系 一对多(来自谁的私信)
      */
     public function messages()
     {
-        return $this->belongsToMany('App\Message','messages','to_user_id')->withTimestamps();
+        return $this->hasMany('App\Message','to_user_id');
     }
 }
